@@ -6,8 +6,13 @@ import 'pages/diary.dart';
 import 'pages/index_of_life.dart';
 import 'pages/helpful_info.dart';
 import 'pages/earnings_n_spendings.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 void main() async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp(pageIndex: 0));
 }
 
