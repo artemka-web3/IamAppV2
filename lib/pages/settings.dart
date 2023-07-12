@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:i_am_app/pages/faq.dart';
+import 'package:i_am_app/pages/set_password.dart';
 
 class Settings extends StatelessWidget {
   const Settings({Key? key}) : super(key: key);
@@ -117,7 +118,7 @@ class AuthSettings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('FAQ')),
+      appBar: AppBar(title: Text('Настройки')),
       body: Container(
         decoration: BoxDecoration(
             image: DecorationImage(
@@ -136,7 +137,9 @@ class AuthSettings extends StatelessWidget {
                               borderRadius: BorderRadius.circular(15.0)),
                           title: Text('Задать код-пароль'),
                           tileColor: Colors.white,
-                          onTap: () {})),
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(builder: (c) => const SetPassword()));
+                          })),
                   Card(
                       child: ListTile(
                           shape: RoundedRectangleBorder(
