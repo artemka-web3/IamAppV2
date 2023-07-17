@@ -118,22 +118,25 @@ class Home extends StatelessWidget {
           color: Color(0xFF2C3932),
           height: MediaQuery.of(context).size.height * 0.6,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Text(
-                  'Повтори код-пароль:',
-                  style: GoogleFonts.inter(
-                      textStyle: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 21,
-                    fontWeight: FontWeight.w400,
-                  )),
-                ),
-                IconButton(icon: Icon(Icons.format_list_bulleted_add, color: Colors.white,), onPressed: (){},)
-              ],
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text(
+                    'Задачи на сегодня:',
+                    style: GoogleFonts.inter(
+                        textStyle: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 21,
+                      fontWeight: FontWeight.w400,
+                    )),
+                  ),
+                  IconButton(icon: Icon(Icons.format_list_bulleted_add, color: Colors.white,), onPressed: (){},)
+                ],
+              ),
             ),
             Column(
               children: [
