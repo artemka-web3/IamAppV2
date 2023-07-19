@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:i_am_app/classes/page_index.dart';
+import 'package:i_am_app/pages/earning_spending/free_table.dart';
 import 'package:i_am_app/pages/settings.dart';
+import 'package:provider/provider.dart';
 import 'pages/home.dart';
 import 'pages/goals.dart';
 import 'pages/diary.dart';
 import 'pages/index_of_life.dart';
 import 'pages/helpful_info.dart';
-import 'pages/earnings_n_spendings.dart';
+import 'pages/earning_spending/earnings_n_spendings.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
@@ -26,8 +29,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  int _currentIndex = 0;
-
   final _pageOptions = [
     Home(),
     Goals(),
@@ -101,26 +102,28 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    _currentIndex = widget.pageIndex;
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-            fontFamily: 'Inter',
-            primaryColor: Color(0xFF252E29),
-            appBarTheme: AppBarTheme(backgroundColor: Color(0xFF252E29))),
-        home: Builder(builder: (BuildContext context) {
-          return Scaffold(
-              appBar: _appBars[_currentIndex](context),
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+          fontFamily: 'Inter',
+          primaryColor: Color(0xFF252E29),
+          appBarTheme: AppBarTheme(backgroundColor: Color(0xFF252E29))),
+      home: ChangeNotifierProvider(
+        create: (context) => PageIndex(),
+        child: Builder(
+          builder: (BuildContext context) {
+            return Scaffold(
+              appBar: _appBars[context.read<PageIndex>().index](context),
               bottomNavigationBar: BottomNavigationBar(
                   backgroundColor: Color(0xFF252E29),
                   type: BottomNavigationBarType.fixed,
                   selectedItemColor: Color(0xff6FCF97),
                   unselectedItemColor: Colors.white,
-                  currentIndex: _currentIndex,
+                  currentIndex: context.read<PageIndex>().index,
                   items: [
                     BottomNavigationBarItem(icon: Icon(Icons.home), label: ""),
                     BottomNavigationBarItem(
@@ -137,7 +140,7 @@ class _MyAppState extends State<MyApp> {
                   ],
                   onTap: (index) {
                     setState(() {
-                      _currentIndex = index;
+                      context.read<PageIndex>().changeIndex(index);
                     });
                   }),
               body: Container(
@@ -145,9 +148,14 @@ class _MyAppState extends State<MyApp> {
                     image: DecorationImage(
                         image: AssetImage("assets/images/background.png"),
                         fit: BoxFit.cover)),
-                child:
-                    IndexedStack(index: _currentIndex, children: _pageOptions),
-              ));
-        }));
+                child: IndexedStack(
+                    index: context.read<PageIndex>().index,
+                    children: _pageOptions),
+              ),
+            );
+          },
+        ),
+      ),
+    );
   }
 }
