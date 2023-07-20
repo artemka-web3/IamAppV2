@@ -114,45 +114,55 @@ class Home extends StatelessWidget {
           ],
         ),
         Container(
+          padding: const EdgeInsets.all(16.0),
           width: MediaQuery.of(context).size.width,
-          color: Color(0xFF2C3932),
-          height: MediaQuery.of(context).size.height * 0.6,
+          color: const Color(0xFF2C3932),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Text(
-                    'Задачи на сегодня:',
-                    style: GoogleFonts.inter(
-                        textStyle: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 21,
-                      fontWeight: FontWeight.w400,
-                    )),
-                  ),
-                  IconButton(icon: Icon(Icons.format_list_bulleted_add, color: Colors.white,), onPressed: (){},)
-                ],
-              ),
-            ),
-            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Icon(Icons.search, color: Colors.white, size: 200,),
-                Text(
-                  'Пока тут пусто',
-                  style: GoogleFonts.inter(
-                      textStyle: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w400,
-                  )),
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(
+                        'Задачи на сегодня:',
+                        style: GoogleFonts.inter(
+                            textStyle: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 21,
+                          fontWeight: FontWeight.w400,
+                        )),
+                      ),
+                      IconButton(
+                        icon: Icon(
+                          Icons.format_list_bulleted_add,
+                          color: Colors.white,
+                        ),
+                        onPressed: () {},
+                      )
+                    ],
+                  ),
                 ),
-              ],
-            )
-          ]),
+                Column(
+                  children: [
+                    Icon(
+                      Icons.search,
+                      color: Colors.white,
+                      size: 200,
+                    ),
+                    Text(
+                      'Пока тут пусто',
+                      style: GoogleFonts.inter(
+                          textStyle: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w400,
+                      )),
+                    ),
+                  ],
+                )
+              ]),
         )
       ]),
     );
