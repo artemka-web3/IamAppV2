@@ -46,161 +46,159 @@ class _FreeTableState extends State<FreeTable> {
               image: AssetImage("assets/images/background.png"),
               fit: BoxFit.cover),
         ),
-        child: Expanded(
-          child: Column(
-            children: [
-              const Spacer(
-                flex: 5,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      "Год",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    SizedBox(
-                      width: 80,
-                      child: FittedBox(
-                        fit: BoxFit.fill,
-                        child: Switch(
-                          thumbColor:
-                              const MaterialStatePropertyAll(Colors.white),
-                          trackColor: const MaterialStatePropertyAll(
-                              Color.fromARGB(255, 111, 207, 151)),
-                          value: switchValue,
-                          onChanged: (value) {
-                            setState(() {
-                              switchValue = value;
-                            });
-                          },
-                        ),
+        child: Column(
+          children: [
+            const Spacer(
+              flex: 5,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    "Год",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  SizedBox(
+                    width: 80,
+                    child: FittedBox(
+                      fit: BoxFit.fill,
+                      child: Switch(
+                        thumbColor:
+                            const MaterialStatePropertyAll(Colors.white),
+                        trackColor: const MaterialStatePropertyAll(
+                            Color.fromARGB(255, 111, 207, 151)),
+                        value: switchValue,
+                        onChanged: (value) {
+                          setState(() {
+                            switchValue = value;
+                          });
+                        },
                       ),
                     ),
-                    const Text(
-                      "Месяц",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ],
-                ),
-              ),
-              const Spacer(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Spacer(
-                    flex: 4,
                   ),
-                  Text(
-                    data[0],
-                    style: const TextStyle(color: Colors.white),
+                  const Text(
+                    "Месяц",
+                    style: TextStyle(color: Colors.white),
                   ),
-                  const Spacer(),
-                  Text(
-                    data[1],
-                    style: const TextStyle(color: Colors.white),
-                  ),
-                  const Spacer(),
-                  Text(
-                    data[2],
-                    style: const TextStyle(color: Colors.white),
-                  ),
-                  const Spacer(),
                 ],
               ),
-              const Spacer(),
-              const CustomColumn(
-                title: "Доходы",
-                values: ['75 000', '58 000', '58 000'],
-                textColor: Colors.black,
-                backgroundColor: Colors.white,
-              ),
-              const Spacer(),
-              const Divider(
-                thickness: 1.0,
-                color: Colors.white,
-              ),
-              const Spacer(),
-              const CustomColumn(
-                title: "Постоянные \nрасходы",
-                values: ['75 000', '58 000', '58 000'],
-                textColor: Colors.black,
-                backgroundColor: Colors.white,
-              ),
-              const Spacer(),
-              const Divider(
-                thickness: 1.0,
-                color: Colors.white,
-              ),
-              const Spacer(),
-              const CustomColumn(
-                title: "Переменные \nрасходы",
-                values: ['75 000', '58 000', '58 000'],
-                textColor: Colors.black,
-                backgroundColor: Colors.white,
-              ),
-              const Spacer(),
-              const Divider(
-                thickness: 1.0,
-                color: Colors.white,
-              ),
-              const Spacer(
-                flex: 5,
-              ),
-              const CustomColumn(
-                title: "Д-Р-Р",
-                values: ['75 000', '58 000', '58 000'],
-                textColor: Colors.black,
-                gradient: LinearGradient(
-                  end: Alignment.bottomCenter,
-                  begin: Alignment.topCenter,
-                  colors: [
-                    Color.fromARGB(255, 214, 255, 231),
-                    Color.fromARGB(220, 214, 255, 231),
-                    Color.fromARGB(255, 35, 85, 56),
-                  ],
+            ),
+            const Spacer(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Spacer(
+                  flex: 4,
                 ),
-              ),
-              const Spacer(),
-              const Divider(
-                thickness: 1.0,
-                color: Colors.white,
-              ),
-              const Spacer(),
-              const CustomColumn(
-                title: "Нарастающим \nитогом",
-                values: ['75 000', '58 000', '58 000'],
-                textColor: Colors.black,
-                backgroundColor: Colors.white,
-                gradient: LinearGradient(
-                  end: Alignment.bottomCenter,
-                  begin: Alignment.topCenter,
-                  colors: [
-                    Color.fromARGB(255, 214, 255, 231),
-                    Color.fromARGB(220, 214, 255, 231),
-                    Color.fromARGB(255, 35, 85, 56),
-                  ],
+                Text(
+                  data[0],
+                  style: const TextStyle(color: Colors.white),
                 ),
+                const Spacer(),
+                Text(
+                  data[1],
+                  style: const TextStyle(color: Colors.white),
+                ),
+                const Spacer(),
+                Text(
+                  data[2],
+                  style: const TextStyle(color: Colors.white),
+                ),
+                const Spacer(),
+              ],
+            ),
+            const Spacer(),
+            const CustomColumn(
+              title: "Доходы",
+              values: ['75 000', '58 000', '58 000'],
+              textColor: Colors.black,
+              backgroundColor: Colors.white,
+            ),
+            const Spacer(),
+            const Divider(
+              thickness: 1.0,
+              color: Colors.white,
+            ),
+            const Spacer(),
+            const CustomColumn(
+              title: "Постоянные \nрасходы",
+              values: ['75 000', '58 000', '58 000'],
+              textColor: Colors.black,
+              backgroundColor: Colors.white,
+            ),
+            const Spacer(),
+            const Divider(
+              thickness: 1.0,
+              color: Colors.white,
+            ),
+            const Spacer(),
+            const CustomColumn(
+              title: "Переменные \nрасходы",
+              values: ['75 000', '58 000', '58 000'],
+              textColor: Colors.black,
+              backgroundColor: Colors.white,
+            ),
+            const Spacer(),
+            const Divider(
+              thickness: 1.0,
+              color: Colors.white,
+            ),
+            const Spacer(
+              flex: 5,
+            ),
+            const CustomColumn(
+              title: "Д-Р-Р",
+              values: ['75 000', '58 000', '58 000'],
+              textColor: Colors.black,
+              gradient: LinearGradient(
+                end: Alignment.bottomCenter,
+                begin: Alignment.topCenter,
+                colors: [
+                  Color.fromARGB(255, 214, 255, 231),
+                  Color.fromARGB(220, 214, 255, 231),
+                  Color.fromARGB(255, 35, 85, 56),
+                ],
               ),
-              const Spacer(),
-              const Divider(
-                thickness: 1.0,
-                color: Colors.white,
+            ),
+            const Spacer(),
+            const Divider(
+              thickness: 1.0,
+              color: Colors.white,
+            ),
+            const Spacer(),
+            const CustomColumn(
+              title: "Нарастающим \nитогом",
+              values: ['75 000', '58 000', '58 000'],
+              textColor: Colors.black,
+              backgroundColor: Colors.white,
+              gradient: LinearGradient(
+                end: Alignment.bottomCenter,
+                begin: Alignment.topCenter,
+                colors: [
+                  Color.fromARGB(255, 214, 255, 231),
+                  Color.fromARGB(220, 214, 255, 231),
+                  Color.fromARGB(255, 35, 85, 56),
+                ],
               ),
-              const Spacer(),
-              const CustomColumn(
-                title: "Пассивный \nдоход",
-                values: ['-10 000', '-5 000', '-5 000'],
-                textColor: Colors.black,
-                backgroundColor: Color.fromARGB(255, 111, 207, 151),
-              ),
-              const Spacer(
-                flex: 5,
-              ),
-            ],
-          ),
+            ),
+            const Spacer(),
+            const Divider(
+              thickness: 1.0,
+              color: Colors.white,
+            ),
+            const Spacer(),
+            const CustomColumn(
+              title: "Пассивный \nдоход",
+              values: ['-10 000', '-5 000', '-5 000'],
+              textColor: Colors.black,
+              backgroundColor: Color.fromARGB(255, 111, 207, 151),
+            ),
+            const Spacer(
+              flex: 5,
+            ),
+          ],
         ),
       ),
     );
