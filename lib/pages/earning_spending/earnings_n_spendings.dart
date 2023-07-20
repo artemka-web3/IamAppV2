@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:i_am_app/classes/page_index.dart';
 import 'package:i_am_app/pages/earning_spending/free_table.dart';
+import 'package:i_am_app/pages/earning_spending/plan.dart';
 import 'package:provider/provider.dart';
 import '../planning.dart';
 
@@ -141,7 +142,7 @@ class _Earnings_N_SpendingsState extends State<Earnings_N_Spendings> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => Planning(),
+                                    builder: (context) => Plan(),
                                   ),
                                 );
                               }),

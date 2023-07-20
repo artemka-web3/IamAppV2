@@ -28,6 +28,10 @@ class _FreeTableState extends State<FreeTable> {
       appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.transparent,
+          leading: IconButton(
+            onPressed: () => Navigator.of(context).pop(),
+            icon: const Icon(Icons.arrow_back_ios),
+          ),
           title:
               const Align(alignment: Alignment.center, child: Text('Таблица')),
           actions: [
@@ -187,7 +191,7 @@ class _FreeTableState extends State<FreeTable> {
               ),
               const Spacer(),
               const CustomColumn(
-                title: "Пассивный доход \nрасходы",
+                title: "Пассивный \nдоход",
                 values: ['-10 000', '-5 000', '-5 000'],
                 textColor: Colors.black,
                 backgroundColor: Color.fromARGB(255, 111, 207, 151),
