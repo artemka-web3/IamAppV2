@@ -20,9 +20,30 @@ void main() async {
   runApp(MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-          fontFamily: 'Inter',
-          primaryColor: const Color(0xFF252E29),
-          appBarTheme: const AppBarTheme(backgroundColor: Color(0xFF252E29))),
+        fontFamily: 'Inter',
+        hintColor: const Color.fromARGB(75, 37, 46, 41),
+        primaryColor: const Color(0xFF252E29),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Color(0xFF252E29),
+        ),
+        textTheme: const TextTheme(
+          titleMedium: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w500,
+            fontSize: 18.0,
+          ),
+          bodyMedium: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.w400,
+            fontSize: 16,
+          ),
+          bodySmall: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.w400,
+            fontSize: 12,
+          ),
+        ),
+      ),
       home: const SignUp()));
 }
 

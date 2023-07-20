@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:i_am_app/main.dart';
+import 'package:i_am_app/pages/auth/birth_meaning.dart';
 import 'package:i_am_app/pages/auth/password_recovery.dart';
 
 class SignIn extends StatefulWidget {
@@ -128,7 +129,7 @@ class _SignInState extends State<SignIn> {
               GestureDetector(
                 onTap: () => Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => const MyApp(pageIndex: 0),
+                    builder: (context) => const BirthMeaning(),
                   ),
                 ),
                 child: Container(
