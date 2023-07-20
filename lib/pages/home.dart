@@ -113,11 +113,14 @@ class Home extends StatelessWidget {
             ),
           ],
         ),
+        const SizedBox(
+          height: 12.0,
+        ),
         Expanded(
           child: Container(
             padding: const EdgeInsets.all(8.0),
             width: MediaQuery.of(context).size.width,
-            color: Color(0xFF2C3932),
+            color: const Color(0xFF2C3932),
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
