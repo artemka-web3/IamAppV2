@@ -124,29 +124,41 @@ class Home extends StatelessWidget {
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Text(
-                          'Задачи на сегодня:',
-                          style: GoogleFonts.inter(
-                              textStyle: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 21,
-                            fontWeight: FontWeight.w400,
-                          )),
+                  Row(
+                    children: [
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: IconButton(
+                          icon: const SizedBox(
+                            width: 24,
+                          ),
+                          onPressed: () {},
                         ),
-                        IconButton(
+                      ),
+                      Expanded(
+                        child: Center(
+                          child: Text(
+                            'Задачи на сегодня:',
+                            style: GoogleFonts.inter(
+                                textStyle: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 21,
+                              fontWeight: FontWeight.w400,
+                            )),
+                          ),
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: IconButton(
                           icon: Icon(
                             Icons.format_list_bulleted_add,
                             color: Colors.white,
                           ),
                           onPressed: () {},
-                        )
-                      ],
-                    ),
+                        ),
+                      ),
+                    ],
                   ),
                   Column(
                     children: [
