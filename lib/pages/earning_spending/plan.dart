@@ -116,6 +116,9 @@ class _PlanState extends State<Plan> {
                     CustomContainer(
                       title: data[2],
                     ),
+                    const SizedBox(
+                      width: 6.0,
+                    ),
                     const Icon(
                       Icons.arrow_forward_ios,
                       color: Colors.white,

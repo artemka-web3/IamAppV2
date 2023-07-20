@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:i_am_app/classes/page_index.dart';
+import 'package:i_am_app/pages/auth/sign_up.dart';
 import 'package:i_am_app/pages/earning_spending/free_table.dart';
 import 'package:i_am_app/pages/settings.dart';
 import 'package:provider/provider.dart';
@@ -17,7 +18,13 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp(pageIndex: 0));
+  runApp(MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+          fontFamily: 'Inter',
+          primaryColor: const Color(0xFF252E29),
+          appBarTheme: const AppBarTheme(backgroundColor: Color(0xFF252E29))),
+      home: const SignUp()));
 }
 
 class MyApp extends StatefulWidget {
@@ -106,55 +113,47 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-          fontFamily: 'Inter',
-          primaryColor: Color(0xFF252E29),
-          appBarTheme: AppBarTheme(backgroundColor: Color(0xFF252E29))),
-      home: ChangeNotifierProvider(
-        create: (context) => PageIndex(),
-        child: Builder(
-          builder: (BuildContext context) {
-            return Scaffold(
-              appBar: _appBars[context.read<PageIndex>().index](context),
-              bottomNavigationBar: BottomNavigationBar(
-                  backgroundColor: Color(0xFF252E29),
-                  type: BottomNavigationBarType.fixed,
-                  selectedItemColor: Color(0xff6FCF97),
-                  unselectedItemColor: Colors.white,
-                  currentIndex: context.read<PageIndex>().index,
-                  items: [
-                    BottomNavigationBarItem(icon: Icon(Icons.home), label: ""),
-                    BottomNavigationBarItem(
-                        icon: Icon(Icons.assignment_outlined), label: ""),
-                    BottomNavigationBarItem(
-                        icon: Icon(Icons.event_note_outlined), label: ''),
-                    BottomNavigationBarItem(
-                        icon: Icon(Icons.diamond_outlined), label: ''),
-                    BottomNavigationBarItem(
-                        icon: Icon(Icons.stacked_line_chart_outlined),
-                        label: ''),
-                    BottomNavigationBarItem(
-                        icon: Icon(Icons.bookmarks_outlined), label: ''),
-                  ],
-                  onTap: (index) {
-                    setState(() {
-                      context.read<PageIndex>().changeIndex(index);
-                    });
-                  }),
-              body: Container(
-                decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage("assets/images/background.png"),
-                        fit: BoxFit.cover)),
-                child: IndexedStack(
-                    index: context.read<PageIndex>().index,
-                    children: _pageOptions),
-              ),
-            );
-          },
-        ),
+    return ChangeNotifierProvider(
+      create: (context) => PageIndex(),
+      child: Builder(
+        builder: (BuildContext context) {
+          return Scaffold(
+            appBar: _appBars[context.read<PageIndex>().index](context),
+            bottomNavigationBar: BottomNavigationBar(
+                backgroundColor: Color(0xFF252E29),
+                type: BottomNavigationBarType.fixed,
+                selectedItemColor: Color(0xff6FCF97),
+                unselectedItemColor: Colors.white,
+                currentIndex: context.read<PageIndex>().index,
+                items: [
+                  BottomNavigationBarItem(icon: Icon(Icons.home), label: ""),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.assignment_outlined), label: ""),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.event_note_outlined), label: ''),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.diamond_outlined), label: ''),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.stacked_line_chart_outlined), label: ''),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.bookmarks_outlined), label: ''),
+                ],
+                onTap: (index) {
+                  setState(() {
+                    context.read<PageIndex>().changeIndex(index);
+                  });
+                }),
+            body: Container(
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage("assets/images/background.png"),
+                      fit: BoxFit.cover)),
+              child: IndexedStack(
+                  index: context.read<PageIndex>().index,
+                  children: _pageOptions),
+            ),
+          );
+        },
       ),
     );
   }
