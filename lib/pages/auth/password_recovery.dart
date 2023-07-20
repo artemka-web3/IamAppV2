@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:i_am_app/main.dart';
 import 'package:i_am_app/pages/auth/sign_in.dart';
 
 class PasswordRecovery extends StatefulWidget {
@@ -13,6 +12,7 @@ class _PasswordRecoveryState extends State<PasswordRecovery> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       body: Container(
         padding: const EdgeInsets.symmetric(horizontal: 23.0),
         decoration: const BoxDecoration(

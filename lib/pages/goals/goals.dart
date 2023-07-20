@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:i_am_app/pages/goals/new_goal.dart';
 
 class Goals extends StatelessWidget {
   const Goals({super.key});
@@ -19,20 +20,25 @@ class Goals extends StatelessWidget {
               child: ListView(children: [
                 Row(
                   children: [
-                    Icon(Icons.filter_list_outlined, color: Colors.white,),
-                    Card(child: Padding(
+                    Icon(
+                      Icons.filter_list_outlined,
+                      color: Colors.white,
+                    ),
+                    Card(
+                        child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text('Период'),
                     )),
-                    Card(child: Padding(
+                    Card(
+                        child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text('Сфера'),
                     )),
-                    Card(child: Padding(
+                    Card(
+                        child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text('Статус'),
                     )),
-
                   ],
                 ),
                 Text('Месяц',
@@ -53,7 +59,8 @@ class Goals extends StatelessWidget {
                           subtitle: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text('Сходить в спортзал'),
                                   Checkbox(value: true, onChanged: (v) {})
@@ -80,7 +87,8 @@ class Goals extends StatelessWidget {
                           subtitle: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text('Сходить в налоговую'),
                                   Checkbox(value: true, onChanged: (v) {})
@@ -92,18 +100,24 @@ class Goals extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Card(
-                      child: ListTile(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15.0)),
-                          title: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(Icons.add),
-                              Text('  Создать новую цель')
-                            ],
-                          ),
-                          tileColor: Colors.white,
-                          onTap: () {})),
+                    child: ListTile(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0)),
+                      title: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.add),
+                          Text('  Создать новую цель')
+                        ],
+                      ),
+                      tileColor: Colors.white,
+                      onTap: () => Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const NewGoal(),
+                        ),
+                      ),
+                    ),
+                  ),
                 )
               ]),
             ),

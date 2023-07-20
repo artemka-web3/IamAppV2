@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:i_am_app/classes/page_index.dart';
 import 'package:i_am_app/pages/auth/sign_up.dart';
-import 'package:i_am_app/pages/earning_spending/free_table.dart';
 import 'package:i_am_app/pages/settings.dart';
 import 'package:provider/provider.dart';
 import 'pages/home.dart';
-import 'pages/goals.dart';
+import 'pages/goals/goals.dart';
 import 'pages/diary.dart';
 import 'pages/index_of_life.dart';
 import 'pages/helpful_info.dart';
