@@ -6,6 +6,7 @@ class NewNode extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         elevation: 0,
@@ -68,9 +69,7 @@ class NewNode extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 16.0,
-              ),
+              const Spacer(),
               const Node(
                 icon: Icon(
                   Icons.pets,
@@ -78,9 +77,7 @@ class NewNode extends StatelessWidget {
                 ),
                 title: 'Лягушка дня',
               ),
-              const SizedBox(
-                height: 16.0,
-              ),
+              const Spacer(),
               const Node(
                 icon: Icon(
                   Icons.cake_outlined,
@@ -88,9 +85,7 @@ class NewNode extends StatelessWidget {
                 ),
                 title: 'Дни рождения и праздники',
               ),
-              const SizedBox(
-                height: 16.0,
-              ),
+              const Spacer(),
               const Node(
                 icon: Icon(
                   Icons.phone,
@@ -98,9 +93,7 @@ class NewNode extends StatelessWidget {
                 ),
                 title: 'Встречи и звонки',
               ),
-              const SizedBox(
-                height: 16.0,
-              ),
+              const Spacer(),
               const Node(
                 icon: Icon(
                   Icons.menu,
@@ -108,9 +101,7 @@ class NewNode extends StatelessWidget {
                 ),
                 title: 'Задачи',
               ),
-              const SizedBox(
-                height: 16.0,
-              ),
+              const Spacer(),
               const Node(
                 icon: Icon(
                   Icons.add,
@@ -118,9 +109,7 @@ class NewNode extends StatelessWidget {
                 ),
                 title: 'Успехи дня',
               ),
-              const SizedBox(
-                height: 16.0,
-              ),
+              const Spacer(),
               GestureDetector(
                 onTap: () {},
                 child: Container(
@@ -139,6 +128,7 @@ class NewNode extends StatelessWidget {
                   ),
                 ),
               ),
+              const Spacer(),
             ],
           ),
         ),
