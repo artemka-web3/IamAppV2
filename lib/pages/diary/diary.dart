@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:i_am_app/pages/diary/new_node.dart';
 
 class Diary extends StatelessWidget {
   const Diary({super.key});
@@ -33,7 +34,15 @@ class Diary extends StatelessWidget {
                         )),
                       ],
                     ),
-                    IconButton(onPressed: (){}, icon: Icon(Icons.calendar_today, color: Colors.green,))
+                    IconButton(
+                      onPressed: () => Navigator.of(context).push(
+                          MaterialPageRoute(
+                              builder: (context) => const NewNode())),
+                      icon: const Icon(
+                        Icons.calendar_today,
+                        color: Colors.green,
+                      ),
+                    ),
                   ],
                 ),
                 Text('21/03',

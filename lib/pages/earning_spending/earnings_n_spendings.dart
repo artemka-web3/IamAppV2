@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:i_am_app/classes/page_index.dart';
 import 'package:i_am_app/pages/earning_spending/free_table.dart';
 import 'package:i_am_app/pages/earning_spending/plan.dart';
-import 'package:provider/provider.dart';
-import '../planning.dart';
 
 class Earnings_N_Spendings extends StatefulWidget {
   const Earnings_N_Spendings({super.key});

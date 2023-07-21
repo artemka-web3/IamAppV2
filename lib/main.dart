@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:i_am_app/classes/page_index.dart';
 import 'package:i_am_app/pages/auth/sign_up.dart';
-import 'package:i_am_app/pages/earning_spending/free_table.dart';
 import 'package:i_am_app/pages/settings.dart';
 import 'package:provider/provider.dart';
 import 'pages/home.dart';
-import 'pages/goals.dart';
-import 'pages/diary.dart';
+import 'pages/goals/goals.dart';
+import 'pages/diary/diary.dart';
 import 'pages/index_of_life.dart';
 import 'pages/helpful_info.dart';
 import 'pages/earning_spending/earnings_n_spendings.dart';
@@ -21,9 +20,40 @@ void main() async {
   runApp(MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-          fontFamily: 'Inter',
-          primaryColor: const Color(0xFF252E29),
-          appBarTheme: const AppBarTheme(backgroundColor: Color(0xFF252E29))),
+        fontFamily: 'Inter',
+        hintColor: const Color.fromARGB(75, 37, 46, 41),
+        primaryColor: const Color(0xFF252E29),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Color(0xFF252E29),
+        ),
+        textTheme: const TextTheme(
+          titleMedium: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w500,
+            fontSize: 18.0,
+          ),
+          titleLarge: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w400,
+            fontSize: 22.0,
+          ),
+          titleSmall: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w400,
+            fontSize: 12.0,
+          ),
+          bodyMedium: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.w400,
+            fontSize: 16,
+          ),
+          bodySmall: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.w400,
+            fontSize: 12,
+          ),
+        ),
+      ),
       home: const SignUp()));
 }
 
