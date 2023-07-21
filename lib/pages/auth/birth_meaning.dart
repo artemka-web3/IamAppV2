@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:i_am_app/main.dart';
 
 class BirthMeaning extends StatelessWidget {
   const BirthMeaning({super.key});
@@ -101,6 +102,11 @@ class BirthMeaning extends StatelessWidget {
                   height: 8.0,
                 ),
                 GestureDetector(
+                  onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const MyApp(pageIndex: 0),
+                    ),
+                  ),
                   child: Container(
                     padding: const EdgeInsets.symmetric(vertical: 14.0),
                     decoration: const BoxDecoration(

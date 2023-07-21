@@ -5,7 +5,7 @@ import 'package:i_am_app/pages/settings.dart';
 import 'package:provider/provider.dart';
 import 'pages/home.dart';
 import 'pages/goals/goals.dart';
-import 'pages/diary.dart';
+import 'pages/diary/diary.dart';
 import 'pages/index_of_life.dart';
 import 'pages/helpful_info.dart';
 import 'pages/earning_spending/earnings_n_spendings.dart';
@@ -31,6 +31,16 @@ void main() async {
             color: Colors.white,
             fontWeight: FontWeight.w500,
             fontSize: 18.0,
+          ),
+          titleLarge: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w400,
+            fontSize: 22.0,
+          ),
+          titleSmall: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w400,
+            fontSize: 12.0,
           ),
           bodyMedium: TextStyle(
             color: Colors.black,
