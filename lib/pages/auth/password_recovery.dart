@@ -155,7 +155,7 @@ class _PasswordRecoveryState extends State<PasswordRecovery> {
               GestureDetector(
                 onTap: () => Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => const SignIn(),
+                    builder: (context) => SignIn(),
                   ),
                 ),
                 child: Container(
