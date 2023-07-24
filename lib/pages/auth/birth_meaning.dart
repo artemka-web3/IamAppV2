@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:i_am_app/main.dart';
+import 'package:i_am_app/pages/auth/gua.dart';
 
 class BirthMeaning extends StatelessWidget {
   const BirthMeaning({super.key});
@@ -218,7 +219,8 @@ class ContentContainer extends StatelessWidget {
                 width: 8.0,
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () => Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => const Gua())),
                 icon: const Icon(
                   Icons.arrow_circle_right_rounded,
                 ),

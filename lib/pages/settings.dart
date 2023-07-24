@@ -26,10 +26,14 @@ class Settings extends StatelessWidget {
                       child: ListTile(
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15.0)),
-                          title: Text('Код-пароль и Face-ID'),
+                          title: Text(
+                            'Код-пароль и Face-ID',
+                            style: TextStyle(color: Colors.black),
+                          ),
                           tileColor: Colors.white,
                           onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(builder: (context)=>AuthSettings()));
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => AuthSettings()));
                           })),
                   Card(
                       child: ListTile(
@@ -38,7 +42,8 @@ class Settings extends StatelessWidget {
                           title: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text('Допуск уведомлений'),
+                              Text('Допуск уведомлений',
+                                  style: TextStyle(color: Colors.black)),
                               Switch(value: false, onChanged: (bool v) {})
                             ],
                           ),
@@ -51,7 +56,10 @@ class Settings extends StatelessWidget {
                           title: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Flexible(child: Text('Напоминать про индекс жизни раз в месяц')),
+                              Flexible(
+                                  child: Text(
+                                      'Напоминать про индекс жизни раз в месяц',
+                                      style: TextStyle(color: Colors.black))),
                               Switch(value: false, onChanged: (bool v) {})
                             ],
                           ),
@@ -61,7 +69,8 @@ class Settings extends StatelessWidget {
                       child: ListTile(
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15.0)),
-                          title: Text('FAQ'),
+                          title: Text('FAQ',
+                              style: TextStyle(color: Colors.black)),
                           tileColor: Colors.white,
                           onTap: () {
                             Navigator.of(context).push(MaterialPageRoute(
@@ -71,25 +80,30 @@ class Settings extends StatelessWidget {
                       child: ListTile(
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15.0)),
-                          title: Text('Связаться с нами'),
+                          title: Text('Связаться с нами',
+                              style: TextStyle(color: Colors.black)),
                           tileColor: Colors.white,
                           onTap: () {})),
                   Card(
                       child: ListTile(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15.0)),
-                    title: Text('Удаление аккаунта'),
+                    title: Text('Удаление аккаунта',
+                        style: TextStyle(color: Colors.black)),
                     tileColor: Colors.white,
                     onTap: () => showDialog<String>(
                       context: context,
                       builder: (BuildContext context) => AlertDialog(
-                        title: const Text('Удаление аккаунта'),
+                        title: const Text('Удаление аккаунта',
+                            style: TextStyle(color: Colors.black)),
                         content: const Text(
-                            'Вы действительно хотите удалить аккаунт? Все данные будут стёрты'),
+                            'Вы действительно хотите удалить аккаунт? Все данные будут стёрты',
+                            style: TextStyle(color: Colors.black)),
                         actions: <Widget>[
                           TextButton(
                             onPressed: () => Navigator.pop(context, 'Оставить'),
-                            child: const Text('Оставить'),
+                            child: const Text('Оставить',
+                                style: TextStyle(color: Colors.black)),
                           ),
                           TextButton(
                             onPressed: () => Navigator.pop(context, 'Удалить'),
@@ -135,10 +149,12 @@ class AuthSettings extends StatelessWidget {
                       child: ListTile(
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15.0)),
-                          title: Text('Задать код-пароль'),
+                          title: Text('Задать код-пароль',
+                              style: TextStyle(color: Colors.black)),
                           tileColor: Colors.white,
                           onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(builder: (c) => const SetPassword()));
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (c) => const SetPassword()));
                           })),
                   Card(
                       child: ListTile(
@@ -147,7 +163,8 @@ class AuthSettings extends StatelessWidget {
                           title: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text('Вход по Face-ID'),
+                              Text('Вход по Face-ID',
+                                  style: TextStyle(color: Colors.black)),
                               Switch(value: false, onChanged: (value) {})
                             ],
                           ),

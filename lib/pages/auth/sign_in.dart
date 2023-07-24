@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:i_am_app/pages/auth/logic/bloc/auth_bloc_bloc.dart';
+import 'package:i_am_app/pages/auth/logic/log_in.dart';
 import 'package:i_am_app/pages/auth/password_recovery.dart';
-import 'package:i_am_app/pages/auth/sign_up.dart';
+import 'package:i_am_app/pages/auth/otp.dart';
 
 class SignIn extends StatelessWidget {
   TextEditingController phoneController = TextEditingController();
@@ -141,49 +142,18 @@ class SignIn extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    height: 32.0,
+                  const Spacer(
+                    flex: 7,
                   ),
+                  //Кнопку удалить
                   TextButton(
                     onPressed: () => Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => const PasswordRecovery(),
-                      ),
-                    ),
-                    child: const Text(
-                      "Забыли пароль?",
-                      style: TextStyle(
-                          fontSize: 18.0,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500),
+                        MaterialPageRoute(builder: (context) => const LogIn())),
+                    child: Text(
+                      "Войти с пин-кодом",
+                      style: Theme.of(context).textTheme.titleMedium,
                     ),
                   ),
-                  const Spacer(
-                    flex: 4,
-                  ),
-                  TextButton(
-                    onPressed: () {},
-                    child: const Text(
-                      "Нет профиля?",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () => Navigator.of(context).pop(),
-                    child: const Text(
-                      "Зарегистрироваться",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ),
-                  const Spacer(),
                 ],
               ),
             ),

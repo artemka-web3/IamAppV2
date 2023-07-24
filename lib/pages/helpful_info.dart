@@ -38,36 +38,38 @@ class _HelpfulInfoState extends State<HelpfulInfo> {
       child: Column(
         children: [
           Expanded(
-            child: Padding(
-              padding: EdgeInsets.all(20),
-              child: Container(
-                child: ListView.builder(
+              child: Padding(
+            padding: EdgeInsets.all(20),
+            child: Container(
+              child: ListView.builder(
                   scrollDirection: Axis.vertical,
                   itemCount: spheres.length,
                   itemBuilder: (context, index) {
                     return Card(
-                      child: ListTile(
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
-                        title: Text(spheres[index]), 
-                        tileColor: Colors.white, 
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => AddInfo(sphereIndex:index),
+                        child: ListTile(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15.0)),
+                            title: Text(
+                              spheres[index],
+                              style: TextStyle(
+                                  color: Colors.black, fontSize: 16.0),
                             ),
-                          );
-                          // Navigate to spheres[index] page
-                        }
-                      )
-                    );
-                  }
-                ),
-              ),
-            ) 
-          )
+                            tileColor: Colors.white,
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      AddInfo(sphereIndex: index),
+                                ),
+                              );
+                              // Navigate to spheres[index] page
+                            }));
+                  }),
+            ),
+          ))
         ],
       ),
     );
-  }   
+  }
 }

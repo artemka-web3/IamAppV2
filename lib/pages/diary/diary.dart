@@ -7,7 +7,7 @@ class Diary extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
           image: DecorationImage(
               image: AssetImage("assets/images/background.png"),
               fit: BoxFit.cover)),
@@ -15,13 +15,13 @@ class Diary extends StatelessWidget {
         children: [
           Expanded(
               child: Padding(
-            padding: EdgeInsets.all(20),
+            padding: const EdgeInsets.all(20),
             child: Container(
               child: ListView(children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(
+                    const Row(
                       children: [
                         Icon(
                           Icons.filter_list_outlined,
@@ -29,7 +29,7 @@ class Diary extends StatelessWidget {
                         ),
                         Card(
                             child: Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: EdgeInsets.all(8.0),
                           child: Text('Только не выполненные'),
                         )),
                       ],
@@ -45,7 +45,7 @@ class Diary extends StatelessWidget {
                     ),
                   ],
                 ),
-                Text('21/03',
+                const Text('21/03',
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 26,
@@ -59,20 +59,30 @@ class Diary extends StatelessWidget {
                           title: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Column(
+                              const Column(
                                 children: [
                                   Row(
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text('Здоровье'),
+                                        padding: EdgeInsets.all(8.0),
+                                        child: Text(
+                                          'Здоровье',
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 16.0),
+                                        ),
                                       ),
                                     ],
                                   ),
                                   Row(
                                     children: [
                                       Icon(Icons.alarm),
-                                      Text('  9.00')
+                                      Text(
+                                        '  9.00',
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 16.0),
+                                      )
                                     ],
                                   )
                                 ],
@@ -83,7 +93,7 @@ class Diary extends StatelessWidget {
                           tileColor: Colors.white,
                           onTap: () {})),
                 ),
-                Text('23/03',
+                const Text('23/03',
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 26,
@@ -97,20 +107,30 @@ class Diary extends StatelessWidget {
                           title: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Column(
+                              const Column(
                                 children: [
                                   Row(
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text('Здоровье'),
+                                        padding: EdgeInsets.all(8.0),
+                                        child: Text(
+                                          'Здоровье',
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 16.0),
+                                        ),
                                       ),
                                     ],
                                   ),
                                   Row(
                                     children: [
                                       Icon(Icons.alarm),
-                                      Text('  9.00')
+                                      Text(
+                                        '  9.00',
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 16.0),
+                                      )
                                     ],
                                   )
                                 ],
@@ -130,20 +150,30 @@ class Diary extends StatelessWidget {
                           title: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Column(
+                              const Column(
                                 children: [
                                   Row(
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text('Здоровье'),
+                                        padding: EdgeInsets.all(8.0),
+                                        child: Text(
+                                          'Здоровье',
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 16.0),
+                                        ),
                                       ),
                                     ],
                                   ),
                                   Row(
                                     children: [
                                       Icon(Icons.alarm),
-                                      Text('  9.00')
+                                      Text(
+                                        '  9.00',
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 16.0),
+                                      )
                                     ],
                                   )
                                 ],
