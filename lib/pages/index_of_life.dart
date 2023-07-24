@@ -68,14 +68,15 @@ class _LifeIndexState extends State<LifeIndex> {
               )
             ],
           );
-        }
-      );
+        });
   }
+
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -83,65 +84,85 @@ class _LifeIndexState extends State<LifeIndex> {
       child: Column(
         children: [
           Container(
-            height: 110,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: months.length,
-              itemBuilder: (context, index) {
-                return InkWell(
-                  child: Card(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)), elevation: 20, child: Center(child: Padding(padding: EdgeInsets.all(28), child: Column(children: [Icon(Icons.add_a_photo_outlined), Text(months[index])])))),
-                  onTap: () {
-                    setState(() {
-                      _currentMonth = months[index];
-                    });
-                  }
-                );
-              },
-            )
-          ),
+              height: 110,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: months.length,
+                itemBuilder: (context, index) {
+                  return InkWell(
+                      child: Card(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15.0)),
+                          elevation: 20,
+                          child: Center(
+                              child: Padding(
+                                  padding: EdgeInsets.all(28),
+                                  child: Column(children: [
+                                    Icon(Icons.add_a_photo_outlined),
+                                    Text(months[index])
+                                  ])))),
+                      onTap: () {
+                        setState(() {
+                          _currentMonth = months[index];
+                        });
+                      });
+                },
+              )),
           Container(
             height: 60,
             child: Center(
-              child: Text(_currentMonth, style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.w400))
-            ),
+                child: Text(_currentMonth,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 24,
+                        fontWeight: FontWeight.w400))),
           ),
           Container(
             height: 100,
             child: Center(
-              child: Text("87.4", style: TextStyle(color: Colors.white, fontSize: 72, fontWeight: FontWeight.w800))
-            ),
+                child: Text("87.4",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 72,
+                        fontWeight: FontWeight.w800))),
           ),
           Expanded(
-            child: Padding(
-              padding: EdgeInsets.all(20),
-              child: Container(
-                child: ListView.builder(
+              child: Padding(
+            padding: EdgeInsets.all(20),
+            child: Container(
+              child: ListView.builder(
                   scrollDirection: Axis.vertical,
                   itemCount: spheres.length,
                   itemBuilder: (context, index) {
-                    return Card( 
-                      child: ListTile(
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
-                        title: Text(spheres[index]), 
-                        tileColor: Colors.white, 
-                        trailing: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                          decoration: BoxDecoration(
-                            color: Color(0xFF252E29),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Text('Value', style: TextStyle(color: Colors.white)),
-                        ),
-                        onTap: () {
-                          _displayDialog(context);
-                        }
-                      )
-                    );
-                  }
-                ),
-              ),
-            ) 
-          )
+                    return Card(
+                        child: ListTile(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15.0)),
+                            title: Text(
+                              spheres[index],
+                              style: TextStyle(
+                                  color: Colors.black, fontSize: 16.0),
+                            ),
+                            tileColor: Colors.white,
+                            trailing: Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 8, vertical: 4),
+                              decoration: BoxDecoration(
+                                color: Color(0xFF252E29),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Text(
+                                'Value',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 16.0),
+                              ),
+                            ),
+                            onTap: () {
+                              _displayDialog(context);
+                            }));
+                  }),
+            ),
+          ))
         ],
       ),
     );

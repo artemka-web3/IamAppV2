@@ -13,7 +13,7 @@ class _Earnings_N_SpendingsState extends State<Earnings_N_Spendings> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.only(top: 10.0),
+        padding: const EdgeInsets.only(top: 10.0),
         child: Column(
           children: [
             Expanded(
@@ -21,7 +21,7 @@ class _Earnings_N_SpendingsState extends State<Earnings_N_Spendings> {
                   child: Column(
                 children: [
                   Container(
-                    child: Center(
+                    child: const Center(
                         child: Text(
                       "Цель месяца по доходам",
                       style: TextStyle(fontSize: 18, color: Colors.white),
@@ -29,20 +29,22 @@ class _Earnings_N_SpendingsState extends State<Earnings_N_Spendings> {
                   ),
                   Container(
                       child: Padding(
-                    padding: EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(20),
                     child: Card(
                         child: ListTile(
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(15.0)),
-                            title: Text(
+                            title: const Text(
                               "300 000 руб/месяц",
                               textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: Colors.black, fontSize: 16.0),
                             ),
                             tileColor: Colors.white,
                             onTap: () {})),
                   )),
                   Container(
-                    child: Center(
+                    child: const Center(
                         child: Text(
                       "Цель месяца по доходам",
                       style: TextStyle(fontSize: 18, color: Colors.white),
@@ -50,20 +52,22 @@ class _Earnings_N_SpendingsState extends State<Earnings_N_Spendings> {
                   ),
                   Container(
                       child: Padding(
-                    padding: EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(20),
                     child: Card(
                         child: ListTile(
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(15.0)),
-                            title: Text(
+                            title: const Text(
                               "300 000 руб/месяц",
                               textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: Colors.black, fontSize: 16.0),
                             ),
                             tileColor: Colors.white,
                             onTap: () {})),
                   )),
                   Container(
-                    child: Center(
+                    child: const Center(
                         child: Text(
                       "Цель месяца по доходам",
                       style: TextStyle(fontSize: 18, color: Colors.white),
@@ -71,14 +75,16 @@ class _Earnings_N_SpendingsState extends State<Earnings_N_Spendings> {
                   ),
                   Container(
                       child: Padding(
-                    padding: EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(20),
                     child: Card(
                         child: ListTile(
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(15.0)),
-                            title: Text(
+                            title: const Text(
                               "300 000 руб/месяц",
                               textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: Colors.black, fontSize: 16.0),
                             ),
                             tileColor: Colors.white,
                             onTap: () {})),
@@ -104,7 +110,7 @@ class _Earnings_N_SpendingsState extends State<Earnings_N_Spendings> {
                 child: Column(
                   children: [
                     Container(
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                             color: Colors.white,
                             borderRadius:
                                 BorderRadius.all(Radius.circular(15.0))),
@@ -112,18 +118,20 @@ class _Earnings_N_SpendingsState extends State<Earnings_N_Spendings> {
                           child: ListTile(
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(15.0)),
-                              title: Text(
+                              title: const Text(
                                 "Сводная Таблица",
                                 textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 16.0),
                               ),
                               onTap: () {
                                 Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => FreeTable()));
+                                    builder: (context) => const FreeTable()));
                               }),
                         )),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     Container(
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                             color: Colors.white,
                             borderRadius:
                                 BorderRadius.all(Radius.circular(15.0))),
@@ -131,20 +139,22 @@ class _Earnings_N_SpendingsState extends State<Earnings_N_Spendings> {
                           child: ListTile(
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(15.0)),
-                              title: Text(
+                              title: const Text(
                                 "Планирование",
                                 textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 16.0),
                               ),
                               onTap: () {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => Plan(),
+                                    builder: (context) => const Plan(),
                                   ),
                                 );
                               }),
                         )),
-                    SizedBox(height: 30),
+                    const SizedBox(height: 30),
                   ],
                 ))
           ],

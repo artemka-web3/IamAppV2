@@ -122,7 +122,7 @@ class OtpPage extends StatelessWidget {
                       ),
                       child: const Center(
                         child: Text(
-                          "Зарегистрироваться!",
+                          "Ввести код",
                           style: TextStyle(
                               color: Colors.black,
                               fontSize: 16.0,
@@ -134,25 +134,6 @@ class OtpPage extends StatelessWidget {
                   const Spacer(
                     flex: 3,
                   ),
-                  TextButton(
-                    onPressed: () {},
-                    child: const Text(
-                      "Уже есть аккаунт?",
-                      style: TextStyle(color: Colors.white, fontSize: 16.0),
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {},
-                    child: const Text(
-                      "Войти",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ),
-                  const Spacer(),
                 ],
               ),
             ),

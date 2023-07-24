@@ -13,9 +13,9 @@ class FAQPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('FAQ')),
+      appBar: AppBar(title: const Text('FAQ')),
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             image: DecorationImage(
                 image: AssetImage("assets/images/background.png"),
                 fit: BoxFit.cover)),
@@ -23,7 +23,7 @@ class FAQPage extends StatelessWidget {
           children: [
             Expanded(
                 child: Padding(
-              padding: EdgeInsets.all(20),
+              padding: const EdgeInsets.all(20),
               child: Container(
                 child: ListView.builder(
                     scrollDirection: Axis.vertical,
@@ -33,7 +33,8 @@ class FAQPage extends StatelessWidget {
                           child: ListTile(
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(15.0)),
-                              title: Text(questions[index]),
+                              title: Text(questions[index],
+                                  style: const TextStyle(color: Colors.black)),
                               tileColor: Colors.white,
                               onTap: () {}));
                     }),
