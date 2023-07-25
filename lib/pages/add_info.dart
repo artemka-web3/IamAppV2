@@ -1,4 +1,8 @@
+// ignore_for_file: prefer_final_fields
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:i_am_app/classes/page_index.dart';
 import 'package:i_am_app/main.dart';
 
 class AddInfo extends StatefulWidget {
@@ -53,19 +57,19 @@ class _AddInfoState extends State<AddInfo> {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
             fontFamily: 'Inter',
-            primaryColor: Color(0xFF252E29),
-            appBarTheme: AppBarTheme(backgroundColor: Color(0xFF252E29))),
+            primaryColor: const Color(0xFF252E29),
+            appBarTheme: const AppBarTheme(backgroundColor: Color(0xFF252E29))),
         home: Scaffold(
           appBar: AppBar(
             title: Text(spheres[widget.sphereIndex]),
           ),
           bottomNavigationBar: BottomNavigationBar(
-            backgroundColor: Color(0xFF252E29),
+            backgroundColor: const Color(0xFF252E29),
             type: BottomNavigationBarType.fixed,
-            selectedItemColor: Color(0xff6FCF97),
+            selectedItemColor: const Color(0xff6FCF97),
             unselectedItemColor: Colors.white,
             currentIndex: _currentIndex,
-            items: [
+            items: const [
               BottomNavigationBarItem(icon: Icon(Icons.home), label: ""),
               BottomNavigationBarItem(
                   icon: Icon(Icons.assignment_outlined), label: ""),
@@ -83,170 +87,164 @@ class _AddInfoState extends State<AddInfo> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => MyApp(pageIndex: index),
+                    builder: (context) => MyApp(
+                      pageIndex: index,
+                      phone: context.read<PageIndex>().phone,
+                    ),
                   ),
                 );
               });
             },
           ),
           body: Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
                   image: AssetImage(
-                      "assets/images/background.png"
+                    "assets/images/background.png",
                   ), //путь к вашему изображению
-                  fit: BoxFit.cover
-                ),
+                  fit: BoxFit.cover),
             ),
             child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Container(
+              child: Column(children: [
+                Container(
                     child: Padding(
-                    padding: EdgeInsets.fromLTRB(10, 15, 0, 5),
-                    child: Container(
-                      alignment: Alignment.centerLeft,
-                      child: Text('Цитаты',style: TextStyle(fontSize: 18, color: Colors.white)),
-                    ),)
+                  padding: const EdgeInsets.fromLTRB(10, 15, 0, 5),
+                  child: Container(
+                    alignment: Alignment.centerLeft,
+                    child: const Text('Цитаты',
+                        style: TextStyle(fontSize: 18, color: Colors.white)),
                   ),
-                  Container(
+                )),
+                Container(
                     height: 220,
                     child: Padding(
-                      padding: EdgeInsets.all(15),
+                      padding: const EdgeInsets.all(15),
                       child: ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        itemCount: healthQuotes.length,
-                        itemBuilder: (context, index) {
-                          return Card(
-                            child: ListTile(
-                              shape: RoundedRectangleBorder(
-                                borderRadius:BorderRadius.circular(15.0)),
-                                title: Text(healthQuotes[index]),
-                                tileColor: Colors.white,
-                                onTap: () {}
-                              )
-                          );
-                        }),
-                      )
-                    ), 
-                  Container(
+                          scrollDirection: Axis.vertical,
+                          itemCount: healthQuotes.length,
+                          itemBuilder: (context, index) {
+                            return Card(
+                                child: ListTile(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(15.0)),
+                                    title: Text(healthQuotes[index]),
+                                    tileColor: Colors.white,
+                                    onTap: () {}));
+                          }),
+                    )),
+                Container(
                     child: Padding(
-                    padding: EdgeInsets.fromLTRB(10, 15, 0, 5),
-                    child: Container(
-                      alignment: Alignment.centerLeft,
-                      child: Text('Приложения',style: TextStyle(fontSize: 18, color: Colors.white)),
-                    ),)
+                  padding: const EdgeInsets.fromLTRB(10, 15, 0, 5),
+                  child: Container(
+                    alignment: Alignment.centerLeft,
+                    child: const Text('Приложения',
+                        style: TextStyle(fontSize: 18, color: Colors.white)),
                   ),
-                  Container(
+                )),
+                Container(
                     height: 220,
                     child: Padding(
-                      padding: EdgeInsets.all(15),
+                      padding: const EdgeInsets.all(15),
                       child: ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        itemCount: healthQuotes.length,
-                        itemBuilder: (context, index) {
-                          return Card(
-                            child: ListTile(
-                              shape: RoundedRectangleBorder(
-                                borderRadius:BorderRadius.circular(15.0)),
-                                title: Text(healthQuotes[index]),
-                                tileColor: Colors.white,
-                                onTap: () {}
-                              )
-                          );
-                        }),
-                      )
-                    ), 
-                  Container(
+                          scrollDirection: Axis.vertical,
+                          itemCount: healthQuotes.length,
+                          itemBuilder: (context, index) {
+                            return Card(
+                                child: ListTile(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(15.0)),
+                                    title: Text(healthQuotes[index]),
+                                    tileColor: Colors.white,
+                                    onTap: () {}));
+                          }),
+                    )),
+                Container(
                     child: Padding(
-                    padding: EdgeInsets.fromLTRB(10, 15, 0, 5),
-                    child: Container(
-                      alignment: Alignment.centerLeft,
-                      child: Text('Сайты',style: TextStyle(fontSize: 18, color: Colors.white)),
-                    ),)
+                  padding: const EdgeInsets.fromLTRB(10, 15, 0, 5),
+                  child: Container(
+                    alignment: Alignment.centerLeft,
+                    child: const Text('Сайты',
+                        style: TextStyle(fontSize: 18, color: Colors.white)),
                   ),
-                  Container(
+                )),
+                Container(
                     height: 220,
                     child: Padding(
-                      padding: EdgeInsets.all(15),
+                      padding: const EdgeInsets.all(15),
                       child: ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        itemCount: healthQuotes.length,
-                        itemBuilder: (context, index) {
-                          return Card(
-                            child: ListTile(
-                              shape: RoundedRectangleBorder(
-                                borderRadius:BorderRadius.circular(15.0)),
-                                title: Text(healthQuotes[index]),
-                                tileColor: Colors.white,
-                                onTap: () {}
-                              )
-                          );
-                        }),
-                      )
-                    ),
-                  Container(
+                          scrollDirection: Axis.vertical,
+                          itemCount: healthQuotes.length,
+                          itemBuilder: (context, index) {
+                            return Card(
+                                child: ListTile(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(15.0)),
+                                    title: Text(healthQuotes[index]),
+                                    tileColor: Colors.white,
+                                    onTap: () {}));
+                          }),
+                    )),
+                Container(
                     child: Padding(
-                    padding: EdgeInsets.fromLTRB(10, 15, 0, 5),
-                    child: Container(
-                      alignment: Alignment.centerLeft,
-                      child: Text('Книги',style: TextStyle(fontSize: 18, color: Colors.white)),
-                    ),)
+                  padding: const EdgeInsets.fromLTRB(10, 15, 0, 5),
+                  child: Container(
+                    alignment: Alignment.centerLeft,
+                    child: const Text('Книги',
+                        style: TextStyle(fontSize: 18, color: Colors.white)),
                   ),
-                  Container(
+                )),
+                Container(
                     height: 220,
                     child: Padding(
-                      padding: EdgeInsets.all(15),
+                      padding: const EdgeInsets.all(15),
                       child: ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        itemCount: healthQuotes.length,
-                        itemBuilder: (context, index) {
-                          return Card(
-                            child: ListTile(
-                              shape: RoundedRectangleBorder(
-                                borderRadius:BorderRadius.circular(15.0)),
-                                title: Text(healthQuotes[index]),
-                                tileColor: Colors.white,
-                                onTap: () {}
-                              )
-                          );
-                        }),
-                      )
-                    ),
-                  Container(
+                          scrollDirection: Axis.vertical,
+                          itemCount: healthQuotes.length,
+                          itemBuilder: (context, index) {
+                            return Card(
+                                child: ListTile(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(15.0)),
+                                    title: Text(healthQuotes[index]),
+                                    tileColor: Colors.white,
+                                    onTap: () {}));
+                          }),
+                    )),
+                Container(
                     child: Padding(
-                    padding: EdgeInsets.fromLTRB(10, 15, 0, 5),
-                    child: Container(
-                      alignment: Alignment.centerLeft,
-                      child: Text('Фильмы',style: TextStyle(fontSize: 18, color: Colors.white)),
-                    ),)
+                  padding: const EdgeInsets.fromLTRB(10, 15, 0, 5),
+                  child: Container(
+                    alignment: Alignment.centerLeft,
+                    child: const Text('Фильмы',
+                        style: TextStyle(fontSize: 18, color: Colors.white)),
                   ),
-                  Container(
+                )),
+                Container(
                     height: 220,
                     child: Padding(
-                      padding: EdgeInsets.all(15),
+                      padding: const EdgeInsets.all(15),
                       child: ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        itemCount: healthQuotes.length,
-                        itemBuilder: (context, index) {
-                          return Card(
-                            child: ListTile(
-                              shape: RoundedRectangleBorder(
-                                borderRadius:BorderRadius.circular(15.0)),
-                                title: Text(healthQuotes[index]),
-                                tileColor: Colors.white,
-                                onTap: () {}
-                              )
-                          );
-                        }),
-                      )
-                    ),  
-                  ]
-                ),
+                          scrollDirection: Axis.vertical,
+                          itemCount: healthQuotes.length,
+                          itemBuilder: (context, index) {
+                            return Card(
+                                child: ListTile(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(15.0)),
+                                    title: Text(healthQuotes[index]),
+                                    tileColor: Colors.white,
+                                    onTap: () {}));
+                          }),
+                    )),
+              ]),
             ),
           ),
-        )
-      );
+        ));
   }
 }
 

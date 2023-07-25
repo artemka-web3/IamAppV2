@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "425679145687",
+    "firebase_url": "https://iamapp-80ab7-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "iamapp-80ab7",
     "storage_bucket": "iamapp-80ab7.appspot.com"
   },
@@ -13,6 +14,22 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "425679145687-5l7qf8jbcto9m7s35at5lh5d2drgnijb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.iam",
+            "certificate_hash": "495ae3d2a54e4200f62740ac1d9d24ff7f98a88c"
+          }
+        },
+        {
+          "client_id": "425679145687-ud59knq5hn81shkmc98qe43cqb4oa0ef.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.iam",
+            "certificate_hash": "42572b97816d4ee573378389bda90bb8c35d9278"
+          }
+        },
         {
           "client_id": "425679145687-ev14364kvgp3dr374pfvri802ler9c92.apps.googleusercontent.com",
           "client_type": 3

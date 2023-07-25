@@ -49,6 +49,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '425679145687',
     projectId: 'iamapp-80ab7',
     authDomain: 'iamapp-80ab7.firebaseapp.com',
+    databaseURL: 'https://iamapp-80ab7-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'iamapp-80ab7.appspot.com',
     measurementId: 'G-69BBFYNLRK',
   );
@@ -58,6 +59,7 @@ class DefaultFirebaseOptions {
     appId: '1:425679145687:android:58a963fb4761412efd7e92',
     messagingSenderId: '425679145687',
     projectId: 'iamapp-80ab7',
+    databaseURL: 'https://iamapp-80ab7-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'iamapp-80ab7.appspot.com',
   );
 
@@ -66,7 +68,9 @@ class DefaultFirebaseOptions {
     appId: '1:425679145687:ios:1e835a1e07d583fafd7e92',
     messagingSenderId: '425679145687',
     projectId: 'iamapp-80ab7',
+    databaseURL: 'https://iamapp-80ab7-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'iamapp-80ab7.appspot.com',
+    androidClientId: '425679145687-5l7qf8jbcto9m7s35at5lh5d2drgnijb.apps.googleusercontent.com',
     iosClientId: '425679145687-56680rt1tjn3cfn8rcur055ofpl5ctc8.apps.googleusercontent.com',
     iosBundleId: 'com.example.iam',
   );
@@ -76,7 +80,9 @@ class DefaultFirebaseOptions {
     appId: '1:425679145687:ios:c459ac90a8953e89fd7e92',
     messagingSenderId: '425679145687',
     projectId: 'iamapp-80ab7',
+    databaseURL: 'https://iamapp-80ab7-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'iamapp-80ab7.appspot.com',
+    androidClientId: '425679145687-5l7qf8jbcto9m7s35at5lh5d2drgnijb.apps.googleusercontent.com',
     iosClientId: '425679145687-6fi74fe62a0ac9htq84nue2sdgnomlb0.apps.googleusercontent.com',
     iosBundleId: 'com.example.iam.RunnerTests',
   );

@@ -1,26 +1,30 @@
 part of 'auth_bloc.dart';
 
 @immutable
-abstract class AuthBlocEvent {}
+abstract class AuthBlocEvent {
+  final String phone;
+
+  AuthBlocEvent(this.phone);
+}
 
 class SendOtpToPhoneEvent extends AuthBlocEvent {
-  final String number;
-
-  SendOtpToPhoneEvent({required this.number});
+  SendOtpToPhoneEvent(super.phone);
 }
 
 class VerifySentOtpEvent extends AuthBlocEvent {
   final String verificationId;
   final String otp;
 
-  VerifySentOtpEvent({required this.verificationId, required this.otp});
+  VerifySentOtpEvent(super.phone,
+      {required this.verificationId, required this.otp});
 }
 
 class OnPhoneOtpSent extends AuthBlocEvent {
   final String verificationId;
   final int? token;
 
-  OnPhoneOtpSent({
+  OnPhoneOtpSent(
+    super.phone, {
     required this.verificationId,
     required this.token,
   });
@@ -28,12 +32,13 @@ class OnPhoneOtpSent extends AuthBlocEvent {
 
 class OnPhoneAuthErrorEvent extends AuthBlocEvent {
   final String error;
-  OnPhoneAuthErrorEvent({required this.error});
+  OnPhoneAuthErrorEvent(super.phone, {required this.error});
 }
 
 class OnPhoneAuthVerificationCompleteEvent extends AuthBlocEvent {
   final AuthCredential credential;
-  OnPhoneAuthVerificationCompleteEvent({
+  OnPhoneAuthVerificationCompleteEvent(
+    super.phone, {
     required this.credential,
   });
 }

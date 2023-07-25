@@ -10,6 +10,8 @@ class SignIn extends StatelessWidget {
   TextEditingController phoneController = TextEditingController();
   TextEditingController countryController = TextEditingController();
 
+  late final String number;
+
   SignIn({super.key});
 
   @override
@@ -36,7 +38,9 @@ class SignIn extends StatelessWidget {
           if (state is PhoneAuthCodeSentSuccess) {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => OtpPage(),
+                builder: (context) => OtpPage(
+                  number: number,
+                ),
               ),
             );
           }
@@ -159,10 +163,9 @@ class SignIn extends StatelessWidget {
                       if (countryController.text.isEmpty) {
                         countryController.text = '+7';
                       }
-                      final number =
-                          countryController.text + phoneController.text;
+                      number = countryController.text + phoneController.text;
                       context.read<AuthBloc>().add(
-                            SendOtpToPhoneEvent(number: number),
+                            SendOtpToPhoneEvent(number),
                           );
                     },
                     child: Container(

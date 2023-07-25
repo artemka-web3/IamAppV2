@@ -5,7 +5,11 @@ import 'package:i_am_app/pages/auth/logic/bloc/auth_bloc.dart';
 import 'package:i_am_app/pages/auth/sign_in.dart';
 
 class OtpPage extends StatelessWidget {
+  final String number;
+
   TextEditingController controller = TextEditingController();
+
+  OtpPage({super.key, required this.number});
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AuthBloc, AuthInitial>(
@@ -106,7 +110,7 @@ class OtpPage extends StatelessWidget {
                   GestureDetector(
                     onTap: () {
                       if (state is PhoneAuthCodeSentSuccess) {
-                        context.read<AuthBloc>().add(VerifySentOtpEvent(
+                        context.read<AuthBloc>().add(VerifySentOtpEvent(number,
                             verificationId: state.verificationId,
                             otp: controller.text.trim()));
                       }

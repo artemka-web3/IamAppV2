@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:i_am_app/classes/models/goal.dart';
+import 'package:i_am_app/classes/models/user.dart';
 import 'package:i_am_app/classes/page_index.dart';
 import 'package:i_am_app/pages/auth/logic/authentication_repository.dart';
 import 'package:i_am_app/pages/auth/logic/bloc/auth_bloc.dart';
 import 'package:i_am_app/pages/auth/sign_in.dart';
 import 'package:i_am_app/pages/settings.dart';
 import 'package:provider/provider.dart';
+import 'classes/services/firebase_realtime_service.dart';
 import 'pages/home.dart';
 import 'pages/goals/goals.dart';
 import 'pages/diary/diary.dart';
