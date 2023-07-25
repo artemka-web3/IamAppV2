@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:i_am_app/pages/auth/birth_meaning.dart';
-import 'package:i_am_app/pages/auth/logic/bloc/auth_bloc_bloc.dart';
+import 'package:i_am_app/pages/auth/logic/bloc/auth_bloc.dart';
 import 'package:i_am_app/pages/auth/sign_in.dart';
 
 class OtpPage extends StatelessWidget {

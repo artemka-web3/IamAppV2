@@ -2,11 +2,65 @@ import 'package:flutter/material.dart';
 import 'package:i_am_app/main.dart';
 import 'package:i_am_app/pages/auth/gua.dart';
 
-class BirthMeaning extends StatelessWidget {
+class BirthMeaning extends StatefulWidget {
   const BirthMeaning({super.key});
 
   @override
+  State<BirthMeaning> createState() => _BirthMeaningState();
+}
+
+class _BirthMeaningState extends State<BirthMeaning> {
+  int prevLength = 0;
+
+  bool isWomen = false;
+
+  TextEditingController controller = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    String gua = '0';
+
+    int roadSum = 0;
+
+    String birth = '0';
+
+    if (controller.text.length >= 2) {
+      birth = controller.text[0] + controller.text[1];
+    }
+
+    for (var i = 0; i < controller.text.length; i++) {
+      if (double.tryParse(controller.text[i]) == null) {
+        continue;
+      }
+      roadSum += int.parse(controller.text[i]);
+      while (roadSum >= 10) {
+        String guaStr = roadSum.toString();
+        roadSum = 0;
+        for (var i = 0; i < guaStr.length; i++) {
+          roadSum += int.parse(guaStr[i]);
+        }
+      }
+    }
+
+    if (controller.text.length == 10) {
+      gua = (int.parse(controller.text[controller.text.length - 2]) +
+              int.parse(controller.text[controller.text.length - 1]))
+          .toString();
+      if (gua.length > 1) {
+        gua = (int.parse(gua[0]) + int.parse(gua[1])).toString();
+      }
+      if (isWomen) {
+        gua = (int.parse(gua) + 5).toString();
+      } else {
+        gua = (10 - int.parse(gua)).toString();
+      }
+    }
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -28,6 +82,35 @@ class BirthMeaning extends StatelessWidget {
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                 ),
+                const SizedBox(
+                  height: 8.0,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Мужчина",
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    Switch(
+                      value: isWomen,
+                      trackColor: MaterialStatePropertyAll(Colors.black),
+                      thumbColor: MaterialStatePropertyAll(Colors.white),
+                      onChanged: (val) => setState(
+                        () {
+                          isWomen = !isWomen;
+                        },
+                      ),
+                    ),
+                    Text(
+                      "Женщина",
+                      style: Theme.of(context).textTheme.titleMedium,
+                    )
+                  ],
+                ),
+                const SizedBox(
+                  height: 8.0,
+                ),
                 Center(
                   child: Text(
                     "Введи дату рождения",
@@ -45,7 +128,10 @@ class BirthMeaning extends StatelessWidget {
                     color: Colors.white,
                   ),
                   child: TextFormField(
+                    controller: controller,
+                    keyboardType: TextInputType.number,
                     textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.bodyMedium,
                     decoration: const InputDecoration(
                       border: InputBorder.none,
                       hintText: "01/01/1999",
@@ -53,6 +139,20 @@ class BirthMeaning extends StatelessWidget {
                         fontSize: 16.0,
                       ),
                     ),
+                    onChanged: (_) {
+                      if (controller.text.length == 2 && prevLength == 1) {
+                        controller.text += '/';
+                      }
+                      if (controller.text.length == 5 && prevLength == 4) {
+                        controller.text += '/';
+                      }
+                      if (controller.text.length == 10) {
+                        setState(() {});
+                      }
+                      controller.selection = TextSelection.fromPosition(
+                          TextPosition(offset: controller.text.length));
+                      prevLength = controller.text.length;
+                    },
                   ),
                 ),
                 const SizedBox(
@@ -67,7 +167,7 @@ class BirthMeaning extends StatelessWidget {
                 const SizedBox(
                   height: 8.0,
                 ),
-                const ContentTitle(title: "Твоё число ГУА", number: "9"),
+                ContentTitle(title: "Твоё число ГУА", number: gua),
                 const SizedBox(
                   height: 8.0,
                 ),
@@ -77,7 +177,8 @@ class BirthMeaning extends StatelessWidget {
                 const SizedBox(
                   height: 8.0,
                 ),
-                const ContentTitle(title: "Число жизненного пути", number: "1"),
+                ContentTitle(
+                    title: "Число жизненного пути", number: roadSum.toString()),
                 const SizedBox(
                   height: 8.0,
                 ),
@@ -88,9 +189,9 @@ class BirthMeaning extends StatelessWidget {
                 const SizedBox(
                   height: 8.0,
                 ),
-                const ContentTitle(
+                ContentTitle(
                   title: "Число даты рождения",
-                  number: "3",
+                  number: birth,
                 ),
                 const SizedBox(
                   height: 8.0,
