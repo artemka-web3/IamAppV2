@@ -17,3 +17,5 @@ class PhoneAuthCodeSentSuccess extends AuthInitial {
     required this.verificationId,
   });
 }
+
+class AuthLoading extends AuthInitial {}

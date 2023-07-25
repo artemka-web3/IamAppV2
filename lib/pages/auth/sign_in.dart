@@ -184,7 +184,18 @@ class SignIn extends StatelessWidget {
                     ),
                   ),
                   const Spacer(
-                    flex: 7,
+                    flex: 3,
+                  ),
+                  (state is AuthLoading)
+                      ? const Align(
+                          alignment: Alignment.center,
+                          child: CircularProgressIndicator(
+                            color: Color.fromARGB(255, 111, 207, 151),
+                          ),
+                        )
+                      : const SizedBox(),
+                  const Spacer(
+                    flex: 4,
                   ),
                   //Кнопку удалить
                   TextButton(

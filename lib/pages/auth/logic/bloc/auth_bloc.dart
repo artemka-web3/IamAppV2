@@ -13,6 +13,7 @@ class AuthBloc extends Bloc<AuthBlocEvent, AuthInitial> {
   AuthBloc({required this.phoneAuthRepository}) : super(AuthInitial()) {
     // Когда пользователь нажмет на кнопку отправки, это событие будет запущено
     on<SendOtpToPhoneEvent>((event, emit) async {
+      emit(AuthLoading());
       try {
         await phoneAuthRepository.verifyPhone(
           phoneNumber: event.number,
@@ -40,6 +41,7 @@ class AuthBloc extends Bloc<AuthBlocEvent, AuthInitial> {
 
     // После получения otp, когда пользователь нажимает на кнопку проверки otp, это событие будет запущено
     on<VerifySentOtpEvent>((event, emit) {
+      emit(AuthLoading());
       try {
         // После получения otp мы проверим otp, а затем создадим учетные данные из otp и verificationId, а затем отправим их в событие [OnPhoneAuthVerificationCompleteEvent], которое будет обработано блоком, а затем выдаст состояние [PhoneAuthVerified] после успешного входа в систему
 
