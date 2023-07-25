@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:i_am_app/pages/auth/birth_meaning.dart';
-import 'package:i_am_app/pages/auth/logic/bloc/auth_bloc_bloc.dart';
+import 'package:i_am_app/pages/auth/logic/bloc/auth_bloc.dart';
 import 'package:i_am_app/pages/auth/sign_in.dart';
 
 class OtpPage extends StatelessWidget {
@@ -101,10 +101,7 @@ class OtpPage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(
-                    height: 8.0,
-                  ),
-                  const SizedBox(
-                    height: 24.0,
+                    height: 32.0,
                   ),
                   GestureDetector(
                     onTap: () {
@@ -132,7 +129,18 @@ class OtpPage extends StatelessWidget {
                     ),
                   ),
                   const Spacer(
-                    flex: 3,
+                    flex: 1,
+                  ),
+                  (state is AuthLoading)
+                      ? const Align(
+                          alignment: Alignment.center,
+                          child: CircularProgressIndicator(
+                            color: Color.fromARGB(255, 111, 207, 151),
+                          ),
+                        )
+                      : const SizedBox(),
+                  const Spacer(
+                    flex: 2,
                   ),
                 ],
               ),

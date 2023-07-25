@@ -1,4 +1,4 @@
-part of 'auth_bloc_bloc.dart';
+part of 'auth_bloc.dart';
 
 @immutable
 class AuthInitial {}
@@ -17,3 +17,5 @@ class PhoneAuthCodeSentSuccess extends AuthInitial {
     required this.verificationId,
   });
 }
+
+class AuthLoading extends AuthInitial {}
