@@ -36,8 +36,7 @@ class Diary extends StatelessWidget {
                     ),
                     IconButton(
                       onPressed: () => Navigator.of(context).push(
-                          MaterialPageRoute(
-                              builder: (context) => const NewNode())),
+                          MaterialPageRoute(builder: (context) => NewNode())),
                       icon: const Icon(
                         Icons.calendar_today,
                         color: Colors.green,

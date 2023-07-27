@@ -61,7 +61,7 @@ class FirebaseDatabaseService {
 
   Future<void> addCase(String phone, Case newCase) async {
     try {
-      await ref.child('users/$phone/goals').push().set(newCase.toMap());
+      await ref.child('users/$phone/cases').push().set(newCase.toMap());
     } catch (e) {
       print(e);
     }
