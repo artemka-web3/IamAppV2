@@ -17,6 +17,31 @@ class _NewGoalState extends State<NewGoal> {
   DateTime? date =
       DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
 
+  final List<String> spheres = [
+    'Здоровье',
+    'Внешний вид',
+    'Любовь',
+    'Дети и родители',
+    'Друзья и коллеги',
+    'Хобби и развлечения',
+    'Путешествия',
+    'Уют в доме',
+    'Личностное развитие',
+    'Духовное развитие',
+    'Доходы и расходы',
+    'Долги',
+    'Мой банк. Страхование',
+    'Бизнес',
+    'Юридические навыки',
+    'Сбережения',
+    'Благотворительность',
+    'Инвестиции',
+    'Самоконтроль',
+    'Уверенность в себе',
+  ];
+
+  String? selectedSphere;
+
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
 
@@ -30,7 +55,7 @@ class _NewGoalState extends State<NewGoal> {
             elevation: 0,
             backgroundColor: Colors.transparent,
             actions: [
-              SizedBox(
+              const SizedBox(
                 width: 24.0,
               )
             ],
@@ -67,7 +92,8 @@ class _NewGoalState extends State<NewGoal> {
                   height: 2 * AppBar().preferredSize.height,
                 ),
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
                   width: double.maxFinite,
                   decoration: const BoxDecoration(
                       color: Colors.white,
@@ -118,24 +144,44 @@ class _NewGoalState extends State<NewGoal> {
                       const SizedBox(
                         height: 16.0,
                       ),
-                      const Row(
+                      Row(
                         children: [
-                          Text(
+                          const Text(
                             "Сфера:",
                             style: TextStyle(
                               fontSize: 14,
                               color: Colors.black,
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 8.0,
                           ),
-                          Text(
-                            "Выбрать",
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Color.fromARGB(75, 37, 46, 41),
+                          DropdownButton(
+                            onChanged: (value) => setState(() {
+                              selectedSphere = value ?? "Выбрать";
+                            }),
+                            hint: const Text(
+                              "Выбрать",
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Color.fromARGB(75, 37, 46, 41),
+                              ),
                             ),
+                            value: selectedSphere,
+                            items: spheres.map<DropdownMenuItem<String>>(
+                              (String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(
+                                    value,
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                );
+                              },
+                            ).toList(),
                           ),
                         ],
                       ),
@@ -171,7 +217,7 @@ class _NewGoalState extends State<NewGoal> {
                     Goal goal = Goal(
                         title: titleController.text,
                         date: date,
-                        sphere: 'Искусство',
+                        sphere: selectedSphere,
                         description: descriptionController.text);
                     context.read<UserBloc>().add(
                           AddGoal(

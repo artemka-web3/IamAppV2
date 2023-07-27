@@ -100,8 +100,8 @@ class Goals extends StatelessWidget {
                                     description:
                                         state.user.goals[index].description ??
                                             "Нет описания",
-                                    title: state.user.goals[index].title ??
-                                        "Нет заголовка",
+                                    title: state.user.goals[index].sphere ??
+                                        "Нет сферы",
                                   );
                                 } else {
                                   return const SizedBox();
@@ -142,8 +142,8 @@ class Goals extends StatelessWidget {
                                     description:
                                         state.user.goals[index].description ??
                                             "Нет описания",
-                                    title: state.user.goals[index].title ??
-                                        "Нет заголовка",
+                                    title: state.user.goals[index].sphere ??
+                                        "Нет сферы",
                                   );
                                 } else {
                                   return const SizedBox();
