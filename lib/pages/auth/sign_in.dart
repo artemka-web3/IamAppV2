@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:i_am_app/classes/page_index.dart';
 import 'package:i_am_app/pages/auth/logic/bloc/auth_bloc.dart';
 import 'package:i_am_app/pages/auth/logic/log_in.dart';
 import 'package:i_am_app/pages/auth/password_recovery.dart';
@@ -9,6 +10,8 @@ import 'package:i_am_app/pages/earning_spending/plan.dart';
 class SignIn extends StatelessWidget {
   TextEditingController phoneController = TextEditingController();
   TextEditingController countryController = TextEditingController();
+
+  late final String number;
 
   SignIn({super.key});
 
@@ -36,7 +39,9 @@ class SignIn extends StatelessWidget {
           if (state is PhoneAuthCodeSentSuccess) {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => OtpPage(),
+                builder: (context) => OtpPage(
+                  number: number,
+                ),
               ),
             );
           }
@@ -159,10 +164,9 @@ class SignIn extends StatelessWidget {
                       if (countryController.text.isEmpty) {
                         countryController.text = '+7';
                       }
-                      final number =
-                          countryController.text + phoneController.text;
+                      number = countryController.text + phoneController.text;
                       context.read<AuthBloc>().add(
-                            SendOtpToPhoneEvent(number: number),
+                            SendOtpToPhoneEvent(number),
                           );
                     },
                     child: Container(

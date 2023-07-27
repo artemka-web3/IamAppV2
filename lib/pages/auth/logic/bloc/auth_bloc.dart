@@ -1,7 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:i_am_app/classes/models/user.dart' as custom;
+import 'package:i_am_app/classes/services/firebase_realtime_service.dart';
 import 'package:i_am_app/pages/auth/logic/authentication_repository.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'auth_bloc_event.dart';
 part 'auth_bloc_state.dart';
@@ -16,19 +19,20 @@ class AuthBloc extends Bloc<AuthBlocEvent, AuthInitial> {
       emit(AuthLoading());
       try {
         await phoneAuthRepository.verifyPhone(
-          phoneNumber: event.number,
+          phoneNumber: event.phone,
           verificationCompleted: (PhoneAuthCredential credential) async {
             //В [verificationComplete] мы получим учетные данные из firebase и отправим их в событие [OnPhoneAuthVerificationCompleteEvent], которое будет обработано блоком, а затем выдадим состояние [PhoneAuthVerified] после успешного входа в систему
-            add(OnPhoneAuthVerificationCompleteEvent(credential: credential));
+            add(OnPhoneAuthVerificationCompleteEvent(event.phone,
+                credential: credential));
           },
           codeSent: (String verificationId, int? resendToken) {
             // На [codeSent] мы получим verificationId и resendToken из firebase и отправим их в событие [OnPhoneOtpSent], которое будет обработано блоком, а затем выдадим событие [OnPhoneAuthVerificationCompleteEvent] после получения кода с телефона пользователя
-            add(OnPhoneOtpSent(
+            add(OnPhoneOtpSent(event.phone,
                 verificationId: verificationId, token: resendToken));
           },
           verificationFailed: (FirebaseAuthException e) {
             // При [verificationFailed] мы получим исключение из firebase и отправим его в событие [Onphoneautherrorrevent], которое будет обработано блоком, а затем выдадим состояние [PhoneAuthError], чтобы отобразить ошибку на экране пользователя
-            add(OnPhoneAuthErrorEvent(error: e.code));
+            add(OnPhoneAuthErrorEvent(event.phone, error: e.code));
           },
           codeAutoRetrievalTimeout: (String verificationId) {
             print("СООБЩЕНИЕ НЕ ОТПРАВЛЕНО ПО ВРЕМЕНИ");
@@ -49,7 +53,8 @@ class AuthBloc extends Bloc<AuthBlocEvent, AuthInitial> {
           verificationId: event.verificationId,
           smsCode: event.otp,
         );
-        add(OnPhoneAuthVerificationCompleteEvent(credential: credential));
+        add(OnPhoneAuthVerificationCompleteEvent(event.phone,
+            credential: credential));
       } catch (e) {
         emit(PhoneAuthError(error: e.toString()));
       }
@@ -64,19 +69,36 @@ class AuthBloc extends Bloc<AuthBlocEvent, AuthInitial> {
         (event, emit) => emit(PhoneAuthError(error: event.error)));
 
     // Когда проверка otp пройдет успешно, это событие будет запущено
-    on<OnPhoneAuthVerificationCompleteEvent>((event, emit) async {
-      // После получения учетных данных от события мы войдем в систему с этими учетными данными, а затем выдадим состояние [PhoneAuthVerified] после успешного входа в систему
-      try {
-        await auth.signInWithCredential(event.credential).then((user) {
-          if (user.user != null) {
-            emit(PhoneAuthVerified());
-          }
-        });
-      } on FirebaseAuthException catch (e) {
-        emit(PhoneAuthError(error: e.code));
-      } catch (e) {
-        emit(PhoneAuthError(error: e.toString()));
-      }
-    });
+    on<OnPhoneAuthVerificationCompleteEvent>(
+      (event, emit) async {
+        // После получения учетных данных от события мы войдем в систему с этими учетными данными, а затем выдадим состояние [PhoneAuthVerified] после успешного входа в систему
+        try {
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          FirebaseDatabaseService service = FirebaseDatabaseService();
+          await auth.signInWithCredential(event.credential).then(
+            (user) async {
+              if (user.user != null) {
+                bool isContaned = await service.contains(event.phone);
+                if (!isContaned) {
+                  await service.createUser(
+                    custom.User(
+                      phone: event.phone,
+                      id: user.user!.uid,
+                    ),
+                  );
+                }
+                await prefs.setBool('entered', true);
+                await prefs.setString('phone', event.phone);
+                emit(PhoneAuthVerified(phone: event.phone));
+              }
+            },
+          );
+        } on FirebaseAuthException catch (e) {
+          emit(PhoneAuthError(error: e.code));
+        } catch (e) {
+          emit(PhoneAuthError(error: e.toString()));
+        }
+      },
+    );
   }
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class PageIndex extends ChangeNotifier {
+  String phone = "";
+
   int index = 0;
   int lastVisitedPage = 0;
 
