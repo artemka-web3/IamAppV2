@@ -78,7 +78,7 @@ class AuthBloc extends Bloc<AuthBlocEvent, AuthInitial> {
           await auth.signInWithCredential(event.credential).then(
             (user) async {
               if (user.user != null) {
-                bool isContaned = await service.contains(user.user!.uid);
+                bool isContaned = await service.contains(event.phone);
                 if (!isContaned) {
                   await service.createUser(
                     custom.User(

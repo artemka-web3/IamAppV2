@@ -1,10 +1,16 @@
 part of 'user_bloc.dart';
 
 @immutable
-abstract class UserState {}
-
-class UserInitial extends UserState {
+class UserState {
   final custom.User user;
 
-  UserInitial({required this.user});
+  UserState({required this.user});
+}
+
+class UserLoading extends UserState {
+  UserLoading({required super.user});
+}
+
+class UserInitial extends UserState {
+  UserInitial({required super.user});
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:i_am_app/classes/services/firebase_realtime_service.dart';
 import 'package:i_am_app/main.dart';
 import 'package:i_am_app/pages/auth/gua.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class BirthMeaning extends StatefulWidget {
   const BirthMeaning({super.key});
@@ -204,11 +206,46 @@ class _BirthMeaningState extends State<BirthMeaning> {
                   height: 8.0,
                 ),
                 GestureDetector(
-                  onTap: () => Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const MyApp(pageIndex: 0),
-                    ),
-                  ),
+                  onTap: () async {
+                    controller.text.trim();
+                    if (controller.text.length == 10) {
+                      FirebaseDatabaseService service =
+                          FirebaseDatabaseService();
+                      final pref = await SharedPreferences.getInstance();
+                      final phone = pref.getString('phone');
+                      String year = '', month = '', day = '';
+                      for (var i = 0; i < controller.text.length; i++) {
+                        if (i < 2) {
+                          day += controller.text[i];
+                        }
+                        if (i < 5 && i > 2) {
+                          month += controller.text[i];
+                        }
+                        if (i > 5 && i < 10) {
+                          year += controller.text[i];
+                        }
+                      }
+                      DateTime date = DateTime(
+                        int.parse(year),
+                        int.parse(month),
+                        int.parse(day),
+                      );
+                      await service.updateUser(
+                        phone!,
+                        {
+                          'birth': date.millisecondsSinceEpoch,
+                          'isWoman': isWomen,
+                        },
+                      );
+
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const MyApp(pageIndex: 0),
+                          ),
+                          (route) => false);
+                    }
+                  },
                   child: Container(
                     padding: const EdgeInsets.symmetric(vertical: 14.0),
                     decoration: const BoxDecoration(

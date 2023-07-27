@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:i_am_app/classes/models/goal.dart';
+import 'package:i_am_app/pages/auth/logic/bloc/auth_bloc.dart';
+import 'package:i_am_app/pages/bloc/bloc/user_bloc.dart';
+import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class NewGoal extends StatefulWidget {
   const NewGoal({super.key});
@@ -8,147 +14,212 @@ class NewGoal extends StatefulWidget {
 }
 
 class _NewGoalState extends State<NewGoal> {
+  DateTime? date =
+      DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+
+  TextEditingController titleController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        actions: [
-          SizedBox(
-            width: 24.0,
-          )
-        ],
-        title: const Center(
-          child: Text(
-            "Новая цель",
-            style: TextStyle(
-                color: Colors.white, fontSize: 22, fontWeight: FontWeight.w400),
-          ),
-        ),
-        leading: IconButton(
-            onPressed: () => Navigator.of(context).pop(),
-            icon: const Icon(Icons.arrow_back_ios)),
-      ),
-      body: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 24.0),
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage("assets/images/background.png"),
-              fit: BoxFit.cover),
-        ),
-        child: Column(
-          children: [
-            SizedBox(
-              height: 2 * AppBar().preferredSize.height,
+    return BlocBuilder<UserBloc, UserState>(
+      builder: (context, state) {
+        return Scaffold(
+          extendBodyBehindAppBar: true,
+          appBar: AppBar(
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            actions: [
+              SizedBox(
+                width: 24.0,
+              )
+            ],
+            title: const Center(
+              child: Text(
+                "Новая цель",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 22,
+                    fontWeight: FontWeight.w400),
+              ),
             ),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-              width: double.maxFinite,
-              decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(18.0))),
-              child: Column(
-                children: [
-                  TextFormField(
-                    decoration: const InputDecoration(
-                      border: InputBorder.none,
-                      hintText: "Введите название...",
-                      hintStyle: TextStyle(
-                        fontSize: 18,
-                        color: Color.fromARGB(75, 37, 46, 41),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 16.0,
-                  ),
-                  const Row(
+            leading: IconButton(
+                onPressed: () async {
+                  SharedPreferences pref =
+                      await SharedPreferences.getInstance();
+                  Navigator.of(context).pop();
+                  context.read<UserBloc>().add(
+                        GetUserByPhone(phone: pref.getString('phone')!),
+                      );
+                },
+                icon: const Icon(Icons.arrow_back_ios)),
+          ),
+          body: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage("assets/images/background.png"),
+                  fit: BoxFit.cover),
+            ),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 2 * AppBar().preferredSize.height,
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                  width: double.maxFinite,
+                  decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(18.0))),
+                  child: Column(
                     children: [
-                      Icon(Icons.calendar_month),
-                      Text(
-                        "Январь 2023",
-                        style: TextStyle(fontSize: 22, color: Colors.black),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 16.0,
-                  ),
-                  const Row(
-                    children: [
-                      Text(
-                        "Сфера:",
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.black,
+                      TextFormField(
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyMedium!
+                            .copyWith(fontSize: 18),
+                        controller: titleController,
+                        decoration: const InputDecoration(
+                          border: InputBorder.none,
+                          hintText: "Введите название...",
+                          hintStyle: TextStyle(
+                            fontSize: 18,
+                            color: Color.fromARGB(75, 37, 46, 41),
+                          ),
                         ),
+                      ),
+                      const SizedBox(
+                        height: 16.0,
+                      ),
+                      GestureDetector(
+                        onTap: () async {
+                          date = await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime.now(),
+                            lastDate: DateTime(2030),
+                          );
+                          setState(() {});
+                        },
+                        child: Row(
+                          children: [
+                            const Icon(Icons.calendar_month),
+                            Text(
+                              (date == null)
+                                  ? "Январь 2023"
+                                  : '${DateFormat('MMMM').format(date ?? DateTime.now())} ${date?.year ?? DateTime.now().year}',
+                              style: const TextStyle(
+                                  fontSize: 22, color: Colors.black),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 16.0,
+                      ),
+                      const Row(
+                        children: [
+                          Text(
+                            "Сфера:",
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.black,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 8.0,
+                          ),
+                          Text(
+                            "Выбрать",
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Color.fromARGB(75, 37, 46, 41),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 16,
                       ),
                       SizedBox(
-                        width: 8.0,
-                      ),
-                      Text(
-                        "Выбрать",
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Color.fromARGB(75, 37, 46, 41),
+                        height: 24 + 64,
+                        child: TextFormField(
+                          maxLines: null,
+                          controller: descriptionController,
+                          style: Theme.of(context).textTheme.bodyMedium,
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                            hintText: "Описание...",
+                            hintStyle: TextStyle(
+                              fontSize: 22,
+                              color: Color.fromARGB(75, 37, 46, 41),
+                            ),
+                          ),
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  SizedBox(
-                    height: 24 + 64,
-                    child: TextFormField(
-                      maxLines: null,
-                      decoration: const InputDecoration(
-                        border: InputBorder.none,
-                        hintText: "Описание...",
-                        hintStyle: TextStyle(
-                          fontSize: 22,
-                          color: Color.fromARGB(75, 37, 46, 41),
+                ),
+                const SizedBox(
+                  height: 24,
+                ),
+                GestureDetector(
+                  onTap: () async {
+                    SharedPreferences preferences =
+                        await SharedPreferences.getInstance();
+                    Goal goal = Goal(
+                        title: titleController.text,
+                        date: date,
+                        sphere: 'Искусство',
+                        description: descriptionController.text);
+                    context.read<UserBloc>().add(
+                          AddGoal(
+                            goal: goal,
+                            phone: preferences.getString('phone')!,
+                          ),
+                        );
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(vertical: 14.0),
+                    decoration: const BoxDecoration(
+                      color: Color.fromARGB(
+                        255,
+                        111,
+                        207,
+                        151,
+                      ),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(12.0),
+                      ),
+                    ),
+                    child: const Center(
+                      child: Text(
+                        "Сохранить",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16,
                         ),
                       ),
                     ),
                   ),
-                ],
-              ),
-            ),
-            const SizedBox(
-              height: 24,
-            ),
-            GestureDetector(
-              child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 14.0),
-                decoration: const BoxDecoration(
-                  color: Color.fromARGB(
-                    255,
-                    111,
-                    207,
-                    151,
-                  ),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(12.0),
-                  ),
                 ),
-                child: const Center(
-                  child: Text(
-                    "Сохранить",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 16,
-                    ),
-                  ),
+                const SizedBox(
+                  height: 18.0,
                 ),
-              ),
+                (state is UserLoading)
+                    ? const Center(
+                        child: CircularProgressIndicator(
+                          color: Colors.green,
+                        ),
+                      )
+                    : const SizedBox()
+              ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

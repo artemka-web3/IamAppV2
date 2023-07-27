@@ -2,20 +2,21 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
+import 'package:i_am_app/classes/models/case.dart';
 
 import 'goal.dart';
 
 class User {
   final String phone;
-  final String id;
+  final String? id;
   final bool? isWoman;
   final DateTime? birth;
 
   List<Goal> goals;
-  List<Goal> cases;
+  List<Case> cases;
   User({
     required this.phone,
-    required this.id,
+    this.id,
     this.isWoman,
     this.birth,
     this.goals = const [],
@@ -28,7 +29,7 @@ class User {
     bool? isWoman,
     DateTime? birth,
     List<Goal>? goals,
-    List<Goal>? cases,
+    List<Case>? cases,
   }) {
     return User(
       phone: phone ?? this.phone,
@@ -60,18 +61,16 @@ class User {
           ? DateTime.fromMillisecondsSinceEpoch(map['birth'] as int)
           : null,
       goals: map['goals'] != null
-          ? List<Goal>.from(
-              (map['goals'] as List<int>).map<Goal>(
-                (x) => Goal.fromMap(x as Map<String, dynamic>),
-              ),
-            )
+          ? (map['goals'] as Map<String, dynamic>)
+              .entries
+              .map((e) => Goal.fromMap(e.value))
+              .toList()
           : [],
-      cases: map['goals'] != null
-          ? List<Goal>.from(
-              (map['cases'] as List<int>).map<Goal>(
-                (x) => Goal.fromMap(x as Map<String, dynamic>),
-              ),
-            )
+      cases: map['cases'] != null
+          ? (map['cases'] as Map<String, dynamic>)
+              .entries
+              .map((e) => Case.fromMap(e.value))
+              .toList()
           : [],
     );
   }

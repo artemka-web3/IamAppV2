@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:i_am_app/classes/models/goal.dart';
 import 'package:i_am_app/classes/models/user.dart';
 import 'package:i_am_app/classes/page_index.dart';
 import 'package:i_am_app/pages/auth/logic/authentication_repository.dart';
 import 'package:i_am_app/pages/auth/logic/bloc/auth_bloc.dart';
 import 'package:i_am_app/pages/auth/sign_in.dart';
+import 'package:i_am_app/pages/bloc/bloc/user_bloc.dart';
 import 'package:i_am_app/pages/settings.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'classes/services/firebase_realtime_service.dart';
 import 'pages/home.dart';
 import 'pages/goals/goals.dart';
@@ -23,11 +24,29 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(BlocProvider(
-    create: (context) => AuthBloc(
-      phoneAuthRepository: PhoneAuthRepository(),
-    ),
-    child: MaterialApp(
+
+  FirebaseDatabaseService service = FirebaseDatabaseService();
+  SharedPreferences pref = await SharedPreferences.getInstance();
+  Widget home;
+  if (pref.getBool('entered') != true) {
+    home = SignIn();
+  } else {
+    home = const MyApp(pageIndex: 0);
+  }
+  await Future.delayed(Duration(milliseconds: 240));
+  runApp(
+    MultiBlocProvider(
+      providers: [
+        BlocProvider<AuthBloc>(
+          create: (BuildContext context) => AuthBloc(
+            phoneAuthRepository: PhoneAuthRepository(),
+          ),
+        ),
+        BlocProvider<UserBloc>(
+          create: (BuildContext context) => UserBloc(),
+        ),
+      ],
+      child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           fontFamily: 'Inter',
@@ -64,13 +83,16 @@ void main() async {
             ),
           ),
         ),
-        home: SignIn()),
-  ));
+        home: home,
+      ),
+    ),
+  );
 }
 
 class MyApp extends StatefulWidget {
   final int pageIndex;
-  const MyApp({super.key, required this.pageIndex});
+  final String? phone;
+  const MyApp({super.key, required this.pageIndex, this.phone});
 
   @override
   State<MyApp> createState() => _MyAppState();

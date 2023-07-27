@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:i_am_app/classes/page_index.dart';
 import 'package:i_am_app/pages/auth/logic/bloc/auth_bloc.dart';
 import 'package:i_am_app/pages/auth/logic/log_in.dart';
 import 'package:i_am_app/pages/auth/password_recovery.dart';
