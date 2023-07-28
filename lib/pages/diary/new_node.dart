@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:i_am_app/classes/models/case.dart';
 import 'package:i_am_app/pages/bloc/bloc/user_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 List<TextEditingController> frog = [TextEditingController()];
@@ -9,9 +10,14 @@ List<TextEditingController> birthday = [TextEditingController()];
 List<TextEditingController> calls = [TextEditingController()];
 List<TextEditingController> tasks = [TextEditingController()];
 List<TextEditingController> success = [TextEditingController()];
+List<bool> valuesAlarm = [false];
+List<TimeOfDay?> times = [const TimeOfDay(hour: 12, minute: 00)];
 
 class NewNode extends StatelessWidget {
   NewNode({super.key});
+
+  DateTime? date =
+      DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
 
   @override
   Widget build(BuildContext context) {
@@ -50,183 +56,328 @@ class NewNode extends StatelessWidget {
                   fit: BoxFit.cover),
             ),
             child: SafeArea(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    const SizedBox(
-                      height: 24.0,
-                    ),
-                    Center(
-                      child: Container(
-                        padding: const EdgeInsets.all(8.0),
-                        decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(12.0),
+              child: StatefulBuilder(builder: (context, setState) {
+                return SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  child: Column(
+                    children: [
+                      const SizedBox(
+                        height: 24.0,
+                      ),
+                      Center(
+                        child: GestureDetector(
+                          onTap: () async {
+                            date = await showDatePicker(
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime.now(),
+                              lastDate: DateTime(2030),
+                            );
+                            setState(() {});
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(8.0),
+                            decoration: const BoxDecoration(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(12.0),
+                              ),
+                              color: Colors.white,
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Icon(
+                                  Icons.calendar_month_rounded,
+                                ),
+                                const SizedBox(
+                                  width: 8.0,
+                                ),
+                                Text(
+                                  '${DateFormat('EEEE').format(date ?? DateTime.now())} ${date?.day ?? DateTime.now().day} / ${date?.month ?? DateTime.now().month}',
+                                  style: const TextStyle(fontSize: 15.0),
+                                ),
+                              ],
+                            ),
                           ),
+                        ),
+                      ),
+                      const SizedBox(height: 12.0),
+                      Node(
+                        controllers: frog,
+                        icon: const Icon(
+                          Icons.pets,
                           color: Colors.white,
                         ),
-                        child: const Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(
-                              Icons.calendar_month_rounded,
-                            ),
-                            SizedBox(
-                              width: 8.0,
-                            ),
-                            Text(
-                              "Четверг 23/03",
-                              style: TextStyle(fontSize: 15.0),
-                            ),
-                          ],
+                        title: 'Лягушка дня',
+                      ),
+                      const SizedBox(height: 8.0),
+                      Node(
+                        controllers: birthday,
+                        icon: const Icon(
+                          Icons.cake_outlined,
+                          color: Colors.white,
                         ),
+                        title: 'Дни рождения и праздники',
                       ),
-                    ),
-                    const SizedBox(height: 8.0),
-                    Node(
-                      controllers: frog,
-                      icon: const Icon(
-                        Icons.pets,
-                        color: Colors.white,
-                      ),
-                      title: 'Лягушка дня',
-                    ),
-                    const SizedBox(height: 8.0),
-                    Node(
-                      controllers: birthday,
-                      icon: const Icon(
-                        Icons.cake_outlined,
-                        color: Colors.white,
-                      ),
-                      title: 'Дни рождения и праздники',
-                    ),
-                    const SizedBox(height: 8.0),
-                    Node(
-                      controllers: calls,
-                      icon: const Icon(
-                        Icons.phone,
-                        color: Colors.white,
-                      ),
-                      title: 'Встречи и звонки',
-                    ),
-                    const SizedBox(height: 8.0),
-                    Node(
-                      controllers: tasks,
-                      icon: const Icon(
-                        Icons.menu,
-                        color: Colors.white,
-                      ),
-                      title: 'Задачи',
-                    ),
-                    const SizedBox(height: 8.0),
-                    Node(
-                      controllers: success,
-                      icon: const Icon(
-                        Icons.add,
-                        color: Colors.white,
-                      ),
-                      title: 'Успехи дня',
-                    ),
-                    const SizedBox(height: 8.0),
-                    GestureDetector(
-                      onTap: () async {
-                        List<String> frogCopy = [];
-                        List<String> birthdayCopy = [];
-                        List<String> callsCopy = [];
-                        List<String> tasksCopy = [];
-                        List<String> successCopy = [];
-
-                        Case newCase;
-
-                        for (var i = 0; i < frog.length; i++) {
-                          if (frog[i].text == "" && frog.length > 1) {
-                            frog.removeAt(i);
-                          }
-                          if (frog[i].text != "") {
-                            frogCopy.add(frog[i].text);
-                          }
-                        }
-                        for (var i = 0; i < birthday.length; i++) {
-                          if (birthday[i].text == "") {
-                            birthday.removeAt(i);
-                          }
-                          if (birthday[i].text != "") {
-                            birthdayCopy.add(birthday[i].text);
-                          }
-                        }
-                        for (var i = 0; i < calls.length; i++) {
-                          if (calls[i].text == "" && calls.length > 1) {
-                            calls.removeAt(i);
-                          }
-                          if (calls[i].text != "") {
-                            callsCopy.add(calls[i].text);
-                          }
-                        }
-                        for (var i = 0; i < tasks.length; i++) {
-                          if (tasks[i].text == "" && tasks.length > 1) {
-                            tasks.removeAt(i);
-                          }
-                          if (tasks[i].text != "") {
-                            tasksCopy.add(tasks[i].text);
-                          }
-                        }
-                        for (var i = 0; i < success.length; i++) {
-                          if (success[i].text == "" && success.length > 1) {
-                            success.removeAt(i);
-                          }
-                          if (success[i].text != "") {
-                            successCopy.add(success[i].text);
-                          }
-                        }
-                        newCase = Case(
-                          frogs: frogCopy,
-                          birthdays: birthdayCopy,
-                          calls: callsCopy,
-                          tasks: tasksCopy,
-                          successes: successCopy,
-                        );
-                        SharedPreferences pref =
-                            await SharedPreferences.getInstance();
-                        print(newCase);
-                        context.read<UserBloc>().add(
-                              AddCase(
-                                  newCase: newCase,
-                                  phone: pref.getString('phone')!),
-                            );
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(vertical: 14.0),
-                        decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(12.0),
-                          ),
-                          color: Color.fromARGB(255, 111, 207, 151),
+                      const SizedBox(height: 8.0),
+                      Node(
+                        controllers: calls,
+                        icon: const Icon(
+                          Icons.phone,
+                          color: Colors.white,
                         ),
-                        child: Center(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                        title: 'Встречи и звонки',
+                      ),
+                      const SizedBox(height: 8.0),
+                      Column(
+                        children: [
+                          Row(
                             children: [
-                              Text(
-                                "Сохранить",
-                                style: Theme.of(context).textTheme.bodyMedium,
+                              const Icon(
+                                Icons.menu,
+                                color: Colors.white,
                               ),
                               const SizedBox(
-                                width: 4.0,
+                                width: 8.0,
                               ),
-                              (state is UserLoading)
-                                  ? const CircularProgressIndicator(
-                                      color: Colors.black,
-                                    )
-                                  : const SizedBox(),
+                              Text(
+                                "Задачи",
+                                style: Theme.of(context).textTheme.titleSmall,
+                              ),
+                              const SizedBox(
+                                width: 8.0,
+                              ),
                             ],
+                          ),
+                          const SizedBox(
+                            height: 8.0,
+                          ),
+                          StatefulBuilder(
+                            builder: (context, setState) {
+                              return ListView.builder(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 16.0),
+                                shrinkWrap: true,
+                                itemCount: tasks.length,
+                                physics: const BouncingScrollPhysics(),
+                                itemBuilder: (context, index) {
+                                  return Column(
+                                    children: [
+                                      Container(
+                                        margin: const EdgeInsets.symmetric(
+                                            vertical: 8.0),
+                                        decoration: const BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(12.0),
+                                          ),
+                                          color: Colors.white,
+                                        ),
+                                        child: TextFormField(
+                                          onChanged: (value) {
+                                            if (index == tasks.length - 1) {
+                                              setState(
+                                                () {
+                                                  tasks.add(
+                                                      TextEditingController());
+                                                  valuesAlarm.add(false);
+                                                  times!.add(
+                                                    const TimeOfDay(
+                                                        hour: 12, minute: 00),
+                                                  );
+                                                },
+                                              );
+                                            }
+                                          },
+                                          controller: tasks[index],
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium,
+                                          decoration: const InputDecoration(
+                                              contentPadding:
+                                                  EdgeInsets.all(16.0),
+                                              border: InputBorder.none,
+                                              hintText: "Новая запись..."),
+                                        ),
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          const Icon(
+                                            Icons.alarm,
+                                            color: Colors.white,
+                                          ),
+                                          Switch(
+                                            trackColor:
+                                                const MaterialStatePropertyAll(
+                                                    Colors.grey),
+                                            value: valuesAlarm[index],
+                                            onChanged: (val) => setState(
+                                              () {
+                                                valuesAlarm[index] = val;
+                                              },
+                                            ),
+                                          ),
+                                          (valuesAlarm[index])
+                                              ? GestureDetector(
+                                                  onTap: () async {
+                                                    times?[index] =
+                                                        await showTimePicker(
+                                                              context: context,
+                                                              initialTime:
+                                                                  const TimeOfDay(
+                                                                      hour: 12,
+                                                                      minute:
+                                                                          00),
+                                                            ) ??
+                                                            const TimeOfDay(
+                                                                hour: 12,
+                                                                minute: 00);
+                                                  },
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              12.0),
+                                                    ),
+                                                    child: Text(
+                                                      times[index].toString(),
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .bodyMedium,
+                                                    ),
+                                                  ),
+                                                )
+                                              : const SizedBox(),
+                                        ],
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                      const Divider(
+                        color: Colors.white,
+                        height: 12.0,
+                        thickness: 1.0,
+                      ),
+                      Node(
+                        controllers: success,
+                        icon: const Icon(
+                          Icons.add,
+                          color: Colors.white,
+                        ),
+                        title: 'Успехи дня',
+                      ),
+                      const SizedBox(height: 8.0),
+                      GestureDetector(
+                        onTap: () async {
+                          List<String> frogCopy = [];
+                          List<String> birthdayCopy = [];
+                          List<String> callsCopy = [];
+                          List<Task> tasksCopy = [];
+                          List<String> successCopy = [];
+
+                          Case newCase;
+
+                          for (var i = 0; i < frog.length; i++) {
+                            if (frog[i].text == "" && frog.length > 1) {
+                              frog.removeAt(i);
+                            }
+                            if (frog[i].text != "") {
+                              frogCopy.add(frog[i].text);
+                            }
+                          }
+                          for (var i = 0; i < birthday.length; i++) {
+                            if (birthday[i].text == "") {
+                              birthday.removeAt(i);
+                            }
+                            if (birthday[i].text != "") {
+                              birthdayCopy.add(birthday[i].text);
+                            }
+                          }
+                          for (var i = 0; i < calls.length; i++) {
+                            if (calls[i].text == "" && calls.length > 1) {
+                              calls.removeAt(i);
+                            }
+                            if (calls[i].text != "") {
+                              callsCopy.add(calls[i].text);
+                            }
+                          }
+                          for (var i = 0; i < tasks.length; i++) {
+                            if (tasks[i].text == "" && tasks.length > 1) {
+                              tasks.removeAt(i);
+                            }
+                            if (tasks[i].text != "") {
+                              tasksCopy.add(
+                                Task(
+                                    task: tasks[i].text,
+                                    time: (valuesAlarm[i]) ? times[i] : null),
+                              );
+                            }
+                          }
+                          for (var i = 0; i < success.length; i++) {
+                            if (success[i].text == "" && success.length > 1) {
+                              success.removeAt(i);
+                            }
+                            if (success[i].text != "") {
+                              successCopy.add(success[i].text);
+                            }
+                          }
+                          newCase = Case(
+                            date: date,
+                            frogs: frogCopy,
+                            birthdays: birthdayCopy,
+                            calls: callsCopy,
+                            tasks: tasksCopy,
+                            successes: successCopy,
+                          );
+                          SharedPreferences pref =
+                              await SharedPreferences.getInstance();
+                          print(newCase);
+                          context.read<UserBloc>().add(
+                                AddCase(
+                                    newCase: newCase,
+                                    phone: pref.getString('phone')!),
+                              );
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 14.0),
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(12.0),
+                            ),
+                            color: Color.fromARGB(255, 111, 207, 151),
+                          ),
+                          child: Center(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Сохранить",
+                                  style: Theme.of(context).textTheme.bodyMedium,
+                                ),
+                                const SizedBox(
+                                  width: 4.0,
+                                ),
+                                (state is UserLoading)
+                                    ? const CircularProgressIndicator(
+                                        color: Colors.black,
+                                      )
+                                    : const SizedBox(),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 8.0),
-                  ],
-                ),
-              ),
+                      const SizedBox(height: 8.0),
+                    ],
+                  ),
+                );
+              }),
             ),
           );
         },
@@ -279,6 +430,7 @@ class Node extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 16.0),
               shrinkWrap: true,
               itemCount: controllers.length,
+              physics: const BouncingScrollPhysics(),
               itemBuilder: (context, index) {
                 return Container(
                   margin: const EdgeInsets.symmetric(vertical: 8.0),
