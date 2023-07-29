@@ -18,7 +18,7 @@ class AuthBloc extends Bloc<AuthBlocEvent, AuthInitial> {
     on<SendOtpToPhoneEvent>((event, emit) async {
       emit(AuthLoading());
       try {
-        await phoneAuthRepository.verifyPhone(
+        await auth.verifyPhoneNumber(
           phoneNumber: event.phone,
           verificationCompleted: (PhoneAuthCredential credential) async {
             //В [verificationComplete] мы получим учетные данные из firebase и отправим их в событие [OnPhoneAuthVerificationCompleteEvent], которое будет обработано блоком, а затем выдадим состояние [PhoneAuthVerified] после успешного входа в систему
@@ -31,6 +31,7 @@ class AuthBloc extends Bloc<AuthBlocEvent, AuthInitial> {
                 verificationId: verificationId, token: resendToken));
           },
           verificationFailed: (FirebaseAuthException e) {
+            print('Ошибка!' + e.code);
             // При [verificationFailed] мы получим исключение из firebase и отправим его в событие [Onphoneautherrorrevent], которое будет обработано блоком, а затем выдадим состояние [PhoneAuthError], чтобы отобразить ошибку на экране пользователя
             add(OnPhoneAuthErrorEvent(event.phone, error: e.code));
           },

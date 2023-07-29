@@ -14,7 +14,8 @@ class UpdateBirthday extends UserEvent {
 }
 
 class GetUserByPhone extends UserEvent {
-  GetUserByPhone({required super.phone});
+  final bool? onlyDone;
+  GetUserByPhone({required super.phone, this.onlyDone});
 }
 
 class AddGoal extends UserEvent {
@@ -43,4 +44,22 @@ class GetCaseList extends UserEvent {
 class DeleteCase extends UserEvent {
   final String caseKey;
   DeleteCase({required super.phone, required this.caseKey});
+}
+
+class UpdateUser extends UserEvent {
+  final Map<String, Object?> param;
+  UpdateUser({required super.phone, required this.param});
+}
+
+class UpdateGoal extends UserEvent {
+  final Goal goal;
+  UpdateGoal({required super.phone, required this.goal});
+}
+
+class UpdateCase extends UserEvent {
+  final Case newCase;
+  UpdateCase({
+    required super.phone,
+    required this.newCase,
+  });
 }

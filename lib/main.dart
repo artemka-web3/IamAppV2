@@ -28,6 +28,8 @@ void main() async {
   FirebaseDatabaseService service = FirebaseDatabaseService();
   SharedPreferences pref = await SharedPreferences.getInstance();
   Widget home;
+  // pref.remove('entered');
+  // pref.remove('phone');
   if (pref.getBool('entered') != true) {
     home = SignIn();
   } else {

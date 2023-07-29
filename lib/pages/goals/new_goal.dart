@@ -212,6 +212,60 @@ class _NewGoalState extends State<NewGoal> {
                 ),
                 GestureDetector(
                   onTap: () async {
+                    if (titleController.text.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          backgroundColor: Colors.white,
+                          content: Container(
+                            color: Colors.white,
+                            child: Center(
+                              child: Text(
+                                "Введите название",
+                                style: Theme.of(context).textTheme.bodyMedium,
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                      return;
+                    }
+
+                    if (selectedSphere == null) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          backgroundColor: Colors.white,
+                          content: Container(
+                            color: Colors.white,
+                            child: Center(
+                              child: Text(
+                                "Выберите сферу",
+                                style: Theme.of(context).textTheme.bodyMedium,
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                      return;
+                    }
+
+                    if (descriptionController.text.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          backgroundColor: Colors.white,
+                          content: Container(
+                            color: Colors.white,
+                            child: Center(
+                              child: Text(
+                                "Выберите сферу",
+                                style: Theme.of(context).textTheme.bodyMedium,
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                      return;
+                    }
+
                     SharedPreferences preferences =
                         await SharedPreferences.getInstance();
                     Goal goal = Goal(

@@ -12,6 +12,7 @@ class PhoneAuthRepository {
   }) async {
     await auth.verifyPhoneNumber(
       phoneNumber: phoneNumber,
+      timeout: Duration(seconds: 60),
       verificationCompleted: verificationCompleted,
       verificationFailed: verificationFailed,
       codeSent: codeSent,
