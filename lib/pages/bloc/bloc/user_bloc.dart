@@ -13,6 +13,19 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   final FirebaseDatabaseService databaseService = FirebaseDatabaseService();
 
   UserBloc() : super(UserState(user: custom.User(phone: '-1'))) {
+    on<UpdateUser>(
+      (event, emit) async {
+        try {
+          emit(UserLoading(user: state.user));
+          await databaseService.updateUser(event.phone, event.param);
+          custom.User user = await databaseService.getUser(event.phone);
+          emit(UserInitial(user: user));
+        } catch (e) {
+          print(e);
+        }
+      },
+    );
+
     on<UpdateBirthday>(
       (event, emit) async {
         emit(UserLoading(user: state.user));
@@ -30,6 +43,35 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     on<GetUserByPhone>((event, emit) async {
       emit(UserLoading(user: state.user));
       custom.User user = await databaseService.getUser(event.phone);
+      if (event.onlyDone != null) {
+        if (event.onlyDone!) {
+          for (var i = 0; i < user.cases.length; i++) {
+            user.cases[i].frogs.removeWhere((element) =>
+                element.isTicked == null || element.isTicked == false);
+            user.cases[i].birthdays.removeWhere((element) =>
+                element.isTicked == null || element.isTicked == false);
+            user.cases[i].calls.removeWhere((element) =>
+                element.isTicked == null || element.isTicked == false);
+            user.cases[i].tasks.removeWhere((element) =>
+                element.isTicked == null || element.isTicked == false);
+            user.cases[i].successes.removeWhere((element) =>
+                element.isTicked == null || element.isTicked == false);
+          }
+        } else {
+          for (var i = 0; i < user.cases.length; i++) {
+            user.cases[i].frogs
+                .removeWhere((element) => element.isTicked == true);
+            user.cases[i].birthdays
+                .removeWhere((element) => element.isTicked == true);
+            user.cases[i].calls
+                .removeWhere((element) => element.isTicked == true);
+            user.cases[i].tasks
+                .removeWhere((element) => element.isTicked == true);
+            user.cases[i].successes
+                .removeWhere((element) => element.isTicked == true);
+          }
+        }
+      }
       emit(
         UserInitial(user: user),
       );
@@ -55,6 +97,16 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     on<DeleteCase>((event, emit) async {
       emit(UserLoading(user: state.user));
       await databaseService.deleteCase(event.phone, event.caseKey);
+      custom.User user = await databaseService.getUser(event.phone);
+      emit(UserInitial(user: state.user));
+    });
+    on<UpdateGoal>((event, emit) async {
+      await databaseService.updateGoal(event.phone, event.goal);
+      custom.User user = await databaseService.getUser(event.phone);
+      emit(UserInitial(user: state.user));
+    });
+    on<UpdateCase>((event, emit) async {
+      await databaseService.updateCase(event.phone, event.newCase);
       custom.User user = await databaseService.getUser(event.phone);
       emit(UserInitial(user: state.user));
     });

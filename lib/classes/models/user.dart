@@ -14,6 +14,7 @@ class User {
 
   List<Goal> goals;
   List<Case> cases;
+
   User({
     required this.phone,
     this.id,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:i_am_app/classes/models/goal.dart';
+import 'package:i_am_app/classes/models/user.dart';
 import 'package:i_am_app/classes/page_index.dart';
 import 'package:i_am_app/pages/bloc/bloc/user_bloc.dart';
 import 'package:i_am_app/pages/diary/new_node.dart';
@@ -97,11 +98,7 @@ class Goals extends StatelessWidget {
                                 if (state.user.goals[index].date!.month ==
                                     DateTime.now().month) {
                                   return Note(
-                                    description:
-                                        state.user.goals[index].description ??
-                                            "Нет описания",
-                                    title: state.user.goals[index].sphere ??
-                                        "Нет сферы",
+                                    goal: state.user.goals[index],
                                   );
                                 } else {
                                   return const SizedBox();
@@ -139,11 +136,7 @@ class Goals extends StatelessWidget {
                                     state.user.goals[index].date!.month !=
                                         DateTime.now().month) {
                                   return Note(
-                                    description:
-                                        state.user.goals[index].description ??
-                                            "Нет описания",
-                                    title: state.user.goals[index].sphere ??
-                                        "Нет сферы",
+                                    goal: state.user.goals[index],
                                   );
                                 } else {
                                   return const SizedBox();
@@ -192,14 +185,15 @@ class Goals extends StatelessWidget {
 }
 
 class Note extends StatelessWidget {
-  final String title;
-  final String description;
+  final Goal goal;
 
-  const Note({super.key, required this.title, required this.description});
+  Note({
+    super.key,
+    required this.goal,
+  });
 
   @override
   Widget build(BuildContext context) {
-    bool value = false;
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 16.0),
       padding: const EdgeInsets.all(16.0),
@@ -214,7 +208,7 @@ class Note extends StatelessWidget {
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              title,
+              goal.title ?? "Нет заголовка",
               style: Theme.of(context)
                   .textTheme
                   .bodyMedium!
@@ -228,21 +222,32 @@ class Note extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                description,
+                goal.description ?? "Нет описания",
                 style: Theme.of(context)
                     .textTheme
                     .bodyMedium!
                     .copyWith(fontSize: 18.0),
               ),
-              StatefulBuilder(
-                builder: (context, setState) => Checkbox(
-                  value: value,
-                  onChanged: (val) {
-                    setState(
-                      () => value = val ?? false,
-                    );
-                  },
-                ),
+              Checkbox(
+                value: goal.isTicked ?? false,
+                onChanged: (val) async {
+                  SharedPreferences preferences =
+                      await SharedPreferences.getInstance();
+                  goal.isTicked = val ?? false;
+                  User user = context.read<UserBloc>().state.user;
+                  for (var i = 0; i < user.goals.length; i++) {
+                    if (user.goals[i].date == goal.date &&
+                        user.goals[i].title == goal.title) {
+                      user.goals[i] = goal;
+                    }
+                  }
+                  context.read<UserBloc>().add(
+                        UpdateGoal(
+                          phone: preferences.getString('phone')!,
+                          goal: goal,
+                        ),
+                      );
+                },
               ),
             ],
           )

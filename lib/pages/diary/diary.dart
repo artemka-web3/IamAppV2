@@ -1,12 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:i_am_app/classes/models/case.dart';
+import 'package:i_am_app/classes/models/user.dart';
 
 import 'package:i_am_app/pages/bloc/bloc/user_bloc.dart';
 import 'package:i_am_app/pages/diary/new_node.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Diary extends StatelessWidget {
-  const Diary({super.key});
+  List<String> param = [
+    "Все",
+    "Только не выполненные",
+    "Только выполненные",
+  ];
+  String? paramVal;
+
+  Diary({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -28,19 +38,83 @@ class Diary extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Row(
-                        children: [
-                          Icon(
-                            Icons.filter_list_outlined,
-                            color: Colors.white,
-                          ),
-                          Card(
-                              child: Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Text('Только не выполненные'),
-                          )),
-                        ],
-                      ),
+                      StatefulBuilder(builder: (context, setState) {
+                        return Row(
+                          children: [
+                            Icon(
+                              Icons.filter_list_outlined,
+                              color: Colors.white,
+                            ),
+                            const SizedBox(
+                              width: 8.0,
+                            ),
+                            Container(
+                              padding: EdgeInsets.symmetric(horizontal: 12.0),
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(12.0)),
+                              child: DropdownButton(
+                                onChanged: (value) async {
+                                  paramVal = value ?? "Все";
+                                  if (value != null) {
+                                    if (value == param[0]) {
+                                      SharedPreferences preferences =
+                                          await SharedPreferences.getInstance();
+                                      context.read<UserBloc>().add(
+                                            GetUserByPhone(
+                                                phone: preferences
+                                                    .getString('phone')!),
+                                          );
+                                    }
+                                    if (value == param[1]) {
+                                      SharedPreferences preferences =
+                                          await SharedPreferences.getInstance();
+                                      context.read<UserBloc>().add(
+                                            GetUserByPhone(
+                                                phone: preferences
+                                                    .getString('phone')!,
+                                                onlyDone: false),
+                                          );
+                                    }
+                                    if (value == param[2]) {
+                                      SharedPreferences preferences =
+                                          await SharedPreferences.getInstance();
+                                      context.read<UserBloc>().add(
+                                            GetUserByPhone(
+                                                phone: preferences
+                                                    .getString('phone')!,
+                                                onlyDone: true),
+                                          );
+                                    }
+                                  }
+                                },
+                                hint: const Text(
+                                  "Выбрать",
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Color.fromARGB(75, 37, 46, 41),
+                                  ),
+                                ),
+                                value: paramVal,
+                                items: param.map<DropdownMenuItem<String>>(
+                                  (String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(
+                                        value,
+                                        style: const TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ).toList(),
+                              ),
+                            ),
+                          ],
+                        );
+                      }),
                       IconButton(
                         onPressed: () => Navigator.of(context).push(
                             MaterialPageRoute(builder: (context) => NewNode())),
@@ -53,7 +127,7 @@ class Diary extends StatelessWidget {
                   ),
                   ListView.builder(
                     shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     itemCount: state.user.cases.length,
                     itemBuilder: (context, index) {
                       return DayTasks(
@@ -94,72 +168,61 @@ class DayTasks extends StatelessWidget {
         ),
         ListView.builder(
           shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           itemCount: (newCase.frogs != null) ? newCase.frogs!.length : 0,
           itemBuilder: (context, index) {
             return Node(
-              icon: const Icon(
-                Icons.pets,
-                color: Colors.green,
+              icon: SvgPicture.asset(
+                "assets/images/frog.svg",
               ),
-              title: (newCase.frogs != null)
-                  ? newCase.frogs![index]
-                  : "Нет заголовка",
+              task: newCase.frogs[index],
+              newCase: newCase,
             );
           },
         ),
         ListView.builder(
           shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           itemCount:
               (newCase.birthdays != null) ? newCase.birthdays!.length : 0,
           itemBuilder: (context, index) {
             return Node(
-              icon: const Icon(
-                Icons.cake,
-                color: Colors.white,
+              icon: SvgPicture.asset(
+                "assets/images/cake.svg",
+                colorFilter: ColorFilter.mode(Colors.black, BlendMode.srcIn),
               ),
-              title: (newCase.birthdays != null)
-                  ? newCase.birthdays![index]
-                  : "Нет заголовка",
+              task: newCase.birthdays[index],
+              newCase: newCase,
             );
           },
         ),
         ListView.builder(
           shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           itemCount: (newCase.calls != null) ? newCase.calls!.length : 0,
           itemBuilder: (context, index) {
             return Node(
               icon: const Icon(
                 Icons.phone,
-                color: Colors.white,
+                color: Colors.black,
               ),
-              title: (newCase.calls != null)
-                  ? newCase.calls![index]
-                  : "Нет заголовка",
+              task: newCase.calls[index],
+              newCase: newCase,
             );
           },
         ),
         ListView.builder(
           shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           itemCount: (newCase.tasks != null) ? newCase.tasks!.length : 0,
           itemBuilder: (context, index) {
             return Node(
-              icon: const Icon(
-                Icons.phone,
-                color: Colors.white,
+              icon: SvgPicture.asset(
+                "assets/images/task.svg",
+                colorFilter: ColorFilter.mode(Colors.black, BlendMode.srcIn),
               ),
-              time:
-                  (newCase.tasks != null && newCase.tasks?[index].time != null)
-                      ? newCase.tasks![index].time!.hour.toString() +
-                          ':' +
-                          newCase.tasks![index].time!.minute.toString()
-                      : 'Время не установлено',
-              title: (newCase.tasks != null)
-                  ? newCase.tasks![index].task
-                  : "Нет заголовка",
+              task: newCase.tasks[index],
+              newCase: newCase,
             );
           },
         ),
@@ -169,12 +232,17 @@ class DayTasks extends StatelessWidget {
 }
 
 class Node extends StatelessWidget {
-  final String title;
-  final Icon icon;
+  final Case newCase;
 
-  final String? time;
+  final Widget icon;
 
-  const Node({super.key, required this.title, required this.icon, this.time});
+  final Task task;
+
+  Node(
+      {super.key,
+      required this.task,
+      required this.icon,
+      required this.newCase});
 
   @override
   Widget build(BuildContext context) {
@@ -191,6 +259,7 @@ class Node extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Align(
                 alignment: Alignment.centerLeft,
@@ -201,7 +270,7 @@ class Node extends StatelessWidget {
                       width: 6.0,
                     ),
                     Text(
-                      title,
+                      task.text,
                       style: Theme.of(context)
                           .textTheme
                           .bodyMedium!
@@ -210,12 +279,12 @@ class Node extends StatelessWidget {
                   ],
                 ),
               ),
-              (time != null)
+              (task.time != null)
                   ? const SizedBox(
                       height: 12.0,
                     )
                   : const SizedBox(),
-              (time != null)
+              (task.time != null)
                   ? Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -227,7 +296,7 @@ class Node extends StatelessWidget {
                           width: 8.0,
                         ),
                         Text(
-                          time ?? 'Не указано',
+                          '${task.time!.hour}:${task.time!.minute}',
                           style: Theme.of(context)
                               .textTheme
                               .bodyMedium!
@@ -235,12 +304,20 @@ class Node extends StatelessWidget {
                         ),
                       ],
                     )
-                  : SizedBox(),
+                  : const SizedBox(),
             ],
           ),
           Align(
-              alignment: Alignment.center,
-              child: Switch(value: false, onChanged: (val) {})),
+            alignment: Alignment.center,
+            child: Switch(
+                value: task.isTicked ?? false,
+                onChanged: (val) {
+                  task.isTicked = val;
+                  context.read<UserBloc>().add(UpdateCase(
+                      phone: context.read<UserBloc>().state.user.phone,
+                      newCase: newCase));
+                }),
+          ),
         ],
       ),
     );

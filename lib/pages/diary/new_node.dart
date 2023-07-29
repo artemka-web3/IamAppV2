@@ -4,6 +4,7 @@ import 'package:i_am_app/classes/models/case.dart';
 import 'package:i_am_app/pages/bloc/bloc/user_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 List<TextEditingController> frog = [TextEditingController()];
 List<TextEditingController> birthday = [TextEditingController()];
@@ -104,18 +105,16 @@ class NewNode extends StatelessWidget {
                       const SizedBox(height: 12.0),
                       Node(
                         controllers: frog,
-                        icon: const Icon(
-                          Icons.pets,
-                          color: Colors.white,
+                        icon: SvgPicture.asset(
+                          "assets/images/frog.svg",
                         ),
                         title: 'Лягушка дня',
                       ),
                       const SizedBox(height: 8.0),
                       Node(
                         controllers: birthday,
-                        icon: const Icon(
-                          Icons.cake_outlined,
-                          color: Colors.white,
+                        icon: SvgPicture.asset(
+                          "assets/images/cake.svg",
                         ),
                         title: 'Дни рождения и праздники',
                       ),
@@ -133,9 +132,8 @@ class NewNode extends StatelessWidget {
                         children: [
                           Row(
                             children: [
-                              const Icon(
-                                Icons.menu,
-                                color: Colors.white,
+                              SvgPicture.asset(
+                                "assets/images/task.svg",
                               ),
                               const SizedBox(
                                 width: 8.0,
@@ -264,22 +262,24 @@ class NewNode extends StatelessWidget {
                         height: 12.0,
                         thickness: 1.0,
                       ),
+                      const SizedBox(
+                        height: 8.0,
+                      ),
                       Node(
                         controllers: success,
-                        icon: const Icon(
-                          Icons.add,
-                          color: Colors.white,
+                        icon: SvgPicture.asset(
+                          "assets/images/cake.svg",
                         ),
                         title: 'Успехи дня',
                       ),
                       const SizedBox(height: 8.0),
                       GestureDetector(
                         onTap: () async {
-                          List<String> frogCopy = [];
-                          List<String> birthdayCopy = [];
-                          List<String> callsCopy = [];
+                          List<Task> frogCopy = [];
+                          List<Task> birthdayCopy = [];
+                          List<Task> callsCopy = [];
                           List<Task> tasksCopy = [];
-                          List<String> successCopy = [];
+                          List<Task> successCopy = [];
 
                           Case newCase;
 
@@ -288,7 +288,7 @@ class NewNode extends StatelessWidget {
                               frog.removeAt(i);
                             }
                             if (frog[i].text != "") {
-                              frogCopy.add(frog[i].text);
+                              frogCopy.add(Task(text: frog[i].text));
                             }
                           }
                           for (var i = 0; i < birthday.length; i++) {
@@ -296,7 +296,7 @@ class NewNode extends StatelessWidget {
                               birthday.removeAt(i);
                             }
                             if (birthday[i].text != "") {
-                              birthdayCopy.add(birthday[i].text);
+                              birthdayCopy.add(Task(text: birthday[i].text));
                             }
                           }
                           for (var i = 0; i < calls.length; i++) {
@@ -304,7 +304,7 @@ class NewNode extends StatelessWidget {
                               calls.removeAt(i);
                             }
                             if (calls[i].text != "") {
-                              callsCopy.add(calls[i].text);
+                              callsCopy.add(Task(text: calls[i].text));
                             }
                           }
                           for (var i = 0; i < tasks.length; i++) {
@@ -314,7 +314,7 @@ class NewNode extends StatelessWidget {
                             if (tasks[i].text != "") {
                               tasksCopy.add(
                                 Task(
-                                    task: tasks[i].text,
+                                    text: tasks[i].text,
                                     time: (valuesAlarm[i]) ? times[i] : null),
                               );
                             }
@@ -324,7 +324,7 @@ class NewNode extends StatelessWidget {
                               success.removeAt(i);
                             }
                             if (success[i].text != "") {
-                              successCopy.add(success[i].text);
+                              successCopy.add(Task(text: success[i].text));
                             }
                           }
                           newCase = Case(
@@ -387,7 +387,7 @@ class NewNode extends StatelessWidget {
 }
 
 class Node extends StatelessWidget {
-  final Icon icon;
+  final Widget icon;
   final String title;
   final Icon? info;
 

@@ -2,6 +2,7 @@
 import 'dart:convert';
 
 class Goal {
+  bool? isTicked;
   //Название
   final String? title;
   //Дата
@@ -12,6 +13,7 @@ class Goal {
   final String? description;
 
   Goal({
+    this.isTicked,
     this.title,
     this.date,
     this.sphere,
@@ -34,6 +36,7 @@ class Goal {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
+      'ticked': isTicked,
       'title': title,
       'date': date?.millisecondsSinceEpoch,
       'sphere': sphere,
@@ -43,6 +46,7 @@ class Goal {
 
   factory Goal.fromMap(Map<String, dynamic> map) {
     return Goal(
+      isTicked: map['ticked'] != null ? map['ticked'] as bool : null,
       title: map['title'] != null ? map['title'] as String : null,
       date: map['date'] != null
           ? DateTime.fromMillisecondsSinceEpoch(map['date'] as int)

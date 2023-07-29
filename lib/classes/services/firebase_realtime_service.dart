@@ -61,7 +61,35 @@ class FirebaseDatabaseService {
 
   Future<void> addCase(String phone, Case newCase) async {
     try {
-      await ref.child('users/$phone/cases').push().set(newCase.toMap());
+      final snapshot = await ref
+          .child('users/$phone/cases/${newCase.date?.millisecondsSinceEpoch}')
+          .get();
+      if (snapshot.value == null) {
+        await ref
+            .child('users/$phone/cases/${newCase.date?.millisecondsSinceEpoch}')
+            .set(newCase.toMap());
+      } else {
+        Case ccase = Case.fromMap(
+            jsonDecode(jsonEncode(snapshot.value)) as Map<String, dynamic>);
+        for (var i = 0; i < newCase.frogs.length; i++) {
+          ccase.frogs.add(newCase.frogs[i]);
+        }
+        for (var i = 0; i < newCase.birthdays.length; i++) {
+          ccase.birthdays.add(newCase.birthdays[i]);
+        }
+        for (var i = 0; i < newCase.calls.length; i++) {
+          ccase.calls.add(newCase.calls[i]);
+        }
+        for (var i = 0; i < newCase.tasks.length; i++) {
+          ccase.tasks.add(newCase.tasks[i]);
+        }
+        for (var i = 0; i < newCase.successes.length; i++) {
+          ccase.successes.add(newCase.successes[i]);
+        }
+        await ref
+            .child('users/$phone/cases/${newCase.date?.millisecondsSinceEpoch}')
+            .update(ccase.toMap());
+      }
     } catch (e) {
       print(e);
     }
@@ -128,6 +156,32 @@ class FirebaseDatabaseService {
     } catch (e) {
       print(e);
       return false;
+    }
+  }
+
+  Future<void> updateGoal(String phone, Goal goal) async {
+    try {
+      final snapshot = await ref.child('users/$phone/goals').get();
+      Map<String, dynamic> body = jsonDecode(jsonEncode(snapshot.value));
+      for (var element in body.keys) {
+        final resp = await ref.child('users/$phone/goals/$element').get();
+        Map<String, dynamic> respBody = jsonDecode(jsonEncode(resp.value));
+        if (respBody.containsValue(goal.description)) {
+          ref.child('users/$phone/goals/$element').update(goal.toMap());
+        }
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> updateCase(String phone, Case newCase) async {
+    try {
+      var resp = await ref
+          .child('users/$phone/cases/${newCase.date?.millisecondsSinceEpoch}')
+          .update(newCase.toMap());
+    } catch (e) {
+      print(e);
     }
   }
 }

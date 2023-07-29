@@ -6,82 +6,69 @@ import 'package:flutter/material.dart';
 
 ///Дело дня
 class Case {
-  //Выполнено ли
-  bool? isDone;
   //Дата
   final DateTime? date;
 
   ///Лягушка дня
-  final List<String>? frogs;
+  final List<Task> frogs;
 
   ///Др
-  final List<String>? birthdays;
+  final List<Task> birthdays;
 
   ///Встречи и звонки
-  final List<String>? calls;
+  final List<Task> calls;
 
   ///Задачи
-  final List<Task>? tasks;
+  final List<Task> tasks;
 
   ///успехи дня
-  final List<String>? successes;
+  final List<Task> successes;
   Case({
-    this.isDone,
     this.date,
-    this.frogs,
-    this.birthdays,
-    this.calls,
-    this.tasks,
-    this.successes,
+    this.frogs = const [],
+    this.birthdays = const [],
+    this.calls = const [],
+    this.tasks = const [],
+    this.successes = const [],
   });
-
-  Case copyWith({
-    bool? isDone,
-    DateTime? date,
-    List<String>? frogs,
-    List<String>? birthdays,
-    List<String>? calls,
-    List<Task>? tasks,
-    List<String>? successes,
-  }) {
-    return Case(
-      isDone: isDone ?? this.isDone,
-      date: date ?? this.date,
-      frogs: frogs ?? this.frogs,
-      birthdays: birthdays ?? this.birthdays,
-      calls: calls ?? this.calls,
-      tasks: tasks ?? this.tasks,
-      successes: successes ?? this.successes,
-    );
-  }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'isDone': isDone,
       'date': date?.millisecondsSinceEpoch,
-      'frogs': frogs,
-      'birthdays': birthdays,
-      'calls': calls,
-      'tasks': tasks?.map((x) => x?.toMap()).toList(),
-      'successes': successes,
+      'frogs': frogs?.map((e) => e.toMap()).toList(),
+      'birthdays': birthdays?.map((e) => e.toMap()).toList(),
+      'calls': calls?.map((e) => e.toMap()).toList(),
+      'tasks': tasks?.map((e) => e.toMap()).toList(),
+      'successes': successes?.map((e) => e.toMap()).toList(),
     };
   }
 
   factory Case.fromMap(Map<String, dynamic> map) {
     return Case(
-      isDone: map['isDone'] != null ? map['isDone'] as bool : null,
       date: map['date'] != null
           ? DateTime.fromMillisecondsSinceEpoch(map['date'] as int)
           : null,
       frogs: map['frogs'] != null
-          ? List<String>.from((map['frogs'] as List<dynamic>))
-          : null,
+          ? (map['frogs'] as List<dynamic>)
+              .map(
+                (e) => Task.fromMap(e),
+              )
+              .toList()
+          : [],
       birthdays: map['birthdays'] != null
-          ? List<String>.from((map['birthdays'] as List<dynamic>))
-          : null,
+          ? (map['birthdays'] as List<dynamic>)
+              .map(
+                (e) => Task.fromMap(e),
+              )
+              .toList()
+          : [],
       calls: map['calls'] != null
-          ? List<String>.from((map['calls'] as List<dynamic>))
-          : null,
+          ? (map['calls'] as List<dynamic>)
+              .map(
+                (e) => Task.fromMap(e),
+              )
+              .toList()
+          : [],
       tasks: map['tasks'] != null
           ? (map['tasks'] as List<dynamic>)
               .map(
@@ -90,8 +77,12 @@ class Case {
               .toList()
           : [],
       successes: map['successes'] != null
-          ? List<String>.from((map['successes'] as List<dynamic>))
-          : null,
+          ? (map['successes'] as List<dynamic>)
+              .map(
+                (e) => Task.fromMap(e),
+              )
+              .toList()
+          : [],
     );
   }
 
@@ -102,15 +93,14 @@ class Case {
 
   @override
   String toString() {
-    return 'Case(isDone: $isDone, date: $date, frogs: $frogs, birthdays: $birthdays, calls: $calls, tasks: $tasks, successes: $successes)';
+    return 'Case(date: $date, frogs: $frogs, birthdays: $birthdays, calls: $calls, tasks: $tasks, successes: $successes)';
   }
 
   @override
   bool operator ==(covariant Case other) {
     if (identical(this, other)) return true;
 
-    return other.isDone == isDone &&
-        other.date == date &&
+    return other.date == date &&
         listEquals(other.frogs, frogs) &&
         listEquals(other.birthdays, birthdays) &&
         listEquals(other.calls, calls) &&
@@ -120,8 +110,7 @@ class Case {
 
   @override
   int get hashCode {
-    return isDone.hashCode ^
-        date.hashCode ^
+    return date.hashCode ^
         frogs.hashCode ^
         birthdays.hashCode ^
         calls.hashCode ^
@@ -131,11 +120,14 @@ class Case {
 }
 
 class Task {
-  final String task;
+  final String text;
   final TimeOfDay? time;
+  bool? isTicked;
+
   Task({
-    required this.task,
+    required this.text,
     this.time,
+    this.isTicked,
   });
 
   Task copyWith({
@@ -143,25 +135,29 @@ class Task {
     TimeOfDay? time,
   }) {
     return Task(
-      task: task ?? this.task,
+      text: task ?? this.text,
     );
   }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'task': task,
-      'time': (time != null) ? '${time!.hour}:${time!.minute}' : null,
+      'task': text,
+      'time': (time != null)
+          ? '${(time!.hour > 9) ? time!.hour : '0${time!.hour}'}:${(time!.minute > 9) ? time!.minute : '0${time!.minute}'}'
+          : null,
+      'isTicked': isTicked ?? false,
     };
   }
 
   factory Task.fromMap(Map<String, dynamic> map) {
     return Task(
-      task: map['task'] as String,
+      text: map['task'] as String,
       time: map['time'] != null
           ? TimeOfDay(
               hour: int.parse(map['time'].split(":")[0]),
               minute: int.parse(map['time'].split(":")[1]))
           : null,
+      isTicked: map['isTicked'] != null ? map['isTicked'] as bool : null,
     );
   }
 
@@ -171,15 +167,15 @@ class Task {
       Task.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
-  String toString() => 'Task(task: $task, time: $time)';
+  String toString() => 'Task(task: $text, time: $time)';
 
   @override
   bool operator ==(covariant Task other) {
     if (identical(this, other)) return true;
 
-    return other.task == task && other.time == time;
+    return other.text == text && other.time == time;
   }
 
   @override
-  int get hashCode => task.hashCode ^ time.hashCode;
+  int get hashCode => text.hashCode ^ time.hashCode;
 }
