@@ -63,3 +63,10 @@ class UpdateCase extends UserEvent {
     required this.newCase,
   });
 }
+
+class AddPlan extends UserEvent {
+  final Plan plan;
+  final bool isYears;
+
+  AddPlan({required super.phone, required this.plan, required this.isYears});
+}

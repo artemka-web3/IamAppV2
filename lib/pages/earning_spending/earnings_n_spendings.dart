@@ -149,7 +149,7 @@ class _Earnings_N_SpendingsState extends State<Earnings_N_Spendings> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => const Plan(),
+                                    builder: (context) => Plan(),
                                   ),
                                 );
                               }),

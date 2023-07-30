@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:i_am_app/classes/models/case.dart';
 import 'package:i_am_app/classes/models/goal.dart';
+import 'package:i_am_app/classes/models/plan.dart';
 import 'package:i_am_app/classes/models/user.dart';
 
 class FirebaseDatabaseService {
@@ -89,6 +90,23 @@ class FirebaseDatabaseService {
         await ref
             .child('users/$phone/cases/${newCase.date?.millisecondsSinceEpoch}')
             .update(ccase.toMap());
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> addPlan(String phone, Plan plan, bool isYears) async {
+    try {
+      if (isYears) {
+        await ref
+            .child('users/$phone/plan_years/${plan.date.year}')
+            .update(plan.toMap());
+      } else {
+        await ref
+            .child(
+                'users/$phone/plan_month/${plan.date.microsecondsSinceEpoch}')
+            .update(plan.toMap());
       }
     } catch (e) {
       print(e);
