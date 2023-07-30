@@ -71,7 +71,7 @@ class _LifeIndexState extends State<LifeIndex> {
             li.LifeIndex data = li.LifeIndex(
                 date: DateTime(
                   DateTime.now().year,
-                  DateTime.now().month,
+                  indexMonth,
                 ),
                 indexes: buf);
             if (state.user.index.isNotEmpty) {
@@ -131,7 +131,9 @@ class _LifeIndexState extends State<LifeIndex> {
                   height: 100,
                   child: Center(
                       child: Text(
-                          (data != null) ? data!.lifeIndex.toString() : "-",
+                          (data != null)
+                              ? data!.lifeIndex.toStringAsFixed(1)
+                              : "-",
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 72,
