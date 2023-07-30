@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:i_am_app/classes/models/case.dart';
 import 'package:i_am_app/classes/models/goal.dart';
+import 'package:i_am_app/classes/models/life_index.dart';
 import 'package:i_am_app/classes/models/plan.dart';
 import 'package:i_am_app/classes/models/user.dart';
 
@@ -55,6 +56,24 @@ class FirebaseDatabaseService {
   Future<void> addGoal(String phone, Goal goal) async {
     try {
       await ref.child('users/$phone/goals').push().set(goal.toMap());
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> addIndex(String phone, LifeIndex index) async {
+    try {
+      final snapshot =
+          await ref.child('users/$phone/index/${index.date?.month}').get();
+      if (snapshot.value == null) {
+        await ref
+            .child('users/$phone/index/${index.date?.month}')
+            .set(index.toMap());
+      } else {
+        await ref
+            .child('users/$phone/index/${index.date?.month}')
+            .update(index.toMap());
+      }
     } catch (e) {
       print(e);
     }
