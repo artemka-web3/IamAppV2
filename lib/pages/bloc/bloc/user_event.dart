@@ -70,3 +70,9 @@ class AddPlan extends UserEvent {
 
   AddPlan({required super.phone, required this.plan, required this.isYears});
 }
+
+class UpdateIndex extends UserEvent {
+  final LifeIndex index;
+
+  UpdateIndex({required super.phone, required this.index});
+}

@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:i_am_app/classes/models/case.dart';
 import 'package:i_am_app/classes/models/plan.dart';
+import 'package:i_am_app/classes/models/life_index.dart';
 
 import 'goal.dart';
 
@@ -12,6 +13,8 @@ class User {
   final String? id;
   final bool? isWoman;
   final DateTime? birth;
+
+  List<LifeIndex> index;
 
   List<Goal> goals;
   List<Case> cases;
@@ -24,6 +27,7 @@ class User {
     this.id,
     this.isWoman,
     this.birth,
+    this.index = const [],
     this.goals = const [],
     this.cases = const [],
     this.years = const [],
@@ -62,6 +66,7 @@ class User {
       'cases': cases.map((x) => x.toMap()).toList(),
       'plan_years': years.map((x) => x.toMap()).toList(),
       'plan_month': month.map((x) => x.toMap()).toList(),
+      'index': index.map((x) => x.toMap()).toList(),
     };
   }
 
@@ -95,6 +100,12 @@ class User {
           ? (map['plan_month'] as Map<String, dynamic>)
               .entries
               .map((e) => Plan.fromMap(e.value))
+              .toList()
+          : [],
+      index: map['index'] != null
+          ? (map['index'] as Map<String, dynamic>)
+              .entries
+              .map((e) => LifeIndex.fromMap(e.value))
               .toList()
           : [],
     );
