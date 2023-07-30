@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:i_am_app/classes/models/case.dart';
+import 'package:i_am_app/classes/models/plan.dart';
 
 import 'goal.dart';
 
@@ -15,6 +16,9 @@ class User {
   List<Goal> goals;
   List<Case> cases;
 
+  List<Plan> years;
+  List<Plan> month;
+
   User({
     required this.phone,
     this.id,
@@ -22,6 +26,8 @@ class User {
     this.birth,
     this.goals = const [],
     this.cases = const [],
+    this.years = const [],
+    this.month = const [],
   });
 
   User copyWith({
@@ -31,6 +37,8 @@ class User {
     DateTime? birth,
     List<Goal>? goals,
     List<Case>? cases,
+    List<Plan>? years,
+    List<Plan>? month,
   }) {
     return User(
       phone: phone ?? this.phone,
@@ -39,6 +47,8 @@ class User {
       birth: birth ?? this.birth,
       goals: goals ?? this.goals,
       cases: cases ?? this.cases,
+      years: years ?? this.years,
+      month: month ?? this.month,
     );
   }
 
@@ -50,6 +60,8 @@ class User {
       'birth': birth?.millisecondsSinceEpoch,
       'goals': goals.map((x) => x.toMap()).toList(),
       'cases': cases.map((x) => x.toMap()).toList(),
+      'plan_years': years.map((x) => x.toMap()).toList(),
+      'plan_month': month.map((x) => x.toMap()).toList(),
     };
   }
 
@@ -71,6 +83,18 @@ class User {
           ? (map['cases'] as Map<String, dynamic>)
               .entries
               .map((e) => Case.fromMap(e.value))
+              .toList()
+          : [],
+      years: map['plan_years'] != null
+          ? (map['plan_years'] as Map<String, dynamic>)
+              .entries
+              .map((e) => Plan.fromMap(e.value))
+              .toList()
+          : [],
+      month: map['plan_month'] != null
+          ? (map['plan_month'] as Map<String, dynamic>)
+              .entries
+              .map((e) => Plan.fromMap(e.value))
               .toList()
           : [],
     );

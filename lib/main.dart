@@ -35,7 +35,7 @@ void main() async {
   } else {
     home = const MyApp(pageIndex: 0);
   }
-  await Future.delayed(Duration(milliseconds: 240));
+  await Future.delayed(const Duration(milliseconds: 240));
   runApp(
     MultiBlocProvider(
       providers: [

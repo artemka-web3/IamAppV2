@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:i_am_app/classes/models/case.dart';
 import 'package:i_am_app/classes/models/goal.dart';
+import 'package:i_am_app/classes/models/plan.dart';
 import 'package:i_am_app/classes/models/user.dart' as custom;
 import 'package:i_am_app/classes/services/firebase_realtime_service.dart';
 import 'package:meta/meta.dart';
@@ -88,6 +89,14 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       custom.User user = await databaseService.getUser(event.phone);
       emit(UserInitial(user: user));
     });
+
+    on<AddPlan>((event, emit) async {
+      emit(UserLoading(user: state.user));
+      await databaseService.addPlan(event.phone, event.plan, event.isYears);
+      custom.User user = await databaseService.getUser(event.phone);
+      emit(UserInitial(user: user));
+    });
+
     on<DeleteGoal>((event, emit) async {
       emit(UserLoading(user: state.user));
       await databaseService.deleteGoal(event.phone, event.goalKey);

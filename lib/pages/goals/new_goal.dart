@@ -50,6 +50,7 @@ class _NewGoalState extends State<NewGoal> {
     return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
         return Scaffold(
+          resizeToAvoidBottomInset: false,
           extendBodyBehindAppBar: true,
           appBar: AppBar(
             elevation: 0,
