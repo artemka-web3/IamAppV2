@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 
 class LifeIndex {
-  final DateTime date;
+  DateTime date;
   List<double>? indexes;
 
   double get lifeIndex {
