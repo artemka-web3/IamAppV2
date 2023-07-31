@@ -360,14 +360,6 @@ class NewNode extends StatelessWidget {
                                   "Сохранить",
                                   style: Theme.of(context).textTheme.bodyMedium,
                                 ),
-                                const SizedBox(
-                                  width: 4.0,
-                                ),
-                                (state is UserLoading)
-                                    ? const CircularProgressIndicator(
-                                        color: Colors.black,
-                                      )
-                                    : const SizedBox(),
                               ],
                             ),
                           ),

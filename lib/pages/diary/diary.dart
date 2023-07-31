@@ -296,7 +296,7 @@ class Node extends StatelessWidget {
                           width: 8.0,
                         ),
                         Text(
-                          '${task.time!.hour}:${task.time!.minute}',
+                          '${(task.time!.hour > 9) ? task.time!.hour : '0${task.time!.hour}'}:${(task.time!.minute > 9) ? task.time!.minute : '0${task.time!.minute}'}',
                           style: Theme.of(context)
                               .textTheme
                               .bodyMedium!

@@ -62,130 +62,129 @@ class Home extends StatelessWidget {
         }
         diff = lifeIndex - prevLifeIndex;
         return Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                children: [
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.45 < 230
-                        ? 250
-                        : MediaQuery.of(context).size.width * 0.45,
-                    child: Card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(children: <Widget>[
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Индекс жизни:',
-                                style: GoogleFonts.inter(
-                                    textStyle: const TextStyle(
-                                  color: Color(0xFF252D28),
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w400,
-                                )),
+          child: SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
+            child: Column(
+              children: [
+                Column(
+                  children: [
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.45 < 230
+                          ? 250
+                          : MediaQuery.of(context).size.width * 0.45,
+                      child: Card(
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(children: <Widget>[
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Индекс жизни:',
+                                  style: GoogleFonts.inter(
+                                      textStyle: const TextStyle(
+                                    color: Color(0xFF252D28),
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w400,
+                                  )),
+                                ),
+                                Text(
+                                  months[DateTime.now().month - 1],
+                                  style: GoogleFonts.inter(
+                                      textStyle: const TextStyle(
+                                    color: Color(0xFF252D28),
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w700,
+                                  )),
+                                ),
+                              ],
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 16),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    lifeIndex.toStringAsFixed(1),
+                                    style: GoogleFonts.inter(
+                                      textStyle: const TextStyle(
+                                        color: Color(0xFF252D28),
+                                        fontSize: 47,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  ),
+                                  Icon(
+                                    (diff < 0.0)
+                                        ? Icons.arrow_circle_down
+                                        : Icons.arrow_circle_up,
+                                    size: 23,
+                                  ),
+                                  Text(
+                                    diff.toStringAsFixed(1),
+                                    style: GoogleFonts.lato(
+                                      textStyle: const TextStyle(
+                                        color: Color(0xFF252D28),
+                                        fontSize: 25,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
-                              Text(
-                                months[DateTime.now().month - 1],
-                                style: GoogleFonts.inter(
-                                    textStyle: const TextStyle(
-                                  color: Color(0xFF252D28),
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w700,
-                                )),
+                            ),
+                          ]),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.30 < 240
+                          ? 240
+                          : MediaQuery.of(context).size.width * 0.30,
+                      child: ElevatedButton(
+                          style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStatePropertyAll(Colors.white),
+                              foregroundColor:
+                                  MaterialStatePropertyAll(Color(0xFF252E29))),
+                          onPressed: () => Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const BirthMeaning(),
                               ),
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 16),
+                              (route) => false),
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text(
-                                  lifeIndex.toStringAsFixed(1),
-                                  style: GoogleFonts.inter(
-                                    textStyle: const TextStyle(
-                                      color: Color(0xFF252D28),
-                                      fontSize: 47,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                ),
                                 Icon(
-                                  (diff < 0.0)
-                                      ? Icons.arrow_circle_down
-                                      : Icons.arrow_circle_up,
-                                  size: 23,
+                                  Icons.support,
+                                  color: Color(0xFF219653),
                                 ),
                                 Text(
-                                  diff.toStringAsFixed(1),
+                                  'Моя характеристика',
                                   style: GoogleFonts.lato(
-                                    textStyle: const TextStyle(
-                                      color: Color(0xFF252D28),
-                                      fontSize: 25,
-                                      fontWeight: FontWeight.w700,
+                                    textStyle: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400,
                                     ),
                                   ),
                                 ),
                               ],
                             ),
-                          ),
-                        ]),
-                      ),
+                          )),
                     ),
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.30 < 240
-                        ? 240
-                        : MediaQuery.of(context).size.width * 0.30,
-                    child: ElevatedButton(
-                        style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStatePropertyAll(Colors.white),
-                            foregroundColor:
-                                MaterialStatePropertyAll(Color(0xFF252E29))),
-                        onPressed: () => Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const BirthMeaning(),
-                            ),
-                            (route) => false),
-                        child: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.support,
-                                color: Color(0xFF219653),
-                              ),
-                              Text(
-                                'Моя характеристика',
-                                style: GoogleFonts.lato(
-                                  textStyle: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        )),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 12.0,
-              ),
-              Expanded(
-                child: Container(
+                  ],
+                ),
+                const SizedBox(
+                  height: 12.0,
+                ),
+                Container(
                   padding: const EdgeInsets.all(8.0),
                   width: MediaQuery.of(context).size.width,
                   color: const Color(0xFF2C3932),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Row(
                         children: [
@@ -242,14 +241,16 @@ class Home extends StatelessWidget {
                                 ),
                               ],
                             )
-                          : DayTasks(
-                              newCase: newCase!,
+                          : Container(
+                              child: DayTasks(
+                                newCase: newCase,
+                              ),
                             ),
                     ],
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       },
@@ -266,18 +267,6 @@ class DayTasks extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Align(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            (newCase.date != null)
-                ? '${newCase.date!.day}/${newCase.date!.month}'
-                : "Нет даты",
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
-        ),
-        const SizedBox(
-          height: 12,
-        ),
         ListView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
@@ -331,7 +320,8 @@ class DayTasks extends StatelessWidget {
             return Node(
               icon: SvgPicture.asset(
                 "assets/images/task.svg",
-                colorFilter: ColorFilter.mode(Colors.black, BlendMode.srcIn),
+                colorFilter:
+                    const ColorFilter.mode(Colors.black, BlendMode.srcIn),
               ),
               task: newCase.tasks[index],
               newCase: newCase,
@@ -408,7 +398,7 @@ class Node extends StatelessWidget {
                           width: 8.0,
                         ),
                         Text(
-                          '${task.time!.hour}:${task.time!.minute}',
+                          '${(task.time!.hour > 9) ? task.time!.hour : '0${task.time!.hour}'}:${(task.time!.minute > 9) ? task.time!.minute : '0${task.time!.minute}'}',
                           style: Theme.of(context)
                               .textTheme
                               .bodyMedium!

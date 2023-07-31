@@ -183,6 +183,7 @@ class _MyAppState extends State<MyApp> {
       child: Builder(
         builder: (BuildContext context) {
           return Scaffold(
+            resizeToAvoidBottomInset: false,
             appBar: _appBars[context.read<PageIndex>().index](context),
             bottomNavigationBar: BottomNavigationBar(
                 backgroundColor: Color(0xFF252E29),
