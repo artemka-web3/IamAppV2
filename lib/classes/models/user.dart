@@ -78,13 +78,24 @@ class User {
   factory User.fromMap(Map<String, dynamic> map) {
     List<LifeIndex> li = [];
     if (map['index'] != null) {
-      var buf = map['index'] as List<dynamic>;
-      for (var element in buf) {
+      var buf = map['index'] as Map<String, dynamic>;
+      for (var element in buf.values) {
         if (element != null) {
           li.add(LifeIndex.fromMap(element as Map<String, dynamic>));
         }
       }
     }
+    var yearsBuf = (map['plan_years'] as Map<String, dynamic>)
+        .entries
+        .map((e) => Plan.fromMap(e.value))
+        .toList();
+    var monthBuf = (map['plan_month'] as Map<String, dynamic>)
+        .entries
+        .map((e) => Plan.fromMap(e.value))
+        .toList();
+    monthBuf.sort(((a, b) => a.date.month.compareTo(b.date.month)));
+    yearsBuf.sort(((a, b) => a.date.millisecondsSinceEpoch
+        .compareTo(b.date.millisecondsSinceEpoch)));
     return User(
       phone: map['phone'] as String,
       id: map['id'] as String,
@@ -104,18 +115,8 @@ class User {
               .map((e) => Case.fromMap(e.value))
               .toList()
           : [],
-      years: map['plan_years'] != null
-          ? (map['plan_years'] as Map<String, dynamic>)
-              .entries
-              .map((e) => Plan.fromMap(e.value))
-              .toList()
-          : [],
-      month: map['plan_month'] != null
-          ? (map['plan_month'] as Map<String, dynamic>)
-              .entries
-              .map((e) => Plan.fromMap(e.value))
-              .toList()
-          : [],
+      years: map['plan_years'] != null ? yearsBuf : [],
+      month: map['plan_month'] != null ? monthBuf : [],
       index: li,
       info: map['info'] != null
           ? (map['info'] as Map<String, dynamic>)

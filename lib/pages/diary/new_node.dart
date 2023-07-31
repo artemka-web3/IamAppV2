@@ -231,6 +231,7 @@ class NewNode extends StatelessWidget {
                                                             const TimeOfDay(
                                                                 hour: 12,
                                                                 minute: 00);
+                                                    setState(() {});
                                                   },
                                                   child: Container(
                                                     decoration: BoxDecoration(
