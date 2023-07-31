@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:i_am_app/classes/models/case.dart';
+import 'package:i_am_app/classes/models/info.dart';
 import 'package:i_am_app/classes/models/plan.dart';
 import 'package:i_am_app/classes/models/life_index.dart';
 
@@ -22,6 +23,8 @@ class User {
   List<Plan> years;
   List<Plan> month;
 
+  List<Info> info;
+
   User({
     required this.phone,
     this.id,
@@ -32,6 +35,7 @@ class User {
     this.cases = const [],
     this.years = const [],
     this.month = const [],
+    this.info = const [],
   });
 
   User copyWith({
@@ -67,6 +71,7 @@ class User {
       'plan_years': years.map((x) => x.toMap()).toList(),
       'plan_month': month.map((x) => x.toMap()).toList(),
       'index': index.map((x) => x.toMap()).toList(),
+      'info': info.map((e) => e.toMap()).toList(),
     };
   }
 
@@ -106,6 +111,12 @@ class User {
           ? (map['index'] as Map<String, dynamic>)
               .entries
               .map((e) => LifeIndex.fromMap(e.value))
+              .toList()
+          : [],
+      info: map['info'] != null
+          ? (map['info'] as Map<String, dynamic>)
+              .entries
+              .map((e) => Info.fromMap(e.value))
               .toList()
           : [],
     );

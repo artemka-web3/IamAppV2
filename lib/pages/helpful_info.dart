@@ -39,7 +39,7 @@ class _HelpfulInfoState extends State<HelpfulInfo> {
         children: [
           Expanded(
               child: Padding(
-            padding: EdgeInsets.all(20),
+            padding: EdgeInsets.all(16.0),
             child: Container(
               child: ListView.builder(
                   scrollDirection: Axis.vertical,
@@ -52,7 +52,9 @@ class _HelpfulInfoState extends State<HelpfulInfo> {
                             title: Text(
                               spheres[index],
                               style: TextStyle(
-                                  color: Colors.black, fontSize: 16.0),
+                                color: Colors.black,
+                                fontSize: 16.0,
+                              ),
                             ),
                             tileColor: Colors.white,
                             onTap: () {
