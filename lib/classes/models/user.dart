@@ -76,6 +76,15 @@ class User {
   }
 
   factory User.fromMap(Map<String, dynamic> map) {
+    List<LifeIndex> li = [];
+    if (map['index'] != null) {
+      var buf = map['index'] as List<dynamic>;
+      for (var element in buf) {
+        if (element != null) {
+          li.add(LifeIndex.fromMap(element as Map<String, dynamic>));
+        }
+      }
+    }
     return User(
       phone: map['phone'] as String,
       id: map['id'] as String,
@@ -107,12 +116,7 @@ class User {
               .map((e) => Plan.fromMap(e.value))
               .toList()
           : [],
-      index: map['index'] != null
-          ? (map['index'] as Map<String, dynamic>)
-              .entries
-              .map((e) => LifeIndex.fromMap(e.value))
-              .toList()
-          : [],
+      index: li,
       info: map['info'] != null
           ? (map['info'] as Map<String, dynamic>)
               .entries

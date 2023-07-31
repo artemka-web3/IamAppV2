@@ -11,7 +11,7 @@ class SignIn extends StatelessWidget {
   TextEditingController phoneController = TextEditingController();
   TextEditingController countryController = TextEditingController();
 
-  late final String number;
+  String number = '-1';
 
   SignIn({super.key});
 

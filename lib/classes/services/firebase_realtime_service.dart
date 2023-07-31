@@ -78,15 +78,16 @@ class FirebaseDatabaseService {
 
   Future<void> addIndex(String phone, LifeIndex index) async {
     try {
-      final snapshot =
-          await ref.child('users/$phone/index/${index.date?.month}').get();
+      final snapshot = await ref
+          .child('users/$phone/index/${index.date?.month.toString()}')
+          .get();
       if (snapshot.value == null) {
         await ref
-            .child('users/$phone/index/${index.date?.month}')
+            .child('users/$phone/index/${index.date?.month.toString()}')
             .set(index.toMap());
       } else {
         await ref
-            .child('users/$phone/index/${index.date?.month}')
+            .child('users/$phone/index/${index.date?.month.toString()}')
             .update(index.toMap());
       }
     } catch (e) {
