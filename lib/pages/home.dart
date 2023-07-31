@@ -61,14 +61,15 @@ class Home extends StatelessWidget {
           }
         }
         diff = lifeIndex - prevLifeIndex;
-        return Center(
-          child: SingleChildScrollView(
-            physics: BouncingScrollPhysics(),
-            child: Column(
-              children: [
-                Column(
-                  children: [
-                    SizedBox(
+        return SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
+          child: Column(
+            children: [
+              Column(
+                children: [
+                  Align(
+                    alignment: Alignment.topCenter,
+                    child: SizedBox(
                       width: MediaQuery.of(context).size.width * 0.45 < 230
                           ? 250
                           : MediaQuery.of(context).size.width * 0.45,
@@ -137,120 +138,120 @@ class Home extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.30 < 240
-                          ? 240
-                          : MediaQuery.of(context).size.width * 0.30,
-                      child: ElevatedButton(
-                          style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStatePropertyAll(Colors.white),
-                              foregroundColor:
-                                  MaterialStatePropertyAll(Color(0xFF252E29))),
-                          onPressed: () => Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const BirthMeaning(),
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.30 < 240
+                        ? 240
+                        : MediaQuery.of(context).size.width * 0.30,
+                    child: ElevatedButton(
+                        style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStatePropertyAll(Colors.white),
+                            foregroundColor:
+                                MaterialStatePropertyAll(Color(0xFF252E29))),
+                        onPressed: () => Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const BirthMeaning(),
+                            ),
+                            (route) => false),
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.support,
+                                color: Color(0xFF219653),
                               ),
-                              (route) => false),
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.support,
-                                  color: Color(0xFF219653),
-                                ),
-                                Text(
-                                  'Моя характеристика',
-                                  style: GoogleFonts.lato(
-                                    textStyle: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w400,
-                                    ),
+                              Text(
+                                'Моя характеристика',
+                                style: GoogleFonts.lato(
+                                  textStyle: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w400,
                                   ),
                                 ),
-                              ],
-                            ),
-                          )),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 12.0,
-                ),
-                Container(
-                  padding: const EdgeInsets.all(8.0),
-                  width: MediaQuery.of(context).size.width,
-                  color: const Color(0xFF2C3932),
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: IconButton(
-                              icon: const SizedBox(
-                                width: 24,
                               ),
-                              onPressed: () {},
+                            ],
+                          ),
+                        )),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 12.0,
+              ),
+              Container(
+                padding: const EdgeInsets.all(8.0),
+                width: MediaQuery.of(context).size.width,
+                color: const Color(0xFF2C3932),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: IconButton(
+                            icon: const SizedBox(
+                              width: 24,
+                            ),
+                            onPressed: () {},
+                          ),
+                        ),
+                        Expanded(
+                          child: Center(
+                            child: Text(
+                              'Задачи на сегодня:',
+                              style: GoogleFonts.inter(
+                                  textStyle: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 21,
+                                fontWeight: FontWeight.w400,
+                              )),
                             ),
                           ),
-                          Expanded(
-                            child: Center(
-                              child: Text(
-                                'Задачи на сегодня:',
+                        ),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: IconButton(
+                            icon: Icon(
+                              Icons.format_list_bulleted_add,
+                              color: Colors.white,
+                            ),
+                            onPressed: () {},
+                          ),
+                        ),
+                      ],
+                    ),
+                    (newCase.date == null)
+                        ? Column(
+                            children: [
+                              Icon(
+                                Icons.search,
+                                color: Colors.white,
+                                size: 200,
+                              ),
+                              Text(
+                                'Пока тут пусто',
                                 style: GoogleFonts.inter(
                                     textStyle: const TextStyle(
                                   color: Colors.white,
-                                  fontSize: 21,
+                                  fontSize: 18,
                                   fontWeight: FontWeight.w400,
                                 )),
                               ),
+                            ],
+                          )
+                        : Container(
+                            child: DayTasks(
+                              newCase: newCase,
                             ),
                           ),
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: IconButton(
-                              icon: Icon(
-                                Icons.format_list_bulleted_add,
-                                color: Colors.white,
-                              ),
-                              onPressed: () {},
-                            ),
-                          ),
-                        ],
-                      ),
-                      (newCase.date == null)
-                          ? Column(
-                              children: [
-                                Icon(
-                                  Icons.search,
-                                  color: Colors.white,
-                                  size: 200,
-                                ),
-                                Text(
-                                  'Пока тут пусто',
-                                  style: GoogleFonts.inter(
-                                      textStyle: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w400,
-                                  )),
-                                ),
-                              ],
-                            )
-                          : Container(
-                              child: DayTasks(
-                                newCase: newCase,
-                              ),
-                            ),
-                    ],
-                  ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         );
       },

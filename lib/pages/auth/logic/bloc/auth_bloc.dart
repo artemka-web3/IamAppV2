@@ -20,11 +20,7 @@ class AuthBloc extends Bloc<AuthBlocEvent, AuthInitial> {
       try {
         await auth.verifyPhoneNumber(
           phoneNumber: event.phone,
-          verificationCompleted: (PhoneAuthCredential credential) async {
-            //В [verificationComplete] мы получим учетные данные из firebase и отправим их в событие [OnPhoneAuthVerificationCompleteEvent], которое будет обработано блоком, а затем выдадим состояние [PhoneAuthVerified] после успешного входа в систему
-            add(OnPhoneAuthVerificationCompleteEvent(event.phone,
-                credential: credential));
-          },
+          verificationCompleted: (_) {},
           codeSent: (String verificationId, int? resendToken) {
             // На [codeSent] мы получим verificationId и resendToken из firebase и отправим их в событие [OnPhoneOtpSent], которое будет обработано блоком, а затем выдадим событие [OnPhoneAuthVerificationCompleteEvent] после получения кода с телефона пользователя
             add(OnPhoneOtpSent(event.phone,
