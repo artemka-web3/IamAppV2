@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:i_am_app/pages/auth/birth_meaning.dart';
 import 'package:i_am_app/pages/bloc/bloc/user_bloc.dart';
+import 'package:i_am_app/pages/diary/new_node.dart';
 
 import '../classes/models/case.dart';
 
@@ -219,7 +220,11 @@ class Home extends StatelessWidget {
                               Icons.format_list_bulleted_add,
                               color: Colors.white,
                             ),
-                            onPressed: () {},
+                            onPressed: () => Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => NewNode(),
+                              ),
+                            ),
                           ),
                         ),
                       ],
@@ -413,13 +418,17 @@ class Node extends StatelessWidget {
           Align(
             alignment: Alignment.center,
             child: Switch(
-                value: task.isTicked ?? false,
-                onChanged: (val) {
-                  task.isTicked = val;
-                  context.read<UserBloc>().add(UpdateCase(
-                      phone: context.read<UserBloc>().state.user.phone,
-                      newCase: newCase));
-                }),
+              value: task.isTicked ?? false,
+              onChanged: (val) {
+                task.isTicked = val;
+                context.read<UserBloc>().add(
+                      UpdateCase(
+                        phone: context.read<UserBloc>().state.user.phone,
+                        newCase: newCase,
+                      ),
+                    );
+              },
+            ),
           ),
         ],
       ),

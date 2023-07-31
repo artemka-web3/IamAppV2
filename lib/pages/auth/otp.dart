@@ -7,6 +7,8 @@ import 'package:i_am_app/pages/auth/sign_in.dart';
 class OtpPage extends StatelessWidget {
   final String number;
 
+  String verificationId = "";
+
   TextEditingController controller = TextEditingController();
 
   OtpPage({super.key, required this.number});
@@ -110,8 +112,13 @@ class OtpPage extends StatelessWidget {
                   GestureDetector(
                     onTap: () {
                       if (state is PhoneAuthCodeSentSuccess) {
+                        verificationId = state.verificationId;
                         context.read<AuthBloc>().add(VerifySentOtpEvent(number,
-                            verificationId: state.verificationId,
+                            verificationId: verificationId,
+                            otp: controller.text.trim()));
+                      } else {
+                        context.read<AuthBloc>().add(VerifySentOtpEvent(number,
+                            verificationId: verificationId,
                             otp: controller.text.trim()));
                       }
                     },
