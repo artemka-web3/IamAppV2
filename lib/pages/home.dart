@@ -123,7 +123,7 @@ class Home extends StatelessWidget {
                                     size: 23,
                                   ),
                                   Text(
-                                    diff.toStringAsFixed(1),
+                                    diff.abs().toStringAsFixed(1),
                                     style: GoogleFonts.lato(
                                       textStyle: const TextStyle(
                                         color: Color(0xFF252D28),
