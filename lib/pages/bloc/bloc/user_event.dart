@@ -15,7 +15,15 @@ class UpdateBirthday extends UserEvent {
 
 class GetUserByPhone extends UserEvent {
   final bool? onlyDone;
-  GetUserByPhone({required super.phone, this.onlyDone});
+  final String? goalSphere;
+  final bool? goalIsDone;
+  final bool growGoal;
+  GetUserByPhone(
+      {required super.phone,
+      this.onlyDone,
+      this.goalSphere,
+      this.goalIsDone,
+      this.growGoal = true});
 }
 
 class AddGoal extends UserEvent {
@@ -75,4 +83,14 @@ class UpdateIndex extends UserEvent {
   final LifeIndex index;
 
   UpdateIndex({required super.phone, required this.index});
+}
+
+class UpdateInfo extends UserEvent {
+  final Info info;
+
+  UpdateInfo({required super.phone, required this.info});
+}
+
+class DeleteAcc extends UserEvent {
+  DeleteAcc({required super.phone});
 }

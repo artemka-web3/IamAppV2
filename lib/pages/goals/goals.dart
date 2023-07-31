@@ -9,7 +9,42 @@ import 'package:i_am_app/pages/goals/new_goal.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Goals extends StatelessWidget {
-  const Goals({super.key});
+  Goals({super.key});
+
+  bool? isGrown;
+  bool? isTicked;
+
+  String? selectedPeriod;
+  String? selectedSphere;
+  String? selectedTicked;
+
+  final List<String> ticked = ['Все', 'Выполнено', 'Не выполнено'];
+
+  final List<String> period = ['Сначала ближние', 'Сначала дальние'];
+
+  final List<String> spheres = [
+    'Здоровье',
+    'Внешний вид',
+    'Любовь',
+    'Дети и родители',
+    'Друзья и коллеги',
+    'Хобби и развлечения',
+    'Путешествия',
+    'Уют в доме',
+    'Личностное развитие',
+    'Духовное развитие',
+    'Доходы и расходы',
+    'Долги',
+    'Мой банк. Страхование',
+    'Бизнес',
+    'Юридические навыки',
+    'Сбережения',
+    'Благотворительность',
+    'Инвестиции',
+    'Самоконтроль',
+    'Уверенность в себе',
+    'Все',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -47,30 +82,153 @@ class Goals extends StatelessWidget {
                   ),
                   child: Column(
                     children: [
-                      const Row(
-                        children: [
-                          Icon(
-                            Icons.filter_list_outlined,
-                            color: Colors.white,
+                      StatefulBuilder(builder: (context, setState) {
+                        return SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.filter_list_outlined,
+                                color: Colors.white,
+                              ),
+                              Card(
+                                child: Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: DropdownButton(
+                                    onChanged: (value) => setState(() {
+                                      selectedPeriod = value ?? "Период";
+                                      if (selectedPeriod == period[0]) {
+                                        isGrown = true;
+                                      }
+                                      if (selectedPeriod == period[1]) {
+                                        isGrown = false;
+                                      }
+                                      context.read<UserBloc>().add(
+                                          GetUserByPhone(
+                                              phone: state.user.phone,
+                                              goalSphere: selectedSphere,
+                                              goalIsDone: isTicked,
+                                              growGoal: isGrown ?? true));
+                                    }),
+                                    hint: const Text(
+                                      "Период",
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Color.fromARGB(75, 37, 46, 41),
+                                      ),
+                                    ),
+                                    value: selectedPeriod,
+                                    items: period.map<DropdownMenuItem<String>>(
+                                      (String value) {
+                                        return DropdownMenuItem<String>(
+                                          value: value,
+                                          child: Text(
+                                            value,
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ).toList(),
+                                  ),
+                                ),
+                              ),
+                              Card(
+                                child: Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: DropdownButton(
+                                    onChanged: (value) => setState(() {
+                                      selectedSphere = value ?? null;
+                                      if (selectedSphere ==
+                                          spheres[spheres.length - 1]) {
+                                        selectedSphere = null;
+                                      }
+                                      context.read<UserBloc>().add(
+                                          GetUserByPhone(
+                                              phone: state.user.phone,
+                                              goalSphere: selectedSphere,
+                                              goalIsDone: isTicked,
+                                              growGoal: isGrown ?? true));
+                                    }),
+                                    hint: const Text(
+                                      "Сфера",
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Color.fromARGB(75, 37, 46, 41),
+                                      ),
+                                    ),
+                                    value: selectedSphere,
+                                    items:
+                                        spheres.map<DropdownMenuItem<String>>(
+                                      (String value) {
+                                        return DropdownMenuItem<String>(
+                                          value: value,
+                                          child: Text(
+                                            value,
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ).toList(),
+                                  ),
+                                ),
+                              ),
+                              Card(
+                                child: Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: DropdownButton(
+                                    onChanged: (value) => setState(() {
+                                      selectedTicked = value ?? "Статус";
+                                      if (selectedTicked == ticked[0]) {
+                                        isTicked = null;
+                                      }
+                                      if (selectedTicked == ticked[1]) {
+                                        isTicked = true;
+                                      }
+                                      if (selectedTicked == ticked[2]) {
+                                        isTicked = false;
+                                      }
+                                      context.read<UserBloc>().add(
+                                          GetUserByPhone(
+                                              phone: state.user.phone,
+                                              goalSphere: selectedSphere,
+                                              goalIsDone: isTicked,
+                                              growGoal: isGrown ?? true));
+                                    }),
+                                    hint: const Text(
+                                      "Статус",
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Color.fromARGB(75, 37, 46, 41),
+                                      ),
+                                    ),
+                                    value: selectedTicked,
+                                    items: ticked.map<DropdownMenuItem<String>>(
+                                      (String value) {
+                                        return DropdownMenuItem<String>(
+                                          value: value,
+                                          child: Text(
+                                            value,
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ).toList(),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                          Card(
-                              child: Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Text('Период'),
-                          )),
-                          Card(
-                              child: Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Text('Сфера'),
-                          )),
-                          Card(
-                            child: Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Text('Статус'),
-                            ),
-                          ),
-                        ],
-                      ),
+                        );
+                      }),
                       const SizedBox(
                         height: 26.0,
                       ),

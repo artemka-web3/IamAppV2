@@ -2,11 +2,13 @@ import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:i_am_app/classes/models/case.dart';
 import 'package:i_am_app/classes/models/goal.dart';
+import 'package:i_am_app/classes/models/info.dart';
 import 'package:i_am_app/classes/models/life_index.dart';
 import 'package:i_am_app/classes/models/plan.dart';
 import 'package:i_am_app/classes/models/user.dart' as custom;
 import 'package:i_am_app/classes/services/firebase_realtime_service.dart';
 import 'package:meta/meta.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'user_event.dart';
 part 'user_state.dart';
@@ -15,6 +17,18 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   final FirebaseDatabaseService databaseService = FirebaseDatabaseService();
 
   UserBloc() : super(UserState(user: custom.User(phone: '-1'))) {
+    on<DeleteAcc>((event, emit) async {
+      try {
+        SharedPreferences pref = await SharedPreferences.getInstance();
+        pref.remove('phone');
+        pref.remove('entered');
+        await databaseService.deleteAcc(event.phone);
+        emit(UserState(user: custom.User(phone: '-1')));
+      } catch (e) {
+        print(e);
+      }
+    });
+
     on<UpdateUser>(
       (event, emit) async {
         try {
@@ -74,6 +88,20 @@ class UserBloc extends Bloc<UserEvent, UserState> {
           }
         }
       }
+      if (event.goalSphere != null) {
+        user.goals.removeWhere((element) => element.sphere != event.goalSphere);
+      }
+      if (event.goalIsDone != null) {
+        user.goals
+            .removeWhere((element) => element.isTicked != event.goalIsDone);
+      }
+      if (event.growGoal == false) {
+        for (var i = 0; i < user.goals.length / 2; i++) {
+          Goal goal = user.goals[i];
+          user.goals[i] = user.goals[user.goals.length - i - 1];
+          user.goals[user.goals.length - i - 1] = user.goals[i];
+        }
+      }
       emit(
         UserInitial(user: user),
       );
@@ -87,6 +115,12 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     on<UpdateIndex>((event, emit) async {
       emit(UserLoading(user: state.user));
       await databaseService.addIndex(event.phone, event.index);
+      custom.User user = await databaseService.getUser(event.phone);
+      emit(UserInitial(user: user));
+    });
+    on<UpdateInfo>((event, emit) async {
+      emit(UserLoading(user: state.user));
+      await databaseService.updateInfo(event.phone, event.info);
       custom.User user = await databaseService.getUser(event.phone);
       emit(UserInitial(user: user));
     });

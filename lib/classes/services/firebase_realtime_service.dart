@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:i_am_app/classes/models/case.dart';
 import 'package:i_am_app/classes/models/goal.dart';
+import 'package:i_am_app/classes/models/info.dart';
 import 'package:i_am_app/classes/models/life_index.dart';
 import 'package:i_am_app/classes/models/plan.dart';
 import 'package:i_am_app/classes/models/user.dart';
@@ -28,6 +29,20 @@ class FirebaseDatabaseService {
     } catch (e) {
       print(e);
       return User(phone: '-1', id: '-1');
+    }
+  }
+
+  Future<void> deleteAcc(String phone) async {
+    try {
+      await ref.child('users/$phone').remove();
+    } catch (e) {}
+  }
+
+  Future<void> updateInfo(String phone, Info info) async {
+    try {
+      await ref.child('users/$phone/info/${info.title}').update(info.toMap());
+    } catch (e) {
+      print(e);
     }
   }
 
