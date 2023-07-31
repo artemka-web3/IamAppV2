@@ -239,10 +239,10 @@ class NewNode extends StatelessWidget {
                                                               12.0),
                                                     ),
                                                     child: Text(
-                                                      times[index].toString(),
+                                                      '${(times[index]!.hour > 9) ? times[index]!.hour : '0${times[index]!.hour}'}:${(times[index]!.minute > 9) ? times[index]!.minute : '0${times[index]!.minute}'}',
                                                       style: Theme.of(context)
                                                           .textTheme
-                                                          .bodyMedium,
+                                                          .titleMedium,
                                                     ),
                                                   ),
                                                 )
