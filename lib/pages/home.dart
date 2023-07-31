@@ -418,13 +418,17 @@ class Node extends StatelessWidget {
           Align(
             alignment: Alignment.center,
             child: Switch(
-                value: task.isTicked ?? false,
-                onChanged: (val) {
-                  task.isTicked = val;
-                  context.read<UserBloc>().add(UpdateCase(
-                      phone: context.read<UserBloc>().state.user.phone,
-                      newCase: newCase));
-                }),
+              value: task.isTicked ?? false,
+              onChanged: (val) {
+                task.isTicked = val;
+                context.read<UserBloc>().add(
+                      UpdateCase(
+                        phone: context.read<UserBloc>().state.user.phone,
+                        newCase: newCase,
+                      ),
+                    );
+              },
+            ),
           ),
         ],
       ),

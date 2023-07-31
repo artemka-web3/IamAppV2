@@ -151,14 +151,12 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       emit(UserInitial(user: state.user));
     });
     on<UpdateGoal>((event, emit) async {
-      await databaseService.updateGoal(event.phone, event.goal);
-      custom.User user = await databaseService.getUser(event.phone);
       emit(UserInitial(user: state.user));
+      await databaseService.updateGoal(event.phone, event.goal);
     });
     on<UpdateCase>((event, emit) async {
-      await databaseService.updateCase(event.phone, event.newCase);
-      custom.User user = await databaseService.getUser(event.phone);
       emit(UserInitial(user: state.user));
+      await databaseService.updateCase(event.phone, event.newCase);
     });
   }
 }
