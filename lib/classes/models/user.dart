@@ -78,10 +78,20 @@ class User {
   factory User.fromMap(Map<String, dynamic> map) {
     List<LifeIndex> li = [];
     if (map['index'] != null) {
-      var buf = map['index'] as Map<String, dynamic>;
-      for (var element in buf.values) {
-        if (element != null) {
-          li.add(LifeIndex.fromMap(element as Map<String, dynamic>));
+      if (map['index'] is Map) {
+        var buf = map['index'] as Map<String, dynamic>;
+        for (var element in buf.values) {
+          if (element != null) {
+            li.add(LifeIndex.fromMap(element as Map<String, dynamic>));
+          }
+        }
+      }
+      if (map['index'] is List) {
+        var buf = map['index'] as List<dynamic>;
+        for (var element in buf) {
+          if (element != null) {
+            li.add(LifeIndex.fromMap(element as Map<String, dynamic>));
+          }
         }
       }
     }
