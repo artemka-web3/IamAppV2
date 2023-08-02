@@ -4,6 +4,7 @@ import 'package:i_am_app/classes/models/user.dart';
 import 'package:i_am_app/classes/page_index.dart';
 import 'package:i_am_app/pages/auth/logic/authentication_repository.dart';
 import 'package:i_am_app/pages/auth/logic/bloc/auth_bloc.dart';
+import 'package:i_am_app/pages/auth/logic/log_in.dart';
 import 'package:i_am_app/pages/auth/sign_in.dart';
 import 'package:i_am_app/pages/bloc/bloc/user_bloc.dart';
 import 'package:i_am_app/pages/settings.dart';
@@ -23,6 +24,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
+    name: 'iamapp',
   );
 
   FirebaseDatabaseService service = FirebaseDatabaseService();
@@ -30,10 +32,10 @@ void main() async {
   Widget home;
   // pref.remove('entered');
   // pref.remove('phone');
-  if (pref.getBool('entered') != true) {
+  if (pref.getBool('entered') != true && pref.getString('pin') == null) {
     home = SignIn();
   } else {
-    home = const MyApp(pageIndex: 0);
+    home = const LogIn();
   }
   await Future.delayed(const Duration(milliseconds: 240));
   runApp(

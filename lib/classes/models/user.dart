@@ -95,20 +95,26 @@ class User {
         }
       }
     }
-    var yearsBuf = (map['plan_years'] as Map<String, dynamic>)
-        .entries
-        .map((e) => Plan.fromMap(e.value))
-        .toList();
-    var monthBuf = (map['plan_month'] as Map<String, dynamic>)
-        .entries
-        .map((e) => Plan.fromMap(e.value))
-        .toList();
-    monthBuf.sort(((a, b) => a.date.month.compareTo(b.date.month)));
-    yearsBuf.sort(((a, b) => a.date.millisecondsSinceEpoch
-        .compareTo(b.date.millisecondsSinceEpoch)));
+    List<Plan> yearsBuf = [];
+    List<Plan> monthBuf = [];
+    if (map['plan_years'] != null) {
+      yearsBuf = (map['plan_years'] as Map<String, dynamic>)
+          .entries
+          .map((e) => Plan.fromMap(e.value))
+          .toList();
+      monthBuf.sort(((a, b) => a.date.month.compareTo(b.date.month)));
+    }
+    if (map['plan_month'] != null) {
+      monthBuf = (map['plan_month'] as Map<String, dynamic>)
+          .entries
+          .map((e) => Plan.fromMap(e.value))
+          .toList();
+      yearsBuf.sort(((a, b) => a.date.millisecondsSinceEpoch
+          .compareTo(b.date.millisecondsSinceEpoch)));
+    }
     return User(
       phone: map['phone'] as String,
-      id: map['id'] as String,
+      id: map['id'] != null ? map['id'] as String : '0',
       isWoman: map['isWoman'] != null ? map['isWoman'] as bool : null,
       birth: map['birth'] != null
           ? DateTime.fromMillisecondsSinceEpoch(map['birth'] as int)
