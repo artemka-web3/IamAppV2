@@ -8,7 +8,8 @@ abstract class AuthBlocEvent {
 }
 
 class SendOtpToPhoneEvent extends AuthBlocEvent {
-  SendOtpToPhoneEvent(super.phone);
+  final String password;
+  SendOtpToPhoneEvent(super.phone, this.password);
 }
 
 class VerifySentOtpEvent extends AuthBlocEvent {
@@ -36,9 +37,7 @@ class OnPhoneAuthErrorEvent extends AuthBlocEvent {
 }
 
 class OnPhoneAuthVerificationCompleteEvent extends AuthBlocEvent {
-  final AuthCredential credential;
   OnPhoneAuthVerificationCompleteEvent(
-    super.phone, {
-    required this.credential,
-  });
+    super.phone,
+  );
 }
