@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:i_am_app/classes/models/goal.dart';
+import 'package:i_am_app/classes/services/notification_service.dart';
 import 'package:i_am_app/pages/auth/logic/bloc/auth_bloc.dart';
 import 'package:i_am_app/pages/bloc/bloc/user_bloc.dart';
 import 'package:intl/intl.dart';
@@ -274,6 +275,11 @@ class _NewGoalState extends State<NewGoal> {
                         date: date,
                         sphere: selectedSphere,
                         description: descriptionController.text);
+                    await NotificationService().showNotification(
+                      title: selectedSphere,
+                      body: descriptionController.text,
+                      time: date ?? DateTime.now(),
+                    );
                     context.read<UserBloc>().add(
                           AddGoal(
                             goal: goal,

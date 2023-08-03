@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:i_am_app/classes/models/case.dart';
+import 'package:i_am_app/classes/services/notification_service.dart';
 import 'package:i_am_app/pages/bloc/bloc/user_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -74,6 +75,9 @@ class NewNode extends StatelessWidget {
                               firstDate: DateTime.now(),
                               lastDate: DateTime(2030),
                             );
+                            if (date == null) {
+                              date = DateTime.now();
+                            }
                             setState(() {});
                           },
                           child: Container(
@@ -231,6 +235,10 @@ class NewNode extends StatelessWidget {
                                                             const TimeOfDay(
                                                                 hour: 12,
                                                                 minute: 00);
+                                                    if (times?[index] == null) {
+                                                      times?[index] =
+                                                          TimeOfDay.now();
+                                                    }
                                                     setState(() {});
                                                   },
                                                   child: Container(
@@ -339,6 +347,17 @@ class NewNode extends StatelessWidget {
                           SharedPreferences pref =
                               await SharedPreferences.getInstance();
                           print(newCase);
+                          for (var task in tasksCopy) {
+                            await NotificationService().showNotification(
+                              title: task.text,
+                              body: (task.isTicked == null ||
+                                      task.isTicked == false)
+                                  ? "Не выполнено"
+                                  : "Выполнено",
+                              time: DateTime(date!.year, date!.month, date!.day,
+                                  task.time!.hour, task.time!.minute),
+                            );
+                          }
                           context.read<UserBloc>().add(
                                 AddCase(
                                     newCase: newCase,
