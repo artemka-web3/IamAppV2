@@ -1,9 +1,57 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:i_am_app/classes/models/plan.dart';
 import 'package:i_am_app/pages/bloc/bloc/user_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:open_file/open_file.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:syncfusion_flutter_xlsio/xlsio.dart' as xls;
+
+Future<void> createExel(List<Plan> plans, bool isYear) async {
+  int columnIndex = 2;
+
+  final xls.Workbook workbook = xls.Workbook();
+
+  final xls.Worksheet sheet = workbook.worksheets[0];
+
+  sheet.getRangeByIndex(1, 1).setText((isYear) ? 'Год' : 'Месяц');
+  sheet.getRangeByIndex(2, 1).setText("Доходы");
+  sheet.getRangeByIndex(3, 1).setText("Постоянные расходы");
+  sheet.getRangeByIndex(4, 1).setText("Переменные расходы");
+  sheet.getRangeByIndex(5, 1).setText("Д-Р-Р");
+  sheet.getRangeByIndex(6, 1).setText("Нарастающим итогом");
+  sheet.getRangeByIndex(7, 1).setText("Пассивный доход");
+
+  for (var plan in plans) {
+    if (isYear) {
+      sheet.getRangeByIndex(1, columnIndex).setText(plan.date.year.toString());
+    } else {
+      sheet
+          .getRangeByIndex(1, columnIndex)
+          .setText(DateFormat('MMMM').format(plan.date).toString());
+    }
+    sheet.getRangeByIndex(2, columnIndex).setText(plan.income);
+    sheet.getRangeByIndex(3, columnIndex).setText(plan.fixedCosts ?? "-");
+    sheet.getRangeByIndex(4, columnIndex).setText(plan.varCosts ?? "-");
+    sheet.getRangeByIndex(5, columnIndex).setText(plan.drr ?? "-");
+    sheet.getRangeByIndex(6, columnIndex).setText(plan.progressiveTotal ?? "-");
+    sheet.getRangeByIndex(7, columnIndex).setText(plan.passiveIncome ?? "-");
+    columnIndex++;
+  }
+  //sheet.getRangeByIndex(rowIndex, columnIndex);
+
+  final List<int> bytes = workbook.saveAsStream();
+  workbook.dispose();
+
+  final String path = (await getApplicationSupportDirectory()).path;
+  final String fileName = '$path/Output.xlsx';
+  final File file = File(fileName);
+  await file.writeAsBytes(bytes);
+  OpenFile.open(fileName);
+}
 
 class FreeTable extends StatefulWidget {
   const FreeTable({super.key});
@@ -38,7 +86,13 @@ class _FreeTableState extends State<FreeTable> {
                   alignment: Alignment.center, child: Text('Таблица')),
               actions: [
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    if (switchValue) {
+                      createExel(state.user.month, false);
+                    } else {
+                      createExel(state.user.years, true);
+                    }
+                  },
                   icon: const Icon(Icons.download),
                 )
               ]),
