@@ -8,9 +8,11 @@ import 'package:i_am_app/pages/auth/logic/log_in.dart';
 import 'package:i_am_app/pages/auth/sign_in.dart';
 import 'package:i_am_app/pages/bloc/bloc/user_bloc.dart';
 import 'package:i_am_app/pages/settings.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'classes/services/firebase_realtime_service.dart';
+import 'classes/services/notification_service.dart';
 import 'pages/home.dart';
 import 'pages/goals/goals.dart';
 import 'pages/diary/diary.dart';
@@ -19,6 +21,9 @@ import 'pages/helpful_info.dart';
 import 'pages/earning_spending/earnings_n_spendings.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'package:timezone/data/latest_all.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
+import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,9 +31,24 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
     name: 'iamapp',
   );
-
+  tz.initializeTimeZones();
+  final String timeZoneName = await FlutterNativeTimezone.getLocalTimezone();
+  tz.setLocalLocation(tz.getLocation(timeZoneName));
   FirebaseDatabaseService service = FirebaseDatabaseService();
   SharedPreferences pref = await SharedPreferences.getInstance();
+  await NotificationService().initializationNotifications();
+
+  DateTime time = DateTime(
+    DateTime.now().year,
+    DateTime.now().month,
+    DateTime.now().day,
+    DateTime.now().hour,
+    DateTime.now().minute + 1,
+    0,
+    0,
+    0,
+  );
+
   Widget home;
   // pref.remove('entered');
   // pref.remove('phone');
