@@ -348,15 +348,21 @@ class NewNode extends StatelessWidget {
                               await SharedPreferences.getInstance();
                           print(newCase);
                           for (var task in tasksCopy) {
-                            await NotificationService().showNotification(
-                              title: task.text,
-                              body: (task.isTicked == null ||
-                                      task.isTicked == false)
-                                  ? "Не выполнено"
-                                  : "Выполнено",
-                              time: DateTime(date!.year, date!.month, date!.day,
-                                  task.time!.hour, task.time!.minute),
-                            );
+                            if (task.time != null) {
+                              await NotificationService().showNotification(
+                                title: task.text,
+                                body: (task.isTicked == null ||
+                                        task.isTicked == false)
+                                    ? "Не выполнено"
+                                    : "Выполнено",
+                                time: DateTime(
+                                    date!.year,
+                                    date!.month,
+                                    date!.day,
+                                    task.time!.hour,
+                                    task.time!.minute),
+                              );
+                            }
                           }
                           context.read<UserBloc>().add(
                                 AddCase(
