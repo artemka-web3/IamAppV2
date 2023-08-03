@@ -55,7 +55,7 @@ void main() async {
   if (pref.getBool('entered') != true && pref.getString('pin') == null) {
     home = SignIn();
   } else {
-    home = const LogIn();
+    home = LogIn();
   }
   await Future.delayed(const Duration(milliseconds: 240));
   runApp(

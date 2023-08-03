@@ -400,7 +400,7 @@ class CustomContainer extends StatelessWidget {
         child: FittedBox(
           child: Text(
             title,
-            style: const TextStyle(color: Colors.black, fontSize: 20),
+            style: const TextStyle(color: Colors.black),
           ),
         ),
       ),

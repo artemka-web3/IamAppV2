@@ -200,8 +200,8 @@ class SignIn extends StatelessWidget {
                   ),
                   //Кнопку удалить
                   TextButton(
-                    onPressed: () => Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => const LogIn())),
+                    onPressed: () => Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) => LogIn())),
                     child: Text(
                       "Войти с пин-кодом",
                       style: Theme.of(context).textTheme.titleMedium,

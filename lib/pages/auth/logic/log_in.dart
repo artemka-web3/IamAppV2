@@ -6,13 +6,16 @@ import 'package:i_am_app/pages/earning_spending/plan.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LogIn extends StatefulWidget {
-  const LogIn({super.key});
+  LogIn({super.key, this.change});
+
+  bool? change;
 
   @override
   State<LogIn> createState() => _LogInState();
 }
 
 class _LogInState extends State<LogIn> {
+  String? pinChanging;
   TextEditingController pinController = TextEditingController();
   Widget? NextPage;
   int attemts = 5;
@@ -54,10 +57,15 @@ class _LogInState extends State<LogIn> {
                     ),
                   ),
                   const Spacer(),
-                  Text(
-                    "${(pin == null) ? 'Установите' : 'Введите'} Код-пароль",
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
+                  (widget.change == true)
+                      ? Text(
+                          "${(pin == null) ? 'Установите' : 'Введите'} Код-пароль",
+                          style: Theme.of(context).textTheme.titleMedium,
+                        )
+                      : Text(
+                          "Повторите Код-пароль",
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
                   const SizedBox(
                     height: 8.0,
                   ),
@@ -120,9 +128,38 @@ class _LogInState extends State<LogIn> {
                           ),
                         )
                       : SizedBox(),
-                  (pin == null)
+                  (pin == null || widget.change != null)
                       ? GestureDetector(
                           onTap: () async {
+                            if (widget.change == true) {
+                              if (pinController.text == pinChanging) {
+                                snapshot.data!
+                                    .setString('pin', pinController.text);
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Container(
+                                      color: Colors.grey,
+                                      child: Center(
+                                        child: Text(
+                                          "Неверный повтор пароля",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }
+                              Navigator.of(context).pop();
+                            }
+                            if (widget.change == false) {
+                              pinChanging = pinController.text;
+                              widget.change = true;
+                              pinController.clear();
+                              setState(() {});
+                            }
                             if (pinController.text.length == 4) {
                               snapshot.data!
                                   .setString('pin', pinController.text);

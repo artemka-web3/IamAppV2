@@ -184,7 +184,7 @@ class AuthSettings extends StatelessWidget {
                           tileColor: Colors.white,
                           onTap: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                                builder: (c) => const SetPassword()));
+                                builder: (c) => SetPassword()));
                           })),
                   Card(
                       child: ListTile(
