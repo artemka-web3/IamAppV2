@@ -23,6 +23,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         pref.remove('phone');
         pref.remove('entered');
         pref.remove('pin');
+        FirebaseAuth.instance.signOut();
         await databaseService.deleteAcc(event.phone);
         emit(UserState(user: custom.User(phone: '-1')));
       } catch (e) {

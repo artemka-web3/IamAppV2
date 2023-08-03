@@ -16,7 +16,8 @@ class NewGoal extends StatefulWidget {
 
 class _NewGoalState extends State<NewGoal> {
   DateTime? date =
-      DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+      DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)
+          .add(Duration(days: 1));
 
   final List<String> spheres = [
     'Здоровье',
@@ -124,8 +125,8 @@ class _NewGoalState extends State<NewGoal> {
                         onTap: () async {
                           date = await showDatePicker(
                             context: context,
-                            initialDate: DateTime.now(),
-                            firstDate: DateTime.now(),
+                            initialDate: DateTime.now().add(Duration(days: 1)),
+                            firstDate: DateTime.now().add(Duration(days: 1)),
                             lastDate: DateTime(2030),
                           );
                           setState(() {});

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:i_am_app/pages/auth/logic/bloc/auth_bloc.dart' as authbloc;
 import 'package:i_am_app/pages/auth/sign_in.dart';
 import 'package:i_am_app/pages/bloc/bloc/user_bloc.dart';
 import 'package:i_am_app/pages/faq.dart';
 import 'package:i_am_app/pages/set_password.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Settings extends StatelessWidget {
   bool switchNotify = false;
@@ -122,13 +124,16 @@ class Settings extends StatelessWidget {
                                   style: TextStyle(color: Colors.black)),
                             ),
                             TextButton(
-                              onPressed: () {
+                              onPressed: () async {
                                 context.read<UserBloc>().add(DeleteAcc(
                                     phone: context
                                         .read<UserBloc>()
                                         .state
                                         .user
                                         .phone));
+                                SharedPreferences preferences =
+                                    await SharedPreferences.getInstance();
+
                                 Navigator.pushAndRemoveUntil(
                                     context,
                                     MaterialPageRoute(
