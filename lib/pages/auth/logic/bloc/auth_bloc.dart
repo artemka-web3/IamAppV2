@@ -14,6 +14,7 @@ class AuthBloc extends Bloc<AuthBlocEvent, AuthInitial> {
   final PhoneAuthRepository phoneAuthRepository;
 
   AuthBloc({required this.phoneAuthRepository}) : super(AuthInitial()) {
+    on<DeleteAcc>((event, emit) => emit(AuthInitial()));
     // Когда пользователь нажмет на кнопку отправки, это событие будет запущено
     on<SendOtpToPhoneEvent>((event, emit) async {
       emit(AuthLoading());
@@ -26,24 +27,37 @@ class AuthBloc extends Bloc<AuthBlocEvent, AuthInitial> {
           await auth.signInWithEmailAndPassword(
               email: event.phone, password: event.password);
         } else {
-          await auth.createUserWithEmailAndPassword(
-              email: event.phone, password: event.password);
-        }
-        var subscription;
-        subscription = auth.authStateChanges().listen((user) async {
-          if (user != null) {
-            if (!isContaned) {
-              await service.createUser(
-                custom.User(
-                  phone: parser,
-                ),
-              );
+          try {
+            await auth.createUserWithEmailAndPassword(
+                email: event.phone, password: event.password);
+          } catch (e) {
+            if (e is FirebaseAuthException) {
+              if ((e as FirebaseAuthException).code == "email-already-in-use") {
+                UserCredential userCredential;
+
+                await auth.signInWithEmailAndPassword(
+                    email: event.phone, password: event.password);
+              }
+            } else {
+              print(e);
             }
-            await prefs.setBool('entered', true);
-            await prefs.setString('phone', parser);
           }
-          add(OnPhoneAuthVerificationCompleteEvent(parser));
-        });
+          var subscription;
+          subscription = auth.authStateChanges().listen((user) async {
+            if (user != null) {
+              if (!isContaned) {
+                await service.createUser(
+                  custom.User(
+                    phone: parser,
+                  ),
+                );
+              }
+              await prefs.setBool('entered', true);
+              await prefs.setString('phone', parser);
+            }
+            add(OnPhoneAuthVerificationCompleteEvent(parser));
+          });
+        }
       } catch (e) {
         emit(PhoneAuthError(error: e.toString()));
       }

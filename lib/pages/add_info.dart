@@ -225,7 +225,7 @@ class _AddInfoState extends State<AddInfo> {
                           itemCount: controllerFilms.length,
                           itemBuilder: (context, index) {
                             return TextForm(
-                              controller: controllerBooks[index],
+                              controller: controllerFilms[index],
                             );
                           }),
                     ),

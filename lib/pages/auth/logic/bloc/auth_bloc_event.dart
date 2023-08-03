@@ -7,6 +7,10 @@ abstract class AuthBlocEvent {
   AuthBlocEvent(this.phone);
 }
 
+class DeleteAcc extends AuthBlocEvent {
+  DeleteAcc(super.phone);
+}
+
 class SendOtpToPhoneEvent extends AuthBlocEvent {
   final String password;
   SendOtpToPhoneEvent(super.phone, this.password);

@@ -301,7 +301,7 @@ class NewNode extends StatelessWidget {
                             }
                           }
                           for (var i = 0; i < birthday.length; i++) {
-                            if (birthday[i].text == "") {
+                            if (birthday[i].text == "" && calls.length > 1) {
                               birthday.removeAt(i);
                             }
                             if (birthday[i].text != "") {

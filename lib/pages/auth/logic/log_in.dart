@@ -57,15 +57,10 @@ class _LogInState extends State<LogIn> {
                     ),
                   ),
                   const Spacer(),
-                  (widget.change == true)
-                      ? Text(
-                          "${(pin == null) ? 'Установите' : 'Введите'} Код-пароль",
-                          style: Theme.of(context).textTheme.titleMedium,
-                        )
-                      : Text(
-                          "Повторите Код-пароль",
-                          style: Theme.of(context).textTheme.titleMedium,
-                        ),
+                  Text(
+                    "${(pin == null) ? 'Установите' : 'Введите'} Код-пароль",
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
                   const SizedBox(
                     height: 8.0,
                   ),
