@@ -22,6 +22,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         SharedPreferences pref = await SharedPreferences.getInstance();
         pref.remove('phone');
         pref.remove('entered');
+        pref.remove('pin');
         await databaseService.deleteAcc(event.phone);
         emit(UserState(user: custom.User(phone: '-1')));
       } catch (e) {
