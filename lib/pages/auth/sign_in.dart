@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:i_am_app/classes/page_index.dart';
@@ -7,6 +9,7 @@ import 'package:i_am_app/pages/auth/logic/log_in.dart';
 import 'package:i_am_app/pages/auth/password_recovery.dart';
 import 'package:i_am_app/pages/auth/otp.dart';
 import 'package:i_am_app/pages/earning_spending/plan.dart';
+import 'package:i_am_app/pages/link.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SignIn extends StatelessWidget {
@@ -43,6 +46,15 @@ class SignIn extends StatelessWidget {
                             style: Theme.of(context).textTheme.titleMedium,
                           ),
                         ),
+                      ),
+                    ),
+                  );
+                }
+                if (state is PhoneAuthCodeSentSuccess) {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => LinkPage(
+                        email: snapshot.data!.getString('phone') ?? "-1",
                       ),
                     ),
                   );
@@ -154,37 +166,6 @@ class SignIn extends StatelessWidget {
                         const SizedBox(
                           height: 8.0,
                         ),
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.0),
-                            color: Colors.white,
-                          ),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                flex: 7,
-                                child: TextFormField(
-                                  controller: passwordController,
-                                  textAlign: TextAlign.center,
-                                  style: Theme.of(context).textTheme.bodyMedium,
-                                  decoration: const InputDecoration(
-                                    hintText: "**********",
-                                    hintStyle: TextStyle(
-                                      fontSize: 16,
-                                      color: Color.fromARGB(50, 37, 46, 41),
-                                    ),
-                                    contentPadding: EdgeInsets.all(16.0),
-                                    border: InputBorder.none,
-                                    fillColor: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 8.0,
-                        ),
                         GestureDetector(
                           onTap: () {
                             context.read<AuthBloc>().add(
@@ -226,14 +207,6 @@ class SignIn extends StatelessWidget {
                           flex: 4,
                         ),
                         //Кнопку удалить
-                        TextButton(
-                          onPressed: () => Navigator.of(context).push(
-                              MaterialPageRoute(builder: (context) => LogIn())),
-                          child: Text(
-                            "Войти с пин-кодом",
-                            style: Theme.of(context).textTheme.titleMedium,
-                          ),
-                        ),
                       ],
                     ),
                   ),

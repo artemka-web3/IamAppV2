@@ -17,21 +17,15 @@ class SendOtpToPhoneEvent extends AuthBlocEvent {
 }
 
 class VerifySentOtpEvent extends AuthBlocEvent {
-  final String verificationId;
-  final String otp;
-
-  VerifySentOtpEvent(super.phone,
-      {required this.verificationId, required this.otp});
+  VerifySentOtpEvent(super.phone);
 }
 
 class OnPhoneOtpSent extends AuthBlocEvent {
-  final String verificationId;
-  final int? token;
+  final String link;
 
   OnPhoneOtpSent(
     super.phone, {
-    required this.verificationId,
-    required this.token,
+    required this.link,
   });
 }
 

@@ -110,18 +110,7 @@ class OtpPage extends StatelessWidget {
                     height: 32.0,
                   ),
                   GestureDetector(
-                    onTap: () {
-                      if (state is PhoneAuthCodeSentSuccess) {
-                        verificationId = state.verificationId;
-                        context.read<AuthBloc>().add(VerifySentOtpEvent(number,
-                            verificationId: verificationId,
-                            otp: controller.text.trim()));
-                      } else {
-                        context.read<AuthBloc>().add(VerifySentOtpEvent(number,
-                            verificationId: verificationId,
-                            otp: controller.text.trim()));
-                      }
-                    },
+                    onTap: () {},
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 14.0),
                       decoration: BoxDecoration(

@@ -18,10 +18,7 @@ class PhoneAuthVerified extends AuthInitial {
 }
 
 class PhoneAuthCodeSentSuccess extends AuthInitial {
-  final String verificationId;
-  PhoneAuthCodeSentSuccess({
-    required this.verificationId,
-  });
+  PhoneAuthCodeSentSuccess();
 }
 
 class AuthLoading extends AuthInitial {}
