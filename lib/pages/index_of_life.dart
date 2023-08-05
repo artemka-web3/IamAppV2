@@ -93,29 +93,36 @@ class _LifeIndexState extends State<LifeIndex> {
                         if (index == 0) {
                           return SizedBox();
                         }
-                        return InkWell(
-                            child: Card(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15.0)),
-                                elevation: 20,
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                          child: InkWell(
+                              child: Container(
+                                width: 110,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(16.0),
+                                    color: Colors.white),
                                 child: Center(
-                                    child: Padding(
-                                        padding: EdgeInsets.all(28),
-                                        child: Column(children: [
-                                          Icon(Icons.add_a_photo_outlined),
-                                          Text(months[index - 1])
-                                        ])))),
-                            onTap: () {
-                              for (var i in state.user.index) {
-                                if (i.date.month == index) {
-                                  data = i;
-                                  break;
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(Icons.add_a_photo_outlined),
+                                      Text(months[index - 1])
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              onTap: () {
+                                for (var i in state.user.index) {
+                                  if (i.date.month == index) {
+                                    data = i;
+                                    break;
+                                  }
                                 }
-                              }
-                              setState(() {
-                                indexMonth = index;
-                              });
-                            });
+                                setState(() {
+                                  indexMonth = index;
+                                });
+                              }),
+                        );
                       },
                     )),
                 Container(

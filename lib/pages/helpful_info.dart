@@ -46,27 +46,28 @@ class _HelpfulInfoState extends State<HelpfulInfo> {
                   itemCount: spheres.length,
                   itemBuilder: (context, index) {
                     return Card(
-                        child: ListTile(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15.0)),
-                            title: Text(
-                              spheres[index],
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 16.0,
-                              ),
+                      child: ListTile(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15.0)),
+                        title: Text(
+                          spheres[index],
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 16.0,
+                          ),
+                        ),
+                        tileColor: Colors.white,
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AddInfo(sphereIndex: index),
                             ),
-                            tileColor: Colors.white,
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      AddInfo(sphereIndex: index),
-                                ),
-                              );
-                              // Navigate to spheres[index] page
-                            }));
+                          );
+                          // Navigate to spheres[index] page
+                        },
+                      ),
+                    );
                   }),
             ),
           ))

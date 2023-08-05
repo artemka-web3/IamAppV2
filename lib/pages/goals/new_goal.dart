@@ -19,6 +19,21 @@ class _NewGoalState extends State<NewGoal> {
       DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)
           .add(Duration(days: 1));
 
+  List<String> months = [
+    'Январь',
+    'Февраль',
+    'Март',
+    'Апрель',
+    'Май',
+    'Июнь',
+    'Июль',
+    'Август',
+    'Сентябрь',
+    'Октябрь',
+    'Ноябрь',
+    'Декабрь'
+  ];
+
   final List<String> spheres = [
     'Здоровье',
     'Внешний вид',
@@ -51,6 +66,7 @@ class _NewGoalState extends State<NewGoal> {
   Widget build(BuildContext context) {
     return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
+        print(date!.month);
         return Scaffold(
           resizeToAvoidBottomInset: false,
           extendBodyBehindAppBar: true,
@@ -129,15 +145,16 @@ class _NewGoalState extends State<NewGoal> {
                             firstDate: DateTime.now().add(Duration(days: 1)),
                             lastDate: DateTime(2030),
                           );
+                          date ??= DateTime(DateTime.now().year,
+                                  DateTime.now().month, DateTime.now().day)
+                              .add(const Duration(days: 1));
                           setState(() {});
                         },
                         child: Row(
                           children: [
                             const Icon(Icons.calendar_month),
                             Text(
-                              (date == null)
-                                  ? "Январь 2023"
-                                  : '${DateFormat('MMMM').format(date ?? DateTime.now())} ${date?.year ?? DateTime.now().year}',
+                              '${months[date!.month - 1]} ${date!.year}',
                               style: const TextStyle(
                                   fontSize: 22, color: Colors.black),
                             ),
@@ -287,6 +304,7 @@ class _NewGoalState extends State<NewGoal> {
                             phone: preferences.getString('phone')!,
                           ),
                         );
+                    Navigator.of(context).pop();
                   },
                   child: Container(
                     padding: const EdgeInsets.symmetric(vertical: 14.0),

@@ -24,6 +24,21 @@ class _PlanState extends State<Plan> {
     TextEditingController()
   ];
 
+  List<String> months = [
+    'Январь',
+    'Февраль',
+    'Март',
+    'Апрель',
+    'Май',
+    'Июнь',
+    'Июль',
+    'Август',
+    'Сентябрь',
+    'Октябрь',
+    'Ноябрь',
+    'Декабрь'
+  ];
+
   List<String> data = [];
 
   bool switchValue = false;
@@ -150,6 +165,7 @@ class _PlanState extends State<Plan> {
                             },
                           );
                         }
+                        setState(() {});
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -163,9 +179,9 @@ class _PlanState extends State<Plan> {
                           ),
                           CustomContainer(
                             title: (switchValue)
-                                ? DateFormat('MMMM').format(DateTime(
-                                    DateTime.now().year,
-                                    DateTime.now().month - 1))
+                                ? (date.month == 1)
+                                    ? months[11]
+                                    : months[date.month - 2]
                                 : (date.year - 1).toString(),
                           ),
                           const SizedBox(
@@ -173,8 +189,7 @@ class _PlanState extends State<Plan> {
                           ),
                           CustomContainer(
                             title: (switchValue)
-                                ? DateFormat('MMMM').format(DateTime(
-                                    DateTime.now().year, DateTime.now().month))
+                                ? months[date.month - 1]
                                 : (date.year).toString(),
                           ),
                           const SizedBox(
@@ -182,9 +197,9 @@ class _PlanState extends State<Plan> {
                           ),
                           CustomContainer(
                             title: (switchValue)
-                                ? DateFormat('MMMM').format(DateTime(
-                                    DateTime.now().year,
-                                    DateTime.now().month + 1))
+                                ? (date.month == 12)
+                                    ? months[0]
+                                    : months[date.month]
                                 : (date.year + 1).toString(),
                           ),
                           const SizedBox(

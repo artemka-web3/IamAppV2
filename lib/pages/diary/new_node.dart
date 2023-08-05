@@ -75,6 +75,11 @@ class NewNode extends StatelessWidget {
                               firstDate: DateTime.now(),
                               lastDate: DateTime(2030),
                             );
+                            frog = [TextEditingController()];
+                            birthday = [TextEditingController()];
+                            calls = [TextEditingController()];
+                            tasks = [TextEditingController()];
+                            success = [TextEditingController()];
                             if (date == null) {
                               date = DateTime.now();
                             }
@@ -210,9 +215,13 @@ class NewNode extends StatelessWidget {
                                             color: Colors.white,
                                           ),
                                           Switch(
-                                            trackColor:
+                                            thumbColor:
                                                 const MaterialStatePropertyAll(
-                                                    Colors.grey),
+                                                    Colors.white),
+                                            inactiveTrackColor: Color.fromARGB(
+                                                59, 158, 158, 158),
+                                            activeTrackColor:
+                                                Colors.grey.shade100,
                                             value: valuesAlarm[index],
                                             onChanged: (val) => setState(
                                               () {
@@ -293,33 +302,30 @@ class NewNode extends StatelessWidget {
                           Case newCase;
 
                           for (var i = 0; i < frog.length; i++) {
-                            if (frog[i].text == "" && frog.length > 1) {
-                              frog.removeAt(i);
-                            }
                             if (frog[i].text != "") {
                               frogCopy.add(Task(text: frog[i].text));
                             }
+                            if (frog[i].text == "" && frog.length > 1) {
+                              frog.removeAt(i);
+                            }
                           }
                           for (var i = 0; i < birthday.length; i++) {
-                            if (birthday[i].text == "" && calls.length > 1) {
-                              birthday.removeAt(i);
-                            }
                             if (birthday[i].text != "") {
                               birthdayCopy.add(Task(text: birthday[i].text));
                             }
+                            if (birthday[i].text == "" && calls.length > 1) {
+                              birthday.removeAt(i);
+                            }
                           }
                           for (var i = 0; i < calls.length; i++) {
-                            if (calls[i].text == "" && calls.length > 1) {
-                              calls.removeAt(i);
-                            }
                             if (calls[i].text != "") {
                               callsCopy.add(Task(text: calls[i].text));
                             }
+                            if (calls[i].text == "" && calls.length > 1) {
+                              calls.removeAt(i);
+                            }
                           }
                           for (var i = 0; i < tasks.length; i++) {
-                            if (tasks[i].text == "" && tasks.length > 1) {
-                              tasks.removeAt(i);
-                            }
                             if (tasks[i].text != "") {
                               tasksCopy.add(
                                 Task(
@@ -327,13 +333,16 @@ class NewNode extends StatelessWidget {
                                     time: (valuesAlarm[i]) ? times[i] : null),
                               );
                             }
+                            if (tasks[i].text == "" && tasks.length > 1) {
+                              tasks.removeAt(i);
+                            }
                           }
                           for (var i = 0; i < success.length; i++) {
-                            if (success[i].text == "" && success.length > 1) {
-                              success.removeAt(i);
-                            }
                             if (success[i].text != "") {
                               successCopy.add(Task(text: success[i].text));
+                            }
+                            if (success[i].text == "" && success.length > 1) {
+                              success.removeAt(i);
                             }
                           }
                           newCase = Case(
@@ -373,6 +382,7 @@ class NewNode extends StatelessWidget {
                                     newCase: newCase,
                                     phone: pref.getString('phone')!),
                               );
+                          Navigator.of(context).pop();
                         },
                         child: Container(
                           padding: const EdgeInsets.symmetric(vertical: 14.0),

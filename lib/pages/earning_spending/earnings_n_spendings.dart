@@ -1,7 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:i_am_app/pages/earning_spending/free_table.dart';
 import 'package:i_am_app/pages/earning_spending/plan.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+String parseNumber(String number) {
+  String formatted = '';
+
+  for (int i = 0; i < number.length; i++) {
+    formatted += number[i];
+
+    if ((number.length - i - 1) % 3 == 0 && i != number.length - 1) {
+      formatted += ' ';
+    }
+  }
+
+  return formatted;
+}
 
 class Earnings_N_Spendings extends StatefulWidget {
   TextEditingController income = TextEditingController();
@@ -72,6 +87,18 @@ class _Earnings_N_SpendingsState extends State<Earnings_N_Spendings> {
                                   color: Colors.black, fontSize: 16.0),
                               controller: widget.income,
                               onChanged: (val) async {
+                                if (widget.income.text.length == 0) {
+                                  await snapshot.data
+                                      ?.setString('income', widget.income.text);
+                                  return;
+                                }
+                                var formatter = NumberFormat('#,###');
+                                widget.income.text =
+                                    '${formatter.format(int.tryParse(widget.income.text.replaceAll(' ', '')))}'
+                                        .replaceAll(',', ' ');
+                                widget.income.selection =
+                                    TextSelection.fromPosition(TextPosition(
+                                        offset: widget.income.text.length));
                                 await snapshot.data
                                     ?.setString('income', widget.income.text);
                               },
@@ -103,8 +130,20 @@ class _Earnings_N_SpendingsState extends State<Earnings_N_Spendings> {
                                   color: Colors.black, fontSize: 16.0),
                               controller: widget.expenses,
                               onChanged: (val) async {
-                                await snapshot.data?.setString(
-                                    'expenses', widget.expenses.text);
+                                if (widget.expenses.text.length == 0) {
+                                  await snapshot.data?.setString(
+                                      'income', widget.expenses.text);
+                                  return;
+                                }
+                                var formatter = NumberFormat('#,###');
+                                widget.expenses.text =
+                                    '${formatter.format(int.tryParse(widget.expenses.text.replaceAll(' ', '')))}'
+                                        .replaceAll(',', ' ');
+                                widget.expenses.selection =
+                                    TextSelection.fromPosition(TextPosition(
+                                        offset: widget.expenses.text.length));
+                                await snapshot.data
+                                    ?.setString('income', widget.expenses.text);
                               },
                             ),
                           ),
@@ -136,8 +175,21 @@ class _Earnings_N_SpendingsState extends State<Earnings_N_Spendings> {
                                   color: Colors.black, fontSize: 16.0),
                               controller: widget.independence,
                               onChanged: (val) async {
+                                if (widget.independence.text.length == 0) {
+                                  await snapshot.data?.setString(
+                                      'income', widget.independence.text);
+                                  return;
+                                }
+                                var formatter = NumberFormat('#,###');
+                                widget.independence.text =
+                                    '${formatter.format(int.tryParse(widget.independence.text.replaceAll(' ', '')))}'
+                                        .replaceAll(',', ' ');
+                                widget.independence.selection =
+                                    TextSelection.fromPosition(TextPosition(
+                                        offset:
+                                            widget.independence.text.length));
                                 await snapshot.data?.setString(
-                                    'independence', widget.independence.text);
+                                    'income', widget.independence.text);
                               },
                             ),
                           ),
