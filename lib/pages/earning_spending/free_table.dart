@@ -53,8 +53,23 @@ Future<void> createExel(List<Plan> plans, bool isYear) async {
   OpenFile.open(fileName);
 }
 
+List<String> months = [
+  'Январь',
+  'Февраль',
+  'Март',
+  'Апрель',
+  'Май',
+  'Июнь',
+  'Июль',
+  'Август',
+  'Сентябрь',
+  'Октябрь',
+  'Ноябрь',
+  'Декабрь'
+];
+
 class FreeTable extends StatefulWidget {
-  const FreeTable({super.key});
+  FreeTable({super.key});
 
   @override
   State<FreeTable> createState() => _FreeTableState();
@@ -231,7 +246,7 @@ class CustomColumn extends StatelessWidget {
             child: Text(
               (isYears)
                   ? plan.date.year.toString()
-                  : DateFormat('MMMM').format(plan.date),
+                  : months[plan.date.month - 1],
               style: Theme.of(context)
                   .textTheme
                   .titleMedium!

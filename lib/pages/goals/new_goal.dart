@@ -4,6 +4,7 @@ import 'package:i_am_app/classes/models/goal.dart';
 import 'package:i_am_app/classes/services/notification_service.dart';
 import 'package:i_am_app/pages/auth/logic/bloc/auth_bloc.dart';
 import 'package:i_am_app/pages/bloc/bloc/user_bloc.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -139,8 +140,10 @@ class _NewGoalState extends State<NewGoal> {
                       ),
                       GestureDetector(
                         onTap: () async {
+                          initializeDateFormatting();
                           date = await showDatePicker(
                             context: context,
+                            locale: Locale('ru'),
                             initialDate: DateTime.now().add(Duration(days: 1)),
                             firstDate: DateTime.now().add(Duration(days: 1)),
                             lastDate: DateTime(2030),

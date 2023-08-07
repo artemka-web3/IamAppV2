@@ -230,7 +230,7 @@ class NewNode extends StatelessWidget {
                       ),
                       Node(
                         icon: SvgPicture.asset(
-                          "assets/images/cake.svg",
+                          "assets/images/award.svg",
                         ),
                         title: 'Успехи дня',
                       ),
@@ -424,83 +424,86 @@ class CustomTime extends StatelessWidget {
       itemCount: controllers.length,
       physics: const BouncingScrollPhysics(),
       itemBuilder: (context, index) {
-        return Column(
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Container(
-              margin: const EdgeInsets.symmetric(vertical: 8.0),
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(12.0),
-                ),
-                color: Colors.white,
-              ),
-              child: TextFormField(
-                onChanged: (value) {
-                  if (index == controllers.length - 1) {
-                    setState(
-                      () {
-                        controllers.add(TextEditingController());
-                        valuesAlarms.add(false);
-                        times.add(
-                          const TimeOfDay(hour: 12, minute: 00),
-                        );
-                      },
-                    );
-                  }
-                },
-                controller: controllers[index],
-                style: Theme.of(context).textTheme.bodyMedium,
-                decoration: const InputDecoration(
-                    contentPadding: EdgeInsets.all(16.0),
-                    border: InputBorder.none,
-                    hintText: "Новая запись..."),
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                const Icon(
-                  Icons.alarm,
+            Expanded(
+              child: Container(
+                margin: const EdgeInsets.symmetric(vertical: 8.0),
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(12.0),
+                  ),
                   color: Colors.white,
                 ),
-                Switch(
-                  thumbColor: const MaterialStatePropertyAll(Colors.white),
-                  inactiveTrackColor: Color.fromARGB(59, 158, 158, 158),
-                  activeTrackColor: Colors.grey.shade100,
-                  value: valuesAlarms[index],
-                  onChanged: (val) => setState(
-                    () {
-                      valuesAlarms[index] = val;
-                    },
-                  ),
-                ),
-                (valuesAlarms[index])
-                    ? GestureDetector(
-                        onTap: () async {
-                          times[index] = await showTimePicker(
-                                context: context,
-                                initialTime:
-                                    const TimeOfDay(hour: 12, minute: 00),
-                              ) ??
-                              const TimeOfDay(hour: 12, minute: 00);
-                          if (times[index] == null) {
-                            times[index] = TimeOfDay.now();
-                          }
-                          setState(() {});
+                child: TextFormField(
+                  onChanged: (value) {
+                    if (index == controllers.length - 1) {
+                      setState(
+                        () {
+                          controllers.add(TextEditingController());
+                          valuesAlarms.add(false);
+                          times.add(
+                            const TimeOfDay(hour: 12, minute: 00),
+                          );
                         },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12.0),
-                          ),
-                          child: Text(
-                            '${(times[index]!.hour > 9) ? times[index]!.hour : '0${times[index]!.hour}'}:${(times[index]!.minute > 9) ? times[index]!.minute : '0${times[index]!.minute}'}',
-                            style: Theme.of(context).textTheme.titleMedium,
-                          ),
-                        ),
-                      )
-                    : const SizedBox(),
-              ],
+                      );
+                    }
+                  },
+                  controller: controllers[index],
+                  style: Theme.of(context).textTheme.bodyMedium,
+                  decoration: const InputDecoration(
+                      contentPadding: EdgeInsets.all(16.0),
+                      border: InputBorder.none,
+                      hintText: "Новая запись..."),
+                ),
+              ),
             ),
+            SizedBox(
+              width: 8.0,
+            ),
+            const Icon(
+              Icons.alarm,
+              color: Colors.white,
+            ),
+            SizedBox(
+              width: 8.0,
+            ),
+            Switch(
+              thumbColor: const MaterialStatePropertyAll(Colors.white),
+              inactiveTrackColor: Color.fromARGB(59, 158, 158, 158),
+              activeTrackColor: Colors.grey.shade100,
+              value: valuesAlarms[index],
+              onChanged: (val) => setState(
+                () {
+                  valuesAlarms[index] = val;
+                },
+              ),
+            ),
+            (valuesAlarms[index])
+                ? GestureDetector(
+                    onTap: () async {
+                      times[index] = await showTimePicker(
+                            context: context,
+                            initialTime: const TimeOfDay(hour: 12, minute: 00),
+                          ) ??
+                          const TimeOfDay(hour: 12, minute: 00);
+                      if (times[index] == null) {
+                        times[index] = TimeOfDay.now();
+                      }
+                      setState(() {});
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                      child: Text(
+                        '${(times[index]!.hour > 9) ? times[index]!.hour : '0${times[index]!.hour}'}:${(times[index]!.minute > 9) ? times[index]!.minute : '0${times[index]!.minute}'}',
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                    ),
+                  )
+                : const SizedBox(),
           ],
         );
       },

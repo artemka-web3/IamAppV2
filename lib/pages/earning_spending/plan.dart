@@ -5,6 +5,19 @@ import 'package:i_am_app/pages/bloc/bloc/user_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:i_am_app/classes/models/plan.dart' as pl;
 
+List<TextEditingController> controllers = [
+  TextEditingController(),
+  TextEditingController(),
+  TextEditingController(),
+  TextEditingController(),
+  TextEditingController(),
+  TextEditingController()
+];
+
+bool switchValue = false;
+
+DateTime date = DateTime.now();
+
 class Plan extends StatefulWidget {
   const Plan({super.key});
 
@@ -13,17 +26,6 @@ class Plan extends StatefulWidget {
 }
 
 class _PlanState extends State<Plan> {
-  DateTime date = DateTime.now();
-
-  List<TextEditingController> controllers = [
-    TextEditingController(),
-    TextEditingController(),
-    TextEditingController(),
-    TextEditingController(),
-    TextEditingController(),
-    TextEditingController()
-  ];
-
   List<String> months = [
     'Январь',
     'Февраль',
@@ -41,7 +43,6 @@ class _PlanState extends State<Plan> {
 
   List<String> data = [];
 
-  bool switchValue = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -115,25 +116,42 @@ class _PlanState extends State<Plan> {
                     GestureDetector(
                       onTap: () async {
                         if (switchValue) {
-                          date = await showDatePicker(
-                                context: context,
-                                initialDate: DateTime(
-                                  DateTime.now().year,
-                                  DateTime.now().month,
+                          await showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text(
+                                  "День месяц",
+                                  style: Theme.of(context).textTheme.bodyMedium,
                                 ),
-                                firstDate: DateTime(
-                                  DateTime.now().year,
-                                  DateTime.now().month,
+                                content: Container(
+                                  // Need to use container to add size constraint.
+                                  width: 300,
+                                  height: 300,
+                                  child: ListView.builder(
+                                      itemCount: months.length,
+                                      itemBuilder: (context, index) {
+                                        return ListTile(
+                                          tileColor: Colors.white,
+                                          onTap: () {
+                                            date = DateTime(
+                                                DateTime.now().year, index + 1);
+                                            Navigator.of(context).pop();
+                                          },
+                                          title: Center(
+                                            child: Text(
+                                              months[index],
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyMedium,
+                                            ),
+                                          ),
+                                        );
+                                      }),
                                 ),
-                                lastDate: DateTime(
-                                  DateTime.now().year + 30,
-                                  DateTime.now().month,
-                                ),
-                              ) ??
-                              DateTime(
-                                DateTime.now().year,
-                                DateTime.now().month,
                               );
+                            },
+                          );
                           date = DateTime(date.year, date.month);
                         } else {
                           await showDialog(
@@ -323,55 +341,59 @@ class ContainerTextForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: const TextStyle(color: Colors.white),
-              ),
-              const SizedBox(
-                width: 16.0,
-              ),
-              (showCatigory)
-                  ? const Text(
-                      "Категория",
-                      style: TextStyle(color: Colors.white),
-                    )
-                  : const SizedBox(),
-              (showInfo != null)
-                  ? IconButton(
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.query_builder,
-                        color: Colors.white,
-                      ),
-                    )
-                  : const SizedBox(),
-            ],
-          ),
-          const SizedBox(
-            height: 24.0,
-          ),
-          TextForm(
-            controller: controller,
-          ),
-          const SizedBox(
-            height: 24.0,
-          ),
-        ],
-      ),
-    );
+    return StatefulBuilder(builder: (context, setState) {
+      return Container(
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(color: Colors.white),
+                ),
+                const SizedBox(
+                  width: 16.0,
+                ),
+                (showCatigory)
+                    ? const Text(
+                        "Категория",
+                        style: TextStyle(color: Colors.white),
+                      )
+                    : const SizedBox(),
+                (showInfo != null)
+                    ? IconButton(
+                        onPressed: () {},
+                        icon: const Icon(
+                          Icons.query_builder,
+                          color: Colors.white,
+                        ),
+                      )
+                    : const SizedBox(),
+              ],
+            ),
+            const SizedBox(
+              height: 24.0,
+            ),
+            TextForm(
+              controller: controller,
+              setState: setState,
+            ),
+            const SizedBox(
+              height: 24.0,
+            ),
+          ],
+        ),
+      );
+    });
   }
 }
 
 class TextForm extends StatelessWidget {
-  final TextEditingController? controller;
+  final TextEditingController controller;
+  Function setState;
 
-  const TextForm({super.key, this.controller});
+  TextForm({super.key, required this.controller, required this.setState});
 
   @override
   Widget build(BuildContext context) {
@@ -382,7 +404,56 @@ class TextForm extends StatelessWidget {
       ),
       child: TextFormField(
         controller: controller,
+        keyboardType: TextInputType.number,
         style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 14.0),
+        onChanged: (value) {
+          controllers[4].text = '0';
+          if (controller.text.length == 0) {
+            return;
+          }
+          if (controllers[0].text.isNotEmpty &&
+              controllers[1].text.isNotEmpty &&
+              controllers[2].text.isNotEmpty) {
+            controllers[3].text =
+                (int.parse(controllers[0].text.replaceAll(' ', '')) -
+                        int.parse(controllers[1].text.replaceAll(' ', '')) -
+                        int.parse(controllers[2].text.replaceAll(' ', '')))
+                    .toString();
+
+            final data = context.read<UserBloc>().state.user;
+            if (switchValue) {
+              for (var i in data.month) {
+                if (i.date.month < date.month) {
+                  controllers[4].text =
+                      (int.parse(controllers[4].text.replaceAll(' ', '')) +
+                              int.parse(i.drr!.replaceAll(' ', '')))
+                          .toString();
+                }
+              }
+            } else {
+              for (var i in data.years) {
+                if (i.date.year < date.year) {
+                  controllers[4].text =
+                      (int.parse(controllers[4].text.replaceAll(' ', '')) +
+                              int.parse(i.drr!.replaceAll(' ', '')))
+                          .toString();
+                }
+              }
+            }
+            controllers[4].text =
+                (int.parse(controllers[4].text.replaceAll(' ', '')) +
+                        int.parse(controllers[3].text.replaceAll(' ', '')))
+                    .toString();
+            print(controllers[4].text);
+            setState(() {});
+          }
+          var formatter = NumberFormat('#,###');
+          controller.text =
+              '${formatter.format(int.tryParse(controller.text.replaceAll(' ', '')))}'
+                  .replaceAll(',', ' ');
+          controller.selection = TextSelection.fromPosition(
+              TextPosition(offset: controller.text.length));
+        },
         decoration: InputDecoration(
           hintText: "Введите сумму...",
           hintStyle: const TextStyle(

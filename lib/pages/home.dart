@@ -111,7 +111,7 @@ class Home extends StatelessWidget {
                                     style: GoogleFonts.inter(
                                       textStyle: const TextStyle(
                                         color: Color(0xFF252D28),
-                                        fontSize: 47,
+                                        fontSize: 52,
                                         fontWeight: FontWeight.w700,
                                       ),
                                     ),
@@ -120,14 +120,14 @@ class Home extends StatelessWidget {
                                     (diff < 0.0)
                                         ? Icons.arrow_circle_down
                                         : Icons.arrow_circle_up,
-                                    size: 23,
+                                    size: 24,
                                   ),
                                   Text(
                                     diff.abs().toStringAsFixed(1),
                                     style: GoogleFonts.lato(
                                       textStyle: const TextStyle(
                                         color: Color(0xFF252D28),
-                                        fontSize: 25,
+                                        fontSize: 20,
                                         fontWeight: FontWeight.w700,
                                       ),
                                     ),

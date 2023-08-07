@@ -102,14 +102,14 @@ class User {
           .entries
           .map((e) => Plan.fromMap(e.value))
           .toList();
-      monthBuf.sort(((a, b) => a.date.month.compareTo(b.date.month)));
+      yearsBuf.sort(((a, b) => a.date.year.compareTo(b.date.year)));
     }
     if (map['plan_month'] != null) {
       monthBuf = (map['plan_month'] as Map<String, dynamic>)
           .entries
           .map((e) => Plan.fromMap(e.value))
           .toList();
-      yearsBuf.sort(((a, b) => a.date.millisecondsSinceEpoch
+      monthBuf.sort(((a, b) => a.date.millisecondsSinceEpoch
           .compareTo(b.date.millisecondsSinceEpoch)));
     }
     return User(

@@ -14,6 +14,8 @@ class BirthMeaning extends StatefulWidget {
 class _BirthMeaningState extends State<BirthMeaning> {
   int prevLength = 0;
 
+  String buttonText = 'Введите дату рождения';
+
   bool isWomen = false;
 
   TextEditingController controller = TextEditingController();
@@ -142,6 +144,7 @@ class _BirthMeaningState extends State<BirthMeaning> {
                       ),
                     ),
                     onChanged: (_) {
+                      buttonText = 'Сохранить';
                       if (controller.text.length == 2 && prevLength == 1) {
                         controller.text += '/';
                       }
@@ -154,6 +157,7 @@ class _BirthMeaningState extends State<BirthMeaning> {
                       controller.selection = TextSelection.fromPosition(
                           TextPosition(offset: controller.text.length));
                       prevLength = controller.text.length;
+                      setState(() {});
                     },
                   ),
                 ),
@@ -207,6 +211,27 @@ class _BirthMeaningState extends State<BirthMeaning> {
                 ),
                 GestureDetector(
                   onTap: () async {
+                    if (buttonText == 'Введите дату рождения') {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Container(
+                            color: Colors.white,
+                            child: Center(
+                              child: Text(
+                                "Введите дату рождения",
+                                style: Theme.of(context).textTheme.bodyMedium,
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                      return;
+                    }
+                    if (buttonText == 'Сохранить') {
+                      buttonText = 'Далее';
+                      setState(() {});
+                      return;
+                    }
                     controller.text.trim();
                     if (controller.text.length == 10) {
                       FirebaseDatabaseService service =
@@ -259,10 +284,10 @@ class _BirthMeaningState extends State<BirthMeaning> {
                         Radius.circular(12.0),
                       ),
                     ),
-                    child: const Center(
+                    child: Center(
                       child: Text(
-                        "Далее",
-                        style: TextStyle(
+                        buttonText,
+                        style: const TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.w500,
                           fontSize: 16,

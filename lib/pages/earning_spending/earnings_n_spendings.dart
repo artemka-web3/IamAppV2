@@ -142,19 +142,17 @@ class _Earnings_N_SpendingsState extends State<Earnings_N_Spendings> {
                                 widget.expenses.selection =
                                     TextSelection.fromPosition(TextPosition(
                                         offset: widget.expenses.text.length));
-                                await snapshot.data
-                                    ?.setString('income', widget.expenses.text);
+                                await snapshot.data?.setString(
+                                    'expenses', widget.expenses.text);
                               },
                             ),
                           ),
                         ),
-                        Container(
-                          child: const Center(
-                              child: Text(
-                            "До финансовой \nнезависимости осталось",
-                            style: TextStyle(fontSize: 18, color: Colors.white),
-                          )),
-                        ),
+                        const Center(
+                            child: Text(
+                          "До финансовой независимости осталось",
+                          style: TextStyle(fontSize: 18, color: Colors.white),
+                        )),
                         Container(
                           margin: const EdgeInsets.all(16.0),
                           decoration: BoxDecoration(
@@ -226,7 +224,7 @@ class _Earnings_N_SpendingsState extends State<Earnings_N_Spendings> {
                                 ),
                                 onTap: () {
                                   Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) => const FreeTable()));
+                                      builder: (context) => FreeTable()));
                                 }),
                           )),
                       const SizedBox(height: 10),
