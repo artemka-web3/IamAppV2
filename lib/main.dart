@@ -149,16 +149,19 @@ class _MyAppState extends State<MyApp> {
             icon: Icon(Icons.settings_outlined),
           )
         ]),
-    (context) => AppBar(title: Text('Мои цели'), actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => Settings(),
-              ));
-            },
-            icon: Icon(Icons.settings_outlined),
-          )
-        ]),
+    (context) => AppBar(
+          title: Text('Мои цели'),
+          actions: [
+            IconButton(
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => Settings(),
+                ));
+              },
+              icon: Icon(Icons.settings_outlined),
+            )
+          ],
+        ),
     (context) => AppBar(title: Text('Ежедневник'), actions: [
           IconButton(
             onPressed: () {

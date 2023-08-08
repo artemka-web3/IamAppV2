@@ -16,6 +16,42 @@ List<TextEditingController> controllers = [
 
 bool switchValue = false;
 
+List<String> cEarning = [
+  'Зарплата',
+  'Бизнес',
+  'От аренды имущества',
+  'Алименты',
+  'Помощь',
+  'Продажа имущества',
+  'Пассивный дохо',
+  'Прочее'
+];
+
+List<String> cSpendingConst = [
+  'Продукты',
+  'Жильё',
+  'Транспорт',
+  'Товары для дома',
+  'Школа, садик',
+  'Длительное обучение',
+  'Кредит',
+  'Ипотека',
+  'Автокредит',
+  'Прочее',
+];
+
+List<String> cSpendingTemp = [
+  'Путешествие',
+  'Хобби',
+  'Одежда',
+  'Недвижимость',
+  'Транспорт',
+  'Лечение',
+  'Инвестиции',
+  'Сбережения',
+  'Благотворительность',
+  'Прочее',
+];
 DateTime date = DateTime.now();
 
 class Plan extends StatefulWidget {
@@ -356,9 +392,11 @@ class ContainerTextForm extends StatelessWidget {
                   width: 16.0,
                 ),
                 (showCatigory)
-                    ? const Text(
-                        "Категория",
-                        style: TextStyle(color: Colors.white),
+                    ? GestureDetector(
+                        child: Text(
+                          "Категория",
+                          style: TextStyle(color: Colors.white),
+                        ),
                       )
                     : const SizedBox(),
                 (showInfo != null)

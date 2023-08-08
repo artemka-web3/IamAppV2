@@ -171,6 +171,8 @@ class _AddInfoState extends State<AddInfo> {
                                 itemBuilder: (context, index) {
                                   return TextForm(
                                     controller: controllerQutes[index],
+                                    controllers: controllerQutes,
+                                    index: index,
                                     setState: setState,
                                   );
                                 }),
@@ -210,6 +212,8 @@ class _AddInfoState extends State<AddInfo> {
                                 itemCount: controllerApps.length,
                                 itemBuilder: (context, index) {
                                   return TextForm(
+                                    controllers: controllerApps,
+                                    index: index,
                                     controller: controllerApps[index],
                                     setState: setState,
                                   );
@@ -250,6 +254,8 @@ class _AddInfoState extends State<AddInfo> {
                                 itemCount: controllerWebsites.length,
                                 itemBuilder: (context, index) {
                                   return TextForm(
+                                    controllers: controllerFilms,
+                                    index: index,
                                     controller: controllerWebsites[index],
                                     setState: setState,
                                   );
@@ -290,6 +296,8 @@ class _AddInfoState extends State<AddInfo> {
                                 itemCount: controllerBooks.length,
                                 itemBuilder: (context, index) {
                                   return TextForm(
+                                    controllers: controllerBooks,
+                                    index: index,
                                     controller: controllerBooks[index],
                                     setState: setState,
                                   );
@@ -330,6 +338,8 @@ class _AddInfoState extends State<AddInfo> {
                               itemCount: controllerFilms.length,
                               itemBuilder: (context, index) {
                                 return TextForm(
+                                  controllers: controllerFilms,
+                                  index: index,
                                   controller: controllerFilms[index],
                                   setState: setState,
                                 );
@@ -398,33 +408,63 @@ class _AddInfoState extends State<AddInfo> {
 }
 
 class TextForm extends StatelessWidget {
+  List<TextEditingController> controllers;
+  final index;
+
   final TextEditingController? controller;
   final Function setState;
 
-  const TextForm({super.key, this.controller, required this.setState});
+  TextForm(
+      {super.key,
+      this.controller,
+      required this.setState,
+      this.index,
+      required this.controllers});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.0),
+        border: Border.all(color: Colors.grey),
         color: Colors.white,
       ),
-      child: TextFormField(
-        controller: controller,
-        style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 14.0),
-        onChanged: (value) => setState(() => save = 'Сохранить'),
-        decoration: InputDecoration(
-          hintText: "Введите...",
-          hintStyle: const TextStyle(
-            color: Color.fromARGB(129, 37, 46, 41),
+      child: Row(
+        children: [
+          Expanded(
+            child: TextFormField(
+              controller: controller,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyMedium!
+                  .copyWith(fontSize: 14.0),
+              onChanged: (value) => setState(() => save = 'Сохранить'),
+              decoration: InputDecoration(
+                hintText: "Введите...",
+                hintStyle: const TextStyle(
+                  color: Color.fromARGB(129, 37, 46, 41),
+                ),
+                contentPadding: const EdgeInsets.all(16.0),
+                border: InputBorder.none,
+                fillColor: Colors.white,
+              ),
+            ),
           ),
-          contentPadding: const EdgeInsets.all(16.0),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0),
+          SizedBox(
+            width: 4.0,
           ),
-          fillColor: Colors.white,
-        ),
+          IconButton(
+            onPressed: () {
+              save = 'Сохранить';
+              controllers.removeAt(index);
+              setState(() {});
+            },
+            icon: Icon(
+              Icons.delete,
+              color: Color.fromARGB(185, 244, 67, 54),
+            ),
+          ),
+        ],
       ),
     );
   }

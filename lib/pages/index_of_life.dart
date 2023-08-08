@@ -207,8 +207,34 @@ class _LifeIndexState extends State<LifeIndex> {
                                   controller: controllers[index],
                                   textAlign: TextAlign.center,
                                   inputFormatters: [
-                                    LengthLimitingTextInputFormatter(4),
+                                    LengthLimitingTextInputFormatter(3),
                                   ],
+                                  onChanged: (value) {
+                                    if (controllers[index].text.length == 3) {
+                                      if (double.parse(
+                                              controllers[index].text) >
+                                          5.0) {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            content: Container(
+                                              color: Colors.white,
+                                              child: Center(
+                                                child: Text(
+                                                  'Индекс должен быть не больше 5.0',
+                                                  style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 20,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                        controllers[index].clear();
+                                      }
+                                    }
+                                  },
                                   decoration: InputDecoration(
                                       border: InputBorder.none, hintText: '0'),
                                   style: TextStyle(
