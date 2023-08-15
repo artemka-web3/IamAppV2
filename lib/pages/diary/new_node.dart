@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:i_am_app/classes/models/case.dart';
@@ -31,6 +33,7 @@ class NewNode extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String locale = Platform.localeName;
     return Scaffold(
       resizeToAvoidBottomInset: true,
       extendBodyBehindAppBar: true,
@@ -79,6 +82,7 @@ class NewNode extends StatelessWidget {
                           onTap: () async {
                             date = await showDatePicker(
                               context: context,
+                              locale: Locale('ru'),
                               initialDate: DateTime.now(),
                               firstDate: DateTime.now(),
                               lastDate: DateTime(2030),
@@ -111,7 +115,7 @@ class NewNode extends StatelessWidget {
                                   width: 8.0,
                                 ),
                                 Text(
-                                  '${DateFormat('EEEE').format(date ?? DateTime.now())} ${date?.day ?? DateTime.now().day} / ${date?.month ?? DateTime.now().month}',
+                                  '${DateFormat.EEEE(locale).format(date ?? DateTime.now())[0].toUpperCase()}${DateFormat.EEEE(locale).format(date ?? DateTime.now()).substring(1)} ${date?.day ?? DateTime.now().day} / ${date?.month ?? DateTime.now().month}',
                                   style: const TextStyle(fontSize: 15.0),
                                 ),
                               ],
