@@ -191,7 +191,9 @@ class _LifeIndexState extends State<LifeIndex> {
                             title: Text(
                               spheres[index],
                               style: TextStyle(
-                                  color: Colors.black, fontSize: 16.0),
+                                color: Colors.black,
+                                fontSize: 16.0,
+                              ),
                             ),
                             tileColor: Colors.white,
                             trailing: Container(
@@ -201,45 +203,42 @@ class _LifeIndexState extends State<LifeIndex> {
                                 color: Color(0xFF252E29),
                                 borderRadius: BorderRadius.circular(12),
                               ),
-                              child: Center(
-                                child: TextFormField(
-                                  keyboardType: TextInputType.number,
-                                  controller: controllers[index],
-                                  textAlign: TextAlign.center,
-                                  inputFormatters: [
-                                    LengthLimitingTextInputFormatter(3),
-                                  ],
-                                  onChanged: (value) {
-                                    if (controllers[index].text.length == 3) {
-                                      if (double.parse(
-                                              controllers[index].text) >
-                                          5.0) {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            content: Container(
-                                              color: Colors.white,
-                                              child: Center(
-                                                child: Text(
-                                                  'Индекс должен быть не больше 5.0',
-                                                  style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize: 20,
-                                                  ),
+                              child: TextFormField(
+                                keyboardType: TextInputType.number,
+                                controller: controllers[index],
+                                textAlign: TextAlign.center,
+                                inputFormatters: [
+                                  LengthLimitingTextInputFormatter(3),
+                                ],
+                                onChanged: (value) {
+                                  if (controllers[index].text.length == 3) {
+                                    if (double.parse(controllers[index].text) >
+                                        5.0) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content: Container(
+                                            color: Colors.white,
+                                            child: Center(
+                                              child: Text(
+                                                'Индекс должен быть не больше 5.0',
+                                                style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 20,
                                                 ),
                                               ),
                                             ),
                                           ),
-                                        );
-                                        controllers[index].clear();
-                                      }
+                                        ),
+                                      );
+                                      controllers[index].clear();
                                     }
-                                  },
-                                  decoration: InputDecoration(
-                                      border: InputBorder.none, hintText: '0'),
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 12.0),
-                                ),
+                                  }
+                                },
+                                decoration: InputDecoration(
+                                    border: InputBorder.none, hintText: '0'),
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 12.0),
                               ),
                             ),
                           ),

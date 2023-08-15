@@ -61,35 +61,6 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     on<GetUserByPhone>((event, emit) async {
       emit(UserLoading(user: state.user));
       custom.User user = await databaseService.getUser(event.phone);
-      if (event.onlyDone != null) {
-        if (event.onlyDone!) {
-          for (var i = 0; i < user.cases.length; i++) {
-            user.cases[i].frogs.removeWhere((element) =>
-                element.isTicked == null || element.isTicked == false);
-            user.cases[i].birthdays.removeWhere((element) =>
-                element.isTicked == null || element.isTicked == false);
-            user.cases[i].calls.removeWhere((element) =>
-                element.isTicked == null || element.isTicked == false);
-            user.cases[i].tasks.removeWhere((element) =>
-                element.isTicked == null || element.isTicked == false);
-            user.cases[i].successes.removeWhere((element) =>
-                element.isTicked == null || element.isTicked == false);
-          }
-        } else {
-          for (var i = 0; i < user.cases.length; i++) {
-            user.cases[i].frogs
-                .removeWhere((element) => element.isTicked == true);
-            user.cases[i].birthdays
-                .removeWhere((element) => element.isTicked == true);
-            user.cases[i].calls
-                .removeWhere((element) => element.isTicked == true);
-            user.cases[i].tasks
-                .removeWhere((element) => element.isTicked == true);
-            user.cases[i].successes
-                .removeWhere((element) => element.isTicked == true);
-          }
-        }
-      }
       if (event.goalSphere != null) {
         user.goals.removeWhere((element) => element.sphere != event.goalSphere);
       }
