@@ -112,6 +112,15 @@ class User {
       monthBuf.sort(((a, b) => a.date.millisecondsSinceEpoch
           .compareTo(b.date.millisecondsSinceEpoch)));
     }
+    List<Case> cases = [];
+    if (map['cases'] != null) {
+      cases = (map['cases'] as Map<String, dynamic>)
+          .entries
+          .map((e) => Case.fromMap(e.value))
+          .toList();
+    }
+    cases.sort((a, b) => a.date!.millisecondsSinceEpoch
+        .compareTo(b.date!.millisecondsSinceEpoch));
     return User(
       phone: map['phone'] as String,
       id: map['id'] != null ? map['id'] as String : '0',
@@ -125,12 +134,7 @@ class User {
               .map((e) => Goal.fromMap(e.value))
               .toList()
           : [],
-      cases: map['cases'] != null
-          ? (map['cases'] as Map<String, dynamic>)
-              .entries
-              .map((e) => Case.fromMap(e.value))
-              .toList()
-          : [],
+      cases: cases,
       years: map['plan_years'] != null ? yearsBuf : [],
       month: map['plan_month'] != null ? monthBuf : [],
       index: li,

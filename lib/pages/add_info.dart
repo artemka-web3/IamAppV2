@@ -456,7 +456,9 @@ class TextForm extends StatelessWidget {
           IconButton(
             onPressed: () {
               save = 'Сохранить';
-              controllers.removeAt(index);
+              if (controllers.length > 1) {
+                controllers.removeAt(index);
+              }
               setState(() {});
             },
             icon: Icon(
