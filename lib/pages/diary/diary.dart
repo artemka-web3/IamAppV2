@@ -8,14 +8,14 @@ import 'package:i_am_app/pages/bloc/bloc/user_bloc.dart';
 import 'package:i_am_app/pages/diary/new_node.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class Diary extends StatelessWidget {
-  List<String> param = [
-    "Все",
-    "Только не выполненные",
-    "Только выполненные",
-  ];
-  String? paramVal;
+List<String> param = [
+  "Все",
+  "Только не выполненные",
+  "Только выполненные",
+];
+String? paramVal;
 
+class Diary extends StatelessWidget {
   Diary({super.key});
 
   @override
@@ -171,13 +171,43 @@ class DayTasks extends StatelessWidget {
           physics: const NeverScrollableScrollPhysics(),
           itemCount: (newCase.frogs != null) ? newCase.frogs!.length : 0,
           itemBuilder: (context, index) {
-            return Node(
-              icon: SvgPicture.asset(
-                "assets/images/frog.svg",
-              ),
-              task: newCase.frogs[index],
-              newCase: newCase,
-            );
+            if (paramVal == param[0] || paramVal == null) {
+              return Node(
+                icon: SvgPicture.asset(
+                  "assets/images/frog.svg",
+                ),
+                task: newCase.frogs[index],
+                newCase: newCase,
+              );
+            } else {
+              if (paramVal == param[1]) {
+                if (newCase.frogs[index].isTicked == null ||
+                    newCase.frogs[index].isTicked == false) {
+                  return Node(
+                    icon: SvgPicture.asset(
+                      "assets/images/frog.svg",
+                    ),
+                    task: newCase.frogs[index],
+                    newCase: newCase,
+                  );
+                }
+              } else {
+                if (paramVal == param[2]) {
+                  if (newCase.frogs[index].isTicked != null &&
+                      newCase.frogs[index].isTicked == true) {
+                    return Node(
+                      icon: SvgPicture.asset(
+                        "assets/images/frog.svg",
+                      ),
+                      task: newCase.frogs[index],
+                      newCase: newCase,
+                    );
+                  }
+                } else {
+                  return SizedBox();
+                }
+              }
+            }
           },
         ),
         ListView.builder(
@@ -186,14 +216,43 @@ class DayTasks extends StatelessWidget {
           itemCount:
               (newCase.birthdays != null) ? newCase.birthdays!.length : 0,
           itemBuilder: (context, index) {
-            return Node(
-              icon: SvgPicture.asset(
-                "assets/images/cake.svg",
-                colorFilter: ColorFilter.mode(Colors.black, BlendMode.srcIn),
-              ),
-              task: newCase.birthdays[index],
-              newCase: newCase,
-            );
+            if (paramVal == param[0] || paramVal == null) {
+              return Node(
+                icon: SvgPicture.asset(
+                  "assets/images/frog.svg",
+                ),
+                task: newCase.birthdays[index],
+                newCase: newCase,
+              );
+            } else {
+              if (paramVal == param[1]) {
+                if (newCase.birthdays[index].isTicked == null ||
+                    newCase.birthdays[index].isTicked == false) {
+                  return Node(
+                    icon: SvgPicture.asset(
+                      "assets/images/frog.svg",
+                    ),
+                    task: newCase.birthdays[index],
+                    newCase: newCase,
+                  );
+                }
+              } else {
+                if (paramVal == param[2]) {
+                  if (newCase.birthdays[index].isTicked != null &&
+                      newCase.birthdays[index].isTicked == true) {
+                    return Node(
+                      icon: SvgPicture.asset(
+                        "assets/images/frog.svg",
+                      ),
+                      task: newCase.birthdays[index],
+                      newCase: newCase,
+                    );
+                  }
+                } else {
+                  return SizedBox();
+                }
+              }
+            }
           },
         ),
         ListView.builder(
@@ -201,14 +260,43 @@ class DayTasks extends StatelessWidget {
           physics: const NeverScrollableScrollPhysics(),
           itemCount: (newCase.calls != null) ? newCase.calls!.length : 0,
           itemBuilder: (context, index) {
-            return Node(
-              icon: const Icon(
-                Icons.phone,
-                color: Colors.black,
-              ),
-              task: newCase.calls[index],
-              newCase: newCase,
-            );
+            if (paramVal == param[0] || paramVal == null) {
+              return Node(
+                icon: SvgPicture.asset(
+                  "assets/images/frog.svg",
+                ),
+                task: newCase.calls[index],
+                newCase: newCase,
+              );
+            } else {
+              if (paramVal == param[1]) {
+                if (newCase.calls[index].isTicked == null ||
+                    newCase.calls[index].isTicked == false) {
+                  return Node(
+                    icon: SvgPicture.asset(
+                      "assets/images/frog.svg",
+                    ),
+                    task: newCase.calls[index],
+                    newCase: newCase,
+                  );
+                }
+              } else {
+                if (paramVal == param[2]) {
+                  if (newCase.calls[index].isTicked != null &&
+                      newCase.calls[index].isTicked == true) {
+                    return Node(
+                      icon: SvgPicture.asset(
+                        "assets/images/frog.svg",
+                      ),
+                      task: newCase.calls[index],
+                      newCase: newCase,
+                    );
+                  }
+                } else {
+                  return SizedBox();
+                }
+              }
+            }
           },
         ),
         ListView.builder(
@@ -216,14 +304,43 @@ class DayTasks extends StatelessWidget {
           physics: const NeverScrollableScrollPhysics(),
           itemCount: (newCase.tasks != null) ? newCase.tasks!.length : 0,
           itemBuilder: (context, index) {
-            return Node(
-              icon: SvgPicture.asset(
-                "assets/images/task.svg",
-                colorFilter: ColorFilter.mode(Colors.black, BlendMode.srcIn),
-              ),
-              task: newCase.tasks[index],
-              newCase: newCase,
-            );
+            if (paramVal == param[0] || paramVal == null) {
+              return Node(
+                icon: SvgPicture.asset(
+                  "assets/images/frog.svg",
+                ),
+                task: newCase.tasks[index],
+                newCase: newCase,
+              );
+            } else {
+              if (paramVal == param[1]) {
+                if (newCase.tasks[index].isTicked == null ||
+                    newCase.tasks[index].isTicked == false) {
+                  return Node(
+                    icon: SvgPicture.asset(
+                      "assets/images/frog.svg",
+                    ),
+                    task: newCase.tasks[index],
+                    newCase: newCase,
+                  );
+                }
+              } else {
+                if (paramVal == param[2]) {
+                  if (newCase.tasks[index].isTicked != null &&
+                      newCase.tasks[index].isTicked == true) {
+                    return Node(
+                      icon: SvgPicture.asset(
+                        "assets/images/frog.svg",
+                      ),
+                      task: newCase.tasks[index],
+                      newCase: newCase,
+                    );
+                  }
+                } else {
+                  return SizedBox();
+                }
+              }
+            }
           },
         ),
       ],
