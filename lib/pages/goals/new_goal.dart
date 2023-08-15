@@ -179,32 +179,38 @@ class _NewGoalState extends State<NewGoal> {
                           const SizedBox(
                             width: 8.0,
                           ),
-                          DropdownButton(
-                            onChanged: (value) => setState(() {
-                              selectedSphere = value ?? "Выбрать";
-                            }),
-                            hint: const Text(
-                              "Выбрать",
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Color.fromARGB(75, 37, 46, 41),
+                          ButtonTheme(
+                            alignedDropdown: true,
+                            child: DropdownButton(
+                              onChanged: (value) => setState(() {
+                                selectedSphere = value ?? "Выбрать";
+                              }),
+                              hint: const Text(
+                                "Выбрать",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Color.fromARGB(75, 37, 46, 41),
+                                ),
                               ),
-                            ),
-                            value: selectedSphere,
-                            items: spheres.map<DropdownMenuItem<String>>(
-                              (String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(
-                                    value,
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.black,
+                              value: selectedSphere,
+                              items: spheres.map<DropdownMenuItem<String>>(
+                                (String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(0.0),
+                                      child: Text(
+                                        value,
+                                        style: const TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.black,
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                );
-                              },
-                            ).toList(),
+                                  );
+                                },
+                              ).toList(),
+                            ),
                           ),
                         ],
                       ),
@@ -236,6 +242,7 @@ class _NewGoalState extends State<NewGoal> {
                 GestureDetector(
                   onTap: () async {
                     if (titleController.text.isEmpty) {
+                      FocusScope.of(context).requestFocus(FocusNode());
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           backgroundColor: Colors.white,
@@ -254,6 +261,7 @@ class _NewGoalState extends State<NewGoal> {
                     }
 
                     if (selectedSphere == null) {
+                      FocusScope.of(context).requestFocus(FocusNode());
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           backgroundColor: Colors.white,
@@ -272,6 +280,7 @@ class _NewGoalState extends State<NewGoal> {
                     }
 
                     if (descriptionController.text.isEmpty) {
+                      FocusScope.of(context).requestFocus(FocusNode());
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           backgroundColor: Colors.white,

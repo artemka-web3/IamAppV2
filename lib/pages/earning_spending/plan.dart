@@ -653,16 +653,8 @@ class ContainerTextForm extends StatelessWidget {
                   style: const TextStyle(color: Colors.white),
                 ),
                 const SizedBox(
-                  width: 16.0,
+                  width: 14.0,
                 ),
-                (showCatigory)
-                    ? GestureDetector(
-                        child: Text(
-                          "Категория",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      )
-                    : const SizedBox(),
                 (showInfo != null)
                     ? IconButton(
                         onPressed: () {},
@@ -674,9 +666,15 @@ class ContainerTextForm extends StatelessWidget {
                     : const SizedBox(),
               ],
             ),
+            const SizedBox(
+              height: 14.0,
+            ),
             TextForm(
               controller: controller,
               setState: setState,
+            ),
+            SizedBox(
+              height: 14.0,
             ),
           ],
         ),
