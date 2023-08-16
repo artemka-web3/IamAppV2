@@ -24,7 +24,7 @@ class AuthBloc extends Bloc<AuthBlocEvent, AuthInitial> {
         String parser = event.phone.replaceAll(RegExp('\\.'), '');
         bool isContaned = await service.contains(parser);
         if (isContaned) {
-          await auth.signInWithEmailAndPassword(
+          UserCredential cred = await auth.signInWithEmailAndPassword(
               email: event.phone, password: event.password);
         } else {
           try {
@@ -42,22 +42,22 @@ class AuthBloc extends Bloc<AuthBlocEvent, AuthInitial> {
               print(e);
             }
           }
-          var subscription;
-          subscription = auth.authStateChanges().listen((user) async {
-            if (user != null) {
-              if (!isContaned) {
-                await service.createUser(
-                  custom.User(
-                    phone: parser,
-                  ),
-                );
-              }
-              await prefs.setBool('entered', true);
-              await prefs.setString('phone', parser);
-            }
-            add(OnPhoneAuthVerificationCompleteEvent(parser));
-          });
         }
+        var subscription;
+        subscription = auth.authStateChanges().listen((user) async {
+          if (user != null) {
+            if (!isContaned) {
+              await service.createUser(
+                custom.User(
+                  phone: parser,
+                ),
+              );
+            }
+            await prefs.setBool('entered', true);
+            await prefs.setString('phone', parser);
+          }
+          add(OnPhoneAuthVerificationCompleteEvent(parser));
+        });
       } catch (e) {
         emit(PhoneAuthError(error: e.toString()));
       }
