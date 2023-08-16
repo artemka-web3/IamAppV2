@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:i_am_app/classes/services/firebase_realtime_service.dart';
 import 'package:i_am_app/main.dart';
 import 'package:i_am_app/pages/auth/gua.dart';
+import 'package:i_am_app/pages/bloc/bloc/user_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class BirthMeaning extends StatefulWidget {
@@ -23,6 +25,15 @@ class _BirthMeaningState extends State<BirthMeaning> {
   @override
   void initState() {
     super.initState();
+
+    if (context.read<UserBloc>().state.user.birth != null) {
+      buttonText = "Далее";
+      var day = context.read<UserBloc>().state.user.birth!.day;
+      var month = context.read<UserBloc>().state.user.birth!.month;
+      final year = context.read<UserBloc>().state.user.birth!.year;
+      controller.text =
+          '${(day < 10) ? '0' + day.toString() : day}/${(month < 10) ? '0' + month.toString() : month}/${context.read<UserBloc>().state.user.birth!.year}';
+    }
   }
 
   @override
