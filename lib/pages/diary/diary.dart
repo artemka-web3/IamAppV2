@@ -219,7 +219,8 @@ class DayTasks extends StatelessWidget {
             if (paramVal == param[0] || paramVal == null) {
               return Node(
                 icon: SvgPicture.asset(
-                  "assets/images/frog.svg",
+                  "assets/images/cake.svg",
+                  colorFilter: ColorFilter.mode(Colors.black, BlendMode.srcIn),
                 ),
                 task: newCase.birthdays[index],
                 newCase: newCase,
@@ -230,7 +231,9 @@ class DayTasks extends StatelessWidget {
                     newCase.birthdays[index].isTicked == false) {
                   return Node(
                     icon: SvgPicture.asset(
-                      "assets/images/frog.svg",
+                      "assets/images/cake.svg",
+                      colorFilter:
+                          ColorFilter.mode(Colors.black, BlendMode.srcIn),
                     ),
                     task: newCase.birthdays[index],
                     newCase: newCase,
@@ -242,7 +245,9 @@ class DayTasks extends StatelessWidget {
                       newCase.birthdays[index].isTicked == true) {
                     return Node(
                       icon: SvgPicture.asset(
-                        "assets/images/frog.svg",
+                        "assets/images/cake.svg",
+                        colorFilter:
+                            ColorFilter.mode(Colors.black, BlendMode.srcIn),
                       ),
                       task: newCase.birthdays[index],
                       newCase: newCase,
@@ -262,8 +267,9 @@ class DayTasks extends StatelessWidget {
           itemBuilder: (context, index) {
             if (paramVal == param[0] || paramVal == null) {
               return Node(
-                icon: SvgPicture.asset(
-                  "assets/images/frog.svg",
+                icon: Icon(
+                  Icons.call,
+                  color: Colors.black,
                 ),
                 task: newCase.calls[index],
                 newCase: newCase,
@@ -273,8 +279,9 @@ class DayTasks extends StatelessWidget {
                 if (newCase.calls[index].isTicked == null ||
                     newCase.calls[index].isTicked == false) {
                   return Node(
-                    icon: SvgPicture.asset(
-                      "assets/images/frog.svg",
+                    icon: Icon(
+                      Icons.call,
+                      color: Colors.black,
                     ),
                     task: newCase.calls[index],
                     newCase: newCase,
@@ -285,8 +292,9 @@ class DayTasks extends StatelessWidget {
                   if (newCase.calls[index].isTicked != null &&
                       newCase.calls[index].isTicked == true) {
                     return Node(
-                      icon: SvgPicture.asset(
-                        "assets/images/frog.svg",
+                      icon: Icon(
+                        Icons.call,
+                        color: Colors.black,
                       ),
                       task: newCase.calls[index],
                       newCase: newCase,
@@ -307,7 +315,8 @@ class DayTasks extends StatelessWidget {
             if (paramVal == param[0] || paramVal == null) {
               return Node(
                 icon: SvgPicture.asset(
-                  "assets/images/frog.svg",
+                  "assets/images/task.svg",
+                  colorFilter: ColorFilter.mode(Colors.black, BlendMode.srcIn),
                 ),
                 task: newCase.tasks[index],
                 newCase: newCase,
@@ -318,7 +327,9 @@ class DayTasks extends StatelessWidget {
                     newCase.tasks[index].isTicked == false) {
                   return Node(
                     icon: SvgPicture.asset(
-                      "assets/images/frog.svg",
+                      "assets/images/task.svg",
+                      colorFilter:
+                          ColorFilter.mode(Colors.black, BlendMode.srcIn),
                     ),
                     task: newCase.tasks[index],
                     newCase: newCase,
@@ -330,9 +341,61 @@ class DayTasks extends StatelessWidget {
                       newCase.tasks[index].isTicked == true) {
                     return Node(
                       icon: SvgPicture.asset(
-                        "assets/images/frog.svg",
+                        "assets/images/task.svg",
+                        colorFilter:
+                            ColorFilter.mode(Colors.black, BlendMode.srcIn),
                       ),
                       task: newCase.tasks[index],
+                      newCase: newCase,
+                    );
+                  }
+                } else {
+                  return SizedBox();
+                }
+              }
+            }
+          },
+        ),
+        ListView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount:
+              (newCase.successes != null) ? newCase.successes!.length : 0,
+          itemBuilder: (context, index) {
+            if (paramVal == param[0] || paramVal == null) {
+              return Node(
+                icon: SvgPicture.asset(
+                  "assets/images/award.svg",
+                  colorFilter: ColorFilter.mode(Colors.black, BlendMode.srcIn),
+                ),
+                task: newCase.successes[index],
+                newCase: newCase,
+              );
+            } else {
+              if (paramVal == param[1]) {
+                if (newCase.successes[index].isTicked == null ||
+                    newCase.successes[index].isTicked == false) {
+                  return Node(
+                    icon: SvgPicture.asset(
+                      "assets/images/award.svg",
+                      colorFilter:
+                          ColorFilter.mode(Colors.black, BlendMode.srcIn),
+                    ),
+                    task: newCase.successes[index],
+                    newCase: newCase,
+                  );
+                }
+              } else {
+                if (paramVal == param[2]) {
+                  if (newCase.successes[index].isTicked != null &&
+                      newCase.successes[index].isTicked == true) {
+                    return Node(
+                      icon: SvgPicture.asset(
+                        "assets/images/award.svg",
+                        colorFilter:
+                            ColorFilter.mode(Colors.black, BlendMode.srcIn),
+                      ),
+                      task: newCase.successes[index],
                       newCase: newCase,
                     );
                   }
