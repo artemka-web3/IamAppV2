@@ -27,6 +27,7 @@ class _BirthMeaningState extends State<BirthMeaning> {
     super.initState();
 
     if (context.read<UserBloc>().state.user.birth != null) {
+      isWomen = context.read<UserBloc>().state.user.isWoman ?? false;
       buttonText = "Далее";
       var day = context.read<UserBloc>().state.user.birth!.day;
       var month = context.read<UserBloc>().state.user.birth!.month;
@@ -108,15 +109,17 @@ class _BirthMeaningState extends State<BirthMeaning> {
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                     Switch(
-                      value: isWomen,
-                      trackColor: MaterialStatePropertyAll(Colors.black),
-                      thumbColor: MaterialStatePropertyAll(Colors.white),
-                      onChanged: (val) => setState(
-                        () {
-                          isWomen = !isWomen;
-                        },
-                      ),
-                    ),
+                        value: isWomen,
+                        trackColor: MaterialStatePropertyAll(Colors.black),
+                        thumbColor: MaterialStatePropertyAll(Colors.white),
+                        onChanged: (val) {
+                          buttonText = "Сохранить";
+                          setState(
+                            () {
+                              isWomen = !isWomen;
+                            },
+                          );
+                        }),
                     Text(
                       "Женщина",
                       style: Theme.of(context).textTheme.titleMedium,
