@@ -54,7 +54,7 @@ void main() async {
   Widget home;
   // pref.remove('entered');
   // pref.remove('phone');
-  if (pref.getBool('entered') != true && pref.getString('pin') == null) {
+  if (pref.getBool('entered') != true || pref.getString('pin') == null) {
     home = SignIn();
   } else {
     home = LogIn();
