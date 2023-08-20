@@ -122,7 +122,7 @@ class User {
     cases.sort((a, b) => a.date!.millisecondsSinceEpoch
         .compareTo(b.date!.millisecondsSinceEpoch));
     return User(
-      phone: map['phone'] as String,
+      phone: map['phone'] != null ? map['phone'] as String : "",
       id: map['id'] != null ? map['id'] as String : '0',
       isWoman: map['isWoman'] != null ? map['isWoman'] as bool : null,
       birth: map['birth'] != null
