@@ -65,9 +65,16 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         user.goals.removeWhere((element) => element.sphere != event.goalSphere);
       }
       if (event.goalIsDone != null) {
-        user.goals.removeWhere((element) => (element.isTicked != null)
-            ? element.isTicked != event.goalIsDone
-            : true);
+        if (event.goalIsDone == true) {
+          user.goals.removeWhere((element) => (element.isTicked != null)
+              ? element.isTicked != event.goalIsDone
+              : true);
+        }
+        if (event.goalIsDone == false) {
+          user.goals.removeWhere((element) => (element.isTicked != null)
+              ? element.isTicked != event.goalIsDone
+              : false);
+        }
       }
       if (event.growGoal == false) {
         for (var i = 0; i < user.goals.length / 2; i++) {
