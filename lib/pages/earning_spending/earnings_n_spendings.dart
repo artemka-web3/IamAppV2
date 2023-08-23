@@ -56,17 +56,41 @@ class _Earnings_N_SpendingsState extends State<Earnings_N_Spendings> {
           }
           return BlocBuilder<UserBloc, UserState>(
             builder: (context, state) {
+              widget.income.text =
+                  'Заполните значения для этого месяца в Планировании';
+              widget.expenses.text =
+                  'Заполните значения для этого месяца в Планировании';
               widget.independence.text =
                   'Заполните значения для этого месяца в Планировании';
               for (var element in state.user.month) {
                 if (element.date.month == DateTime.now().month &&
                     element.date.year == DateTime.now().year) {
+                  widget.income.text = element.income.toString();
+                  widget.expenses.text =
+                      ((int.tryParse(element.varCosts.toString()) ?? 0) +
+                              (int.tryParse(element.fixedCosts.toString()) ??
+                                  0))
+                          .toString();
+
                   widget.independence.text =
                       ((int.tryParse(element.fixedCosts ?? '0') ?? 0) +
                               (int.tryParse(element.varCosts ?? '0') ?? 0) -
                               (int.tryParse(element.passiveIncome ?? '0') ?? 0))
                           .toString();
                 }
+              }
+              var formatter = NumberFormat('#,###');
+              if (widget.income.text !=
+                  'Заполните значения для этого месяца в Планировании') {
+                widget.income.text =
+                    '${formatter.format(int.tryParse(widget.income.text.replaceAll(' ', '')))}'
+                        .replaceAll(',', ' ');
+                widget.expenses.text =
+                    '${formatter.format(int.tryParse(widget.expenses.text.replaceAll(' ', '')))}'
+                        .replaceAll(',', ' ');
+                widget.independence.text =
+                    '${formatter.format(int.tryParse(widget.income.text.replaceAll(' ', '')))}'
+                        .replaceAll(',', ' ');
               }
               return Padding(
                 padding: const EdgeInsets.only(top: 10.0),
@@ -78,48 +102,27 @@ class _Earnings_N_SpendingsState extends State<Earnings_N_Spendings> {
                           children: [
                             Container(
                               child: const Center(
-                                  child: Text(
-                                "Цель месяца по доходам",
-                                style: TextStyle(
-                                    fontSize: 18, color: Colors.white),
-                              )),
+                                child: Text(
+                                  "Цель месяца по доходам",
+                                  style: TextStyle(
+                                      fontSize: 18, color: Colors.white),
+                                ),
+                              ),
                             ),
                             Container(
                               margin: const EdgeInsets.all(16.0),
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(12.0),
                                   color: Colors.white),
-                              padding: const EdgeInsets.all(8.0),
+                              padding: const EdgeInsets.all(16.0),
                               child: Center(
-                                child: TextFormField(
-                                  enabled: false,
+                                child: Text(
+                                  widget.income.text,
                                   textAlign: TextAlign.center,
-                                  keyboardType: TextInputType.number,
-                                  decoration: const InputDecoration(
-                                    border: InputBorder.none,
-                                    hintText: "Вввести",
-                                    hintStyle: TextStyle(
-                                        color: Colors.black, fontSize: 16.0),
-                                  ),
                                   style: const TextStyle(
-                                      color: Colors.black, fontSize: 16.0),
-                                  controller: widget.income,
-                                  onChanged: (val) async {
-                                    if (widget.income.text.length == 0) {
-                                      await snapshot.data?.setString(
-                                          'income', widget.income.text);
-                                      return;
-                                    }
-                                    var formatter = NumberFormat('#,###');
-                                    widget.income.text =
-                                        '${formatter.format(int.tryParse(widget.income.text.replaceAll(' ', '')))}'
-                                            .replaceAll(',', ' ');
-                                    widget.income.selection =
-                                        TextSelection.fromPosition(TextPosition(
-                                            offset: widget.income.text.length));
-                                    await snapshot.data?.setString(
-                                        'income', widget.income.text);
-                                  },
+                                      color: Colors.black,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500),
                                 ),
                               ),
                             ),
@@ -139,33 +142,14 @@ class _Earnings_N_SpendingsState extends State<Earnings_N_Spendings> {
                                   color: Colors.white),
                               padding: const EdgeInsets.all(8.0),
                               child: Center(
-                                child: TextFormField(
+                                child: Text(
+                                  widget.expenses.text,
                                   textAlign: TextAlign.center,
-                                  keyboardType: TextInputType.number,
-                                  decoration: const InputDecoration(
-                                    border: InputBorder.none,
-                                    hintText: "Выбрать",
-                                  ),
                                   style: const TextStyle(
-                                      color: Colors.black, fontSize: 16.0),
-                                  controller: widget.expenses,
-                                  onChanged: (val) async {
-                                    if (widget.expenses.text.length == 0) {
-                                      await snapshot.data?.setString(
-                                          'income', widget.expenses.text);
-                                      return;
-                                    }
-                                    var formatter = NumberFormat('#,###');
-                                    widget.expenses.text =
-                                        '${formatter.format(int.tryParse(widget.expenses.text.replaceAll(' ', '')))}'
-                                            .replaceAll(',', ' ');
-                                    widget.expenses.selection =
-                                        TextSelection.fromPosition(TextPosition(
-                                            offset:
-                                                widget.expenses.text.length));
-                                    await snapshot.data?.setString(
-                                        'expenses', widget.expenses.text);
-                                  },
+                                    color: Colors.black,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                  ),
                                 ),
                               ),
                             ),
@@ -233,30 +217,31 @@ class _Earnings_N_SpendingsState extends State<Earnings_N_Spendings> {
                               )),
                           const SizedBox(height: 10),
                           Container(
-                              decoration: const BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(15.0))),
-                              child: InkWell(
-                                child: ListTile(
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(15.0)),
-                                    title: const Text(
-                                      "Планирование",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          color: Colors.black, fontSize: 16.0),
-                                    ),
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => const Plan(),
-                                        ),
-                                      );
-                                    }),
-                              )),
+                            decoration: const BoxDecoration(
+                                color: Colors.white,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(15.0))),
+                            child: InkWell(
+                              child: ListTile(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(15.0)),
+                                  title: const Text(
+                                    "Планирование",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: Colors.black, fontSize: 16.0),
+                                  ),
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const Plan(),
+                                      ),
+                                    );
+                                  }),
+                            ),
+                          ),
                           const SizedBox(height: 30),
                         ],
                       ),

@@ -718,16 +718,16 @@ class TextForm extends StatelessWidget {
           for (var i in customControllersFixed) {
             if (i.controller.text != '') {
               controllers[3].text =
-                  (int.parse(i.controller.text.replaceAll(' ', '')) +
-                          int.parse(controllers[3].text.replaceAll(' ', '')))
+                  (int.parse(controllers[3].text.replaceAll(' ', '')) -
+                          (int.parse(i.controller.text.replaceAll(' ', ''))))
                       .toString();
             }
           }
           for (var i in customControllersVar) {
             if (i.controller.text != '') {
               controllers[3].text =
-                  (int.parse(i.controller.text.replaceAll(' ', '')) +
-                          int.parse(controllers[3].text.replaceAll(' ', '')))
+                  (int.parse(controllers[3].text.replaceAll(' ', '')) -
+                          (int.parse(i.controller.text.replaceAll(' ', ''))))
                       .toString();
             }
           }
@@ -756,13 +756,19 @@ class TextForm extends StatelessWidget {
                       int.parse(controllers[3].text.replaceAll(' ', '')))
                   .toString();
           print(controllers[4].text);
-          setState(() {});
           var formatter = NumberFormat('#,###');
+          controllers[4].text =
+              '${formatter.format(int.tryParse(controllers[4].text.replaceAll(' ', '')))}'
+                  .replaceAll(',', ' ');
+          controllers[3].text =
+              '${formatter.format(int.tryParse(controllers[3].text.replaceAll(' ', '')))}'
+                  .replaceAll(',', ' ');
           controller.text =
               '${formatter.format(int.tryParse(controller.text.replaceAll(' ', '')))}'
                   .replaceAll(',', ' ');
           controller.selection = TextSelection.fromPosition(
               TextPosition(offset: controller.text.length));
+          setState(() {});
         },
         decoration: InputDecoration(
           hintText: "Введите сумму...",
