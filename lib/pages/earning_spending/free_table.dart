@@ -238,6 +238,7 @@ class CustomColumn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var formatter = NumberFormat('#,###');
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Column(
@@ -256,7 +257,10 @@ class CustomColumn extends StatelessWidget {
           Spacer(),
           MoneyContainer(
             text: Text(
-              plan.income ?? "-",
+              (plan.income != null)
+                  ? '${formatter.format(int.tryParse(plan.income!.replaceAll(' ', '')))}'
+                      .replaceAll(',', ' ')
+                  : "-",
               style: Theme.of(context).textTheme.bodyMedium,
             ),
             color: Colors.white,
@@ -264,7 +268,10 @@ class CustomColumn extends StatelessWidget {
           Spacer(),
           MoneyContainer(
             text: Text(
-              plan.fixedCosts ?? "-",
+              (plan.fixedCosts != null)
+                  ? '${formatter.format(int.tryParse(plan.fixedCosts!.replaceAll(' ', '')))}'
+                      .replaceAll(',', ' ')
+                  : "-",
               style: Theme.of(context).textTheme.bodyMedium,
             ),
             color: Colors.white,
@@ -272,8 +279,10 @@ class CustomColumn extends StatelessWidget {
           Spacer(),
           MoneyContainer(
             text: Text(
-              plan.varCosts ?? "-",
-              style: Theme.of(context).textTheme.bodyMedium,
+              (plan.varCosts != null)
+                  ? '${formatter.format(int.tryParse(plan.varCosts!.replaceAll(' ', '')))}'
+                      .replaceAll(',', ' ')
+                  : "-",
             ),
             color: Colors.white,
           ),
@@ -282,7 +291,10 @@ class CustomColumn extends StatelessWidget {
           ),
           MoneyContainer(
             text: Text(
-              plan.drr ?? "-",
+              (plan.drr != null)
+                  ? '${formatter.format(int.tryParse(plan.drr!.replaceAll(' ', '')))}'
+                      .replaceAll(',', ' ')
+                  : "-",
               style: Theme.of(context).textTheme.bodyMedium,
             ),
             gradient: const LinearGradient(
@@ -298,7 +310,10 @@ class CustomColumn extends StatelessWidget {
           Spacer(),
           MoneyContainer(
             text: Text(
-              plan.progressiveTotal ?? "-",
+              (plan.progressiveTotal != null)
+                  ? '${formatter.format(int.tryParse(plan.progressiveTotal!.replaceAll(' ', '')))}'
+                      .replaceAll(',', ' ')
+                  : "-",
               style: Theme.of(context).textTheme.bodyMedium,
             ),
             gradient: const LinearGradient(
@@ -314,7 +329,10 @@ class CustomColumn extends StatelessWidget {
           Spacer(),
           MoneyContainer(
             text: Text(
-              plan.passiveIncome ?? "-",
+              (plan.passiveIncome != null)
+                  ? '${formatter.format(int.tryParse(plan.passiveIncome!.replaceAll(' ', '')))}'
+                      .replaceAll(',', ' ')
+                  : "-",
               style: Theme.of(context).textTheme.bodyMedium,
             ),
             color: const Color.fromARGB(255, 111, 207, 151),

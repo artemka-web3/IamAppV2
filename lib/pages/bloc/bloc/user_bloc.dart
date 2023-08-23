@@ -76,12 +76,13 @@ class UserBloc extends Bloc<UserEvent, UserState> {
               : false);
         }
       }
+      if (event.growGoal == true) {
+        user.goals.sort(((a, b) => a.date!.millisecondsSinceEpoch
+            .compareTo(b.date!.millisecondsSinceEpoch)));
+      }
       if (event.growGoal == false) {
-        for (var i = 0; i < user.goals.length / 2; i++) {
-          Goal goal = user.goals[i];
-          user.goals[i] = user.goals[user.goals.length - i - 1];
-          user.goals[user.goals.length - i - 1] = user.goals[i];
-        }
+        user.goals.sort(((a, b) => b.date!.millisecondsSinceEpoch
+            .compareTo(a.date!.millisecondsSinceEpoch)));
       }
       emit(
         UserInitial(user: user),

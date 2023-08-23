@@ -126,6 +126,7 @@ class Diary extends StatelessWidget {
                     ],
                   ),
                   ListView.builder(
+                    key: UniqueKey(),
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: state.user.cases.length,
@@ -167,6 +168,7 @@ class DayTasks extends StatelessWidget {
           height: 12,
         ),
         ListView.builder(
+          key: UniqueKey(),
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           itemCount: (newCase.frogs != null) ? newCase.frogs!.length : 0,
@@ -190,6 +192,8 @@ class DayTasks extends StatelessWidget {
                     task: newCase.frogs[index],
                     newCase: newCase,
                   );
+                } else {
+                  return SizedBox();
                 }
               } else {
                 if (paramVal == param[2]) {
@@ -202,6 +206,8 @@ class DayTasks extends StatelessWidget {
                       task: newCase.frogs[index],
                       newCase: newCase,
                     );
+                  } else {
+                    return SizedBox();
                   }
                 } else {
                   return SizedBox();
@@ -211,6 +217,7 @@ class DayTasks extends StatelessWidget {
           },
         ),
         ListView.builder(
+          key: UniqueKey(),
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           itemCount:
@@ -238,6 +245,8 @@ class DayTasks extends StatelessWidget {
                     task: newCase.birthdays[index],
                     newCase: newCase,
                   );
+                } else {
+                  return SizedBox();
                 }
               } else {
                 if (paramVal == param[2]) {
@@ -252,6 +261,8 @@ class DayTasks extends StatelessWidget {
                       task: newCase.birthdays[index],
                       newCase: newCase,
                     );
+                  } else {
+                    return SizedBox();
                   }
                 } else {
                   return SizedBox();
@@ -261,6 +272,7 @@ class DayTasks extends StatelessWidget {
           },
         ),
         ListView.builder(
+          key: UniqueKey(),
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           itemCount: (newCase.calls != null) ? newCase.calls!.length : 0,
@@ -286,6 +298,8 @@ class DayTasks extends StatelessWidget {
                     task: newCase.calls[index],
                     newCase: newCase,
                   );
+                } else {
+                  return SizedBox();
                 }
               } else {
                 if (paramVal == param[2]) {
@@ -299,6 +313,8 @@ class DayTasks extends StatelessWidget {
                       task: newCase.calls[index],
                       newCase: newCase,
                     );
+                  } else {
+                    return SizedBox();
                   }
                 } else {
                   return SizedBox();
@@ -308,6 +324,7 @@ class DayTasks extends StatelessWidget {
           },
         ),
         ListView.builder(
+          key: UniqueKey(),
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           itemCount: (newCase.tasks != null) ? newCase.tasks!.length : 0,
@@ -334,6 +351,8 @@ class DayTasks extends StatelessWidget {
                     task: newCase.tasks[index],
                     newCase: newCase,
                   );
+                } else {
+                  return SizedBox();
                 }
               } else {
                 if (paramVal == param[2]) {
@@ -348,6 +367,8 @@ class DayTasks extends StatelessWidget {
                       task: newCase.tasks[index],
                       newCase: newCase,
                     );
+                  } else {
+                    return SizedBox();
                   }
                 } else {
                   return SizedBox();
@@ -357,6 +378,7 @@ class DayTasks extends StatelessWidget {
           },
         ),
         ListView.builder(
+          key: UniqueKey(),
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           itemCount:
@@ -384,6 +406,8 @@ class DayTasks extends StatelessWidget {
                     task: newCase.successes[index],
                     newCase: newCase,
                   );
+                } else {
+                  return SizedBox();
                 }
               } else {
                 if (paramVal == param[2]) {
@@ -398,6 +422,8 @@ class DayTasks extends StatelessWidget {
                       task: newCase.successes[index],
                       newCase: newCase,
                     );
+                  } else {
+                    return SizedBox();
                   }
                 } else {
                   return SizedBox();
