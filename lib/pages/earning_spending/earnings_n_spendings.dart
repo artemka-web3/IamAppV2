@@ -57,11 +57,11 @@ class _Earnings_N_SpendingsState extends State<Earnings_N_Spendings> {
           return BlocBuilder<UserBloc, UserState>(
             builder: (context, state) {
               widget.income.text =
-                  'Заполните значения для этого месяца в Планировании';
+                  'Заполните значения для этого месяца в\n Планировании';
               widget.expenses.text =
-                  'Заполните значения для этого месяца в Планировании';
+                  'Заполните значения для этого месяца в\n Планировании';
               widget.independence.text =
-                  'Заполните значения для этого месяца в Планировании';
+                  'Заполните значения для этого месяца в\n Планировании';
               for (var element in state.user.month) {
                 if (element.date.month == DateTime.now().month &&
                     element.date.year == DateTime.now().year) {
@@ -81,7 +81,7 @@ class _Earnings_N_SpendingsState extends State<Earnings_N_Spendings> {
               }
               var formatter = NumberFormat('#,###');
               if (widget.income.text !=
-                  'Заполните значения для этого месяца в Планировании') {
+                  'Заполните значения для этого месяца в\n Планировании') {
                 widget.income.text =
                     '${formatter.format(int.tryParse(widget.income.text.replaceAll(' ', '')))}'
                         .replaceAll(',', ' ');
