@@ -174,6 +174,27 @@ class _AddInfoState extends State<AddInfo> {
                                     controllers: controllerQutes,
                                     index: index,
                                     setState: setState,
+                                    onChanged: () {
+                                      data.quotes = List.from(
+                                          controllerQutes.map((e) => e.text));
+                                      data.apps = List.from(
+                                          controllerApps.map((e) => e.text));
+                                      data.websites = List.from(
+                                          controllerWebsites
+                                              .map((e) => e.text));
+                                      data.books = List.from(
+                                          controllerBooks.map((e) => e.text));
+                                      data.films = List.from(
+                                          controllerFilms.map((e) => e.text));
+                                      if (indexOfInfo == null) {
+                                        state.user.info.add(data);
+                                      } else {
+                                        state.user.info[indexOfInfo!] = data;
+                                      }
+                                      save = "Добавлено";
+                                      context.read<UserBloc>().add(UpdateInfo(
+                                          phone: state.user.phone, info: data));
+                                    },
                                   );
                                 }),
                           ),
@@ -216,6 +237,27 @@ class _AddInfoState extends State<AddInfo> {
                                     index: index,
                                     controller: controllerApps[index],
                                     setState: setState,
+                                    onChanged: () {
+                                      data.quotes = List.from(
+                                          controllerQutes.map((e) => e.text));
+                                      data.apps = List.from(
+                                          controllerApps.map((e) => e.text));
+                                      data.websites = List.from(
+                                          controllerWebsites
+                                              .map((e) => e.text));
+                                      data.books = List.from(
+                                          controllerBooks.map((e) => e.text));
+                                      data.films = List.from(
+                                          controllerFilms.map((e) => e.text));
+                                      if (indexOfInfo == null) {
+                                        state.user.info.add(data);
+                                      } else {
+                                        state.user.info[indexOfInfo!] = data;
+                                      }
+                                      save = "Добавлено";
+                                      context.read<UserBloc>().add(UpdateInfo(
+                                          phone: state.user.phone, info: data));
+                                    },
                                   );
                                 }),
                           ),
@@ -254,10 +296,31 @@ class _AddInfoState extends State<AddInfo> {
                                 itemCount: controllerWebsites.length,
                                 itemBuilder: (context, index) {
                                   return TextForm(
-                                    controllers: controllerFilms,
+                                    controllers: controllerWebsites,
                                     index: index,
                                     controller: controllerWebsites[index],
                                     setState: setState,
+                                    onChanged: () {
+                                      data.quotes = List.from(
+                                          controllerQutes.map((e) => e.text));
+                                      data.apps = List.from(
+                                          controllerApps.map((e) => e.text));
+                                      data.websites = List.from(
+                                          controllerWebsites
+                                              .map((e) => e.text));
+                                      data.books = List.from(
+                                          controllerBooks.map((e) => e.text));
+                                      data.films = List.from(
+                                          controllerFilms.map((e) => e.text));
+                                      if (indexOfInfo == null) {
+                                        state.user.info.add(data);
+                                      } else {
+                                        state.user.info[indexOfInfo!] = data;
+                                      }
+                                      save = "Добавлено";
+                                      context.read<UserBloc>().add(UpdateInfo(
+                                          phone: state.user.phone, info: data));
+                                    },
                                   );
                                 }),
                           ),
@@ -300,6 +363,27 @@ class _AddInfoState extends State<AddInfo> {
                                     index: index,
                                     controller: controllerBooks[index],
                                     setState: setState,
+                                    onChanged: () {
+                                      data.quotes = List.from(
+                                          controllerQutes.map((e) => e.text));
+                                      data.apps = List.from(
+                                          controllerApps.map((e) => e.text));
+                                      data.websites = List.from(
+                                          controllerWebsites
+                                              .map((e) => e.text));
+                                      data.books = List.from(
+                                          controllerBooks.map((e) => e.text));
+                                      data.films = List.from(
+                                          controllerFilms.map((e) => e.text));
+                                      if (indexOfInfo == null) {
+                                        state.user.info.add(data);
+                                      } else {
+                                        state.user.info[indexOfInfo!] = data;
+                                      }
+                                      save = "Добавлено";
+                                      context.read<UserBloc>().add(UpdateInfo(
+                                          phone: state.user.phone, info: data));
+                                    },
                                   );
                                 }),
                           ),
@@ -342,6 +426,23 @@ class _AddInfoState extends State<AddInfo> {
                                   index: index,
                                   controller: controllerFilms[index],
                                   setState: setState,
+                                  onChanged: () {
+                                    data.quotes = List.from(
+                                        controllerQutes.map((e) => e.text));
+                                    data.apps = List.from(
+                                        controllerApps.map((e) => e.text));
+                                    data.websites = List.from(
+                                        controllerWebsites.map((e) => e.text));
+                                    data.books = List.from(
+                                        controllerBooks.map((e) => e.text));
+                                    data.films = List.from(
+                                        controllerFilms.map((e) => e.text));
+                                    if (indexOfInfo == null) {
+                                      state.user.info.add(data);
+                                    } else {
+                                      state.user.info[indexOfInfo!] = data;
+                                    }
+                                  },
                                 );
                               },
                             ),
@@ -413,13 +514,15 @@ class TextForm extends StatelessWidget {
 
   final TextEditingController? controller;
   final Function setState;
+  final onChanged;
 
   TextForm(
       {super.key,
       this.controller,
       required this.setState,
       this.index,
-      required this.controllers});
+      required this.controllers,
+      required this.onChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -438,7 +541,16 @@ class TextForm extends StatelessWidget {
                   .textTheme
                   .bodyMedium!
                   .copyWith(fontSize: 14.0),
-              onChanged: (value) => setState(() => save = 'Сохранить'),
+              onChanged: (value) {
+                setState(() {
+                  save = 'Сохранить';
+                });
+              },
+              onFieldSubmitted: (newValue) {
+                setState(() {
+                  onChanged();
+                });
+              },
               decoration: InputDecoration(
                 hintText: "Введите...",
                 hintStyle: const TextStyle(
