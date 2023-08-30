@@ -108,7 +108,7 @@ class PathInfo extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(
-                  height: 24,
+                  height: 900,
                 ),
               ],
             ),
@@ -313,7 +313,7 @@ class BirthdayInfo extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(
-                  height: 24,
+                  height: 900,
                 ),
               ],
             ),
@@ -454,7 +454,7 @@ class Gua extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(
-                  height: 24,
+                  height: 900,
                 ),
               ],
             ),
