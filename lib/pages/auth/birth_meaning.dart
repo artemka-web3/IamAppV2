@@ -191,9 +191,13 @@ class _BirthMeaningState extends State<BirthMeaning> {
                 const SizedBox(
                   height: 8.0,
                 ),
-                const ContentContainer(
-                    text:
-                        "Об энергетике личности Гуа 9 свидетельствует триграмма числа: одна прерывистая линия, окруженная с обеих сторон двумя сплошными..."),
+                ContentContainer(
+                  text:
+                      "Основные качества: ...",
+                  num: int.parse(gua),
+                  typeOfNum: 'gua',
+                  isWoman: isWomen,
+                ),
                 const SizedBox(
                   height: 8.0,
                 ),
@@ -202,9 +206,12 @@ class _BirthMeaningState extends State<BirthMeaning> {
                 const SizedBox(
                   height: 8.0,
                 ),
-                const ContentContainer(
+                ContentContainer(
                   text:
-                      "Вы – активны, предприимчивы и очень энергичны. Спонтанное влечение творить и неординарный подход к делу делают из вас человека-первооткрывателя...",
+                      "Число Жизненного Пути $roadSum» –...",
+                  num: roadSum,
+                  typeOfNum: 'path',
+                  isWoman: isWomen,
                 ),
                 const SizedBox(
                   height: 8.0,
@@ -216,10 +223,14 @@ class _BirthMeaningState extends State<BirthMeaning> {
                 const SizedBox(
                   height: 8.0,
                 ),
-                const ContentContainer(
-                  text:
-                      "3 – ещё с раннего возраста вы обладаете удивительной способностью схватывать все на лету...",
-                ),
+                ContentContainer(
+                    text:
+                        "Число Дня рождения «$birth» – ...",
+                    num: int.parse(birth),
+                    typeOfNum: 'birth',
+                    isWoman: isWomen,
+                    ),
+                
                 const SizedBox(
                   height: 8.0,
                 ),
@@ -319,6 +330,7 @@ class _BirthMeaningState extends State<BirthMeaning> {
   }
 }
 
+
 class ContentTitle extends StatelessWidget {
   final String title;
   final String number;
@@ -366,11 +378,24 @@ class ContentTitle extends StatelessWidget {
 
 class ContentContainer extends StatelessWidget {
   final String text;
+  final int num;
+  final bool isWoman;
+  final String typeOfNum;
 
-  const ContentContainer({super.key, required this.text});
+  const ContentContainer({super.key, required this.text, required this.num, required this.typeOfNum, required this.isWoman});
 
   @override
   Widget build(BuildContext context) {
+    var nextPage;
+    if (typeOfNum == "gua") {
+      nextPage = Gua(guaNum: num, isWoman: isWoman,);
+    }
+    else if (typeOfNum == "birth") {
+      nextPage = BirthdayInfo(num: num);
+    }
+    else if (typeOfNum == "path") {
+      nextPage = PathInfo(num: num);
+    }
     return Container(
       padding: const EdgeInsets.all(16.0),
       decoration: const BoxDecoration(
@@ -396,8 +421,8 @@ class ContentContainer extends StatelessWidget {
                 width: 8.0,
               ),
               IconButton(
-                onPressed: () => Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => const Gua())),
+                onPressed: () => Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => nextPage)),
                 icon: const Icon(
                   Icons.arrow_circle_right_rounded,
                 ),

@@ -79,7 +79,14 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/background.png
-    - assets/images/gua.png
+    - assets/images/gua9.png
+    - assets/images/gua8.png
+    - assets/images/gua7.png
+    - assets/images/gua6.png
+    - assets/images/gua4.png
+    - assets/images/gua3.png
+    - assets/images/gua2.png
+    - assets/images/gua1.png
     - assets/images/award.svg
     - assets/images/cake.svg
     - assets/images/frog.svg
