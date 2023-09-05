@@ -55,8 +55,8 @@ class AuthBloc extends Bloc<AuthBlocEvent, AuthInitial> {
             }
             await prefs.setBool('entered', true);
             await prefs.setString('phone', parser);
+            add(OnPhoneAuthVerificationCompleteEvent(parser));
           }
-          add(OnPhoneAuthVerificationCompleteEvent(parser));
         });
       } catch (e) {
         emit(PhoneAuthError(error: e.toString()));

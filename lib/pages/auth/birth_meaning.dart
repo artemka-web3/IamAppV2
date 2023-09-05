@@ -192,8 +192,7 @@ class _BirthMeaningState extends State<BirthMeaning> {
                   height: 8.0,
                 ),
                 ContentContainer(
-                  text:
-                      "Основные качества: ...",
+                  text: "Основные качества: ...",
                   num: int.parse(gua),
                   typeOfNum: 'gua',
                   isWoman: isWomen,
@@ -207,8 +206,7 @@ class _BirthMeaningState extends State<BirthMeaning> {
                   height: 8.0,
                 ),
                 ContentContainer(
-                  text:
-                      "Число Жизненного Пути $roadSum» –...",
+                  text: "Число Жизненного Пути $roadSum» –...",
                   num: roadSum,
                   typeOfNum: 'path',
                   isWoman: isWomen,
@@ -224,13 +222,11 @@ class _BirthMeaningState extends State<BirthMeaning> {
                   height: 8.0,
                 ),
                 ContentContainer(
-                    text:
-                        "Число Дня рождения «$birth» – ...",
-                    num: int.parse(birth),
-                    typeOfNum: 'birth',
-                    isWoman: isWomen,
-                    ),
-                
+                  text: "Число Дня рождения «$birth» – ...",
+                  num: int.parse(birth),
+                  typeOfNum: 'birth',
+                  isWoman: isWomen,
+                ),
                 const SizedBox(
                   height: 8.0,
                 ),
@@ -280,6 +276,22 @@ class _BirthMeaningState extends State<BirthMeaning> {
                         int.parse(month),
                         int.parse(day),
                       );
+                      if (phone == null) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Container(
+                              color: Colors.red,
+                              child: const Center(
+                                child: Text(
+                                  "Возникла ошибка в работe приложения\nпопробуйте переустановить приложение",
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                        Navigator.of(context).pop();
+                      }
                       await service.updateUser(
                         phone!,
                         {
@@ -329,7 +341,6 @@ class _BirthMeaningState extends State<BirthMeaning> {
     );
   }
 }
-
 
 class ContentTitle extends StatelessWidget {
   final String title;
@@ -382,18 +393,24 @@ class ContentContainer extends StatelessWidget {
   final bool isWoman;
   final String typeOfNum;
 
-  const ContentContainer({super.key, required this.text, required this.num, required this.typeOfNum, required this.isWoman});
+  const ContentContainer(
+      {super.key,
+      required this.text,
+      required this.num,
+      required this.typeOfNum,
+      required this.isWoman});
 
   @override
   Widget build(BuildContext context) {
     var nextPage;
     if (typeOfNum == "gua") {
-      nextPage = Gua(guaNum: num, isWoman: isWoman,);
-    }
-    else if (typeOfNum == "birth") {
+      nextPage = Gua(
+        guaNum: num,
+        isWoman: isWoman,
+      );
+    } else if (typeOfNum == "birth") {
       nextPage = BirthdayInfo(num: num);
-    }
-    else if (typeOfNum == "path") {
+    } else if (typeOfNum == "path") {
       nextPage = PathInfo(num: num);
     }
     return Container(
@@ -421,8 +438,8 @@ class ContentContainer extends StatelessWidget {
                 width: 8.0,
               ),
               IconButton(
-                onPressed: () => Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => nextPage)),
+                onPressed: () => Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => nextPage)),
                 icon: const Icon(
                   Icons.arrow_circle_right_rounded,
                 ),
