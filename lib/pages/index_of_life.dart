@@ -94,8 +94,9 @@ class _LifeIndexState extends State<LifeIndex> {
               Container(
                   height: 110,
                   child: ListView.builder(
+                    physics: const BouncingScrollPhysics(),
                     scrollDirection: Axis.horizontal,
-                    itemCount: months.length,
+                    itemCount: months.length + 1,
                     itemBuilder: (context, index) {
                       if (index == 0) {
                         return SizedBox();
@@ -201,7 +202,6 @@ class _LifeIndexState extends State<LifeIndex> {
                                 ),
                               ),
                               Container(
-                                padding: EdgeInsets.all(8.0),
                                 width: 42,
                                 height: 34,
                                 decoration: BoxDecoration(
@@ -216,6 +216,14 @@ class _LifeIndexState extends State<LifeIndex> {
                                     inputFormatters: [
                                       LengthLimitingTextInputFormatter(3),
                                     ],
+                                    onTap: () => controllers[index].clear(),
+                                    onTapOutside: (p0) {
+                                      if (controllers[index].text.length != 3) {
+                                        controllers[index].text = '0.0';
+                                        FocusManager.instance.primaryFocus
+                                            ?.unfocus();
+                                      }
+                                    },
                                     onChanged: (value) {
                                       if (controllers[index].text.length == 3) {
                                         if (double.parse(
@@ -243,12 +251,12 @@ class _LifeIndexState extends State<LifeIndex> {
                                       }
                                     },
                                     decoration: InputDecoration(
-                                        contentPadding: EdgeInsets.all(0),
-                                        isDense: true,
+                                        contentPadding: EdgeInsets.symmetric(
+                                            vertical: 6.0, horizontal: 3.0),
                                         border: InputBorder.none,
                                         hintText: '0'),
                                     style: TextStyle(
-                                        color: Colors.white, fontSize: 15.0),
+                                        color: Colors.white, fontSize: 24),
                                   ),
                                 ),
                               ),

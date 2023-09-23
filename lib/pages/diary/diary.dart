@@ -10,8 +10,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 List<String> param = [
   "Все",
-  "Только не выполненные",
-  "Только выполненные",
+  "Выполнено",
+  "Не выполнено",
 ];
 String? paramVal;
 
@@ -57,9 +57,9 @@ class Diary extends StatelessWidget {
                                 onChanged: (value) async {
                                   paramVal = value ?? "Все";
                                   if (value != null) {
+                                    SharedPreferences preferences =
+                                        await SharedPreferences.getInstance();
                                     if (value == param[0]) {
-                                      SharedPreferences preferences =
-                                          await SharedPreferences.getInstance();
                                       context.read<UserBloc>().add(
                                             GetUserByPhone(
                                                 phone: preferences
@@ -67,23 +67,19 @@ class Diary extends StatelessWidget {
                                           );
                                     }
                                     if (value == param[1]) {
-                                      SharedPreferences preferences =
-                                          await SharedPreferences.getInstance();
-                                      context.read<UserBloc>().add(
-                                            GetUserByPhone(
-                                                phone: preferences
-                                                    .getString('phone')!,
-                                                onlyDone: false),
-                                          );
-                                    }
-                                    if (value == param[2]) {
-                                      SharedPreferences preferences =
-                                          await SharedPreferences.getInstance();
                                       context.read<UserBloc>().add(
                                             GetUserByPhone(
                                                 phone: preferences
                                                     .getString('phone')!,
                                                 onlyDone: true),
+                                          );
+                                    }
+                                    if (value == param[2]) {
+                                      context.read<UserBloc>().add(
+                                            GetUserByPhone(
+                                                phone: preferences
+                                                    .getString('phone')!,
+                                                onlyDone: false),
                                           );
                                     }
                                   }
@@ -125,6 +121,9 @@ class Diary extends StatelessWidget {
                       ),
                     ],
                   ),
+                  SizedBox(
+                    height: 12.0,
+                  ),
                   ListView.builder(
                     key: UniqueKey(),
                     shrinkWrap: true,
@@ -158,9 +157,7 @@ class DayTasks extends StatelessWidget {
         Align(
           alignment: Alignment.centerLeft,
           child: Text(
-            (newCase.date != null)
-                ? '${newCase.date!.day}/${newCase.date!.month}'
-                : "Нет даты",
+            convertDate(newCase.date),
             style: Theme.of(context).textTheme.titleLarge,
           ),
         ),
@@ -182,7 +179,7 @@ class DayTasks extends StatelessWidget {
                 newCase: newCase,
               );
             } else {
-              if (paramVal == param[1]) {
+              if (paramVal == param[2]) {
                 if (newCase.frogs[index].isTicked == null ||
                     newCase.frogs[index].isTicked == false) {
                   return Node(
@@ -196,7 +193,7 @@ class DayTasks extends StatelessWidget {
                   return SizedBox();
                 }
               } else {
-                if (paramVal == param[2]) {
+                if (paramVal == param[1]) {
                   if (newCase.frogs[index].isTicked != null &&
                       newCase.frogs[index].isTicked == true) {
                     return Node(
@@ -233,7 +230,7 @@ class DayTasks extends StatelessWidget {
                 newCase: newCase,
               );
             } else {
-              if (paramVal == param[1]) {
+              if (paramVal == param[2]) {
                 if (newCase.birthdays[index].isTicked == null ||
                     newCase.birthdays[index].isTicked == false) {
                   return Node(
@@ -249,7 +246,7 @@ class DayTasks extends StatelessWidget {
                   return SizedBox();
                 }
               } else {
-                if (paramVal == param[2]) {
+                if (paramVal == param[1]) {
                   if (newCase.birthdays[index].isTicked != null &&
                       newCase.birthdays[index].isTicked == true) {
                     return Node(
@@ -287,7 +284,7 @@ class DayTasks extends StatelessWidget {
                 newCase: newCase,
               );
             } else {
-              if (paramVal == param[1]) {
+              if (paramVal == param[2]) {
                 if (newCase.calls[index].isTicked == null ||
                     newCase.calls[index].isTicked == false) {
                   return Node(
@@ -302,7 +299,7 @@ class DayTasks extends StatelessWidget {
                   return SizedBox();
                 }
               } else {
-                if (paramVal == param[2]) {
+                if (paramVal == param[1]) {
                   if (newCase.calls[index].isTicked != null &&
                       newCase.calls[index].isTicked == true) {
                     return Node(
@@ -339,7 +336,7 @@ class DayTasks extends StatelessWidget {
                 newCase: newCase,
               );
             } else {
-              if (paramVal == param[1]) {
+              if (paramVal == param[2]) {
                 if (newCase.tasks[index].isTicked == null ||
                     newCase.tasks[index].isTicked == false) {
                   return Node(
@@ -355,7 +352,7 @@ class DayTasks extends StatelessWidget {
                   return SizedBox();
                 }
               } else {
-                if (paramVal == param[2]) {
+                if (paramVal == param[1]) {
                   if (newCase.tasks[index].isTicked != null &&
                       newCase.tasks[index].isTicked == true) {
                     return Node(
@@ -394,7 +391,7 @@ class DayTasks extends StatelessWidget {
                 newCase: newCase,
               );
             } else {
-              if (paramVal == param[1]) {
+              if (paramVal == param[2]) {
                 if (newCase.successes[index].isTicked == null ||
                     newCase.successes[index].isTicked == false) {
                   return Node(
@@ -410,7 +407,7 @@ class DayTasks extends StatelessWidget {
                   return SizedBox();
                 }
               } else {
-                if (paramVal == param[2]) {
+                if (paramVal == param[1]) {
                   if (newCase.successes[index].isTicked != null &&
                       newCase.successes[index].isTicked == true) {
                     return Node(
@@ -527,5 +524,25 @@ class Node extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+String convertDate(DateTime? date) {
+  if (date == null) {
+    return "Нет даты";
+  } else {
+    String day = date.day.toString(),
+        month = date.month.toString(),
+        year = date.year.toString(),
+        result;
+
+    if (date.day < 10) {
+      day = '0' + day;
+    }
+    if (date.month < 10) {
+      month = '0' + month;
+    }
+    result = day + '/' + month + '/' + year;
+    return result;
   }
 }

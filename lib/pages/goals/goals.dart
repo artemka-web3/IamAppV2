@@ -232,20 +232,6 @@ class Goals extends StatelessWidget {
                       const SizedBox(
                         height: 26.0,
                       ),
-                      const Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Месяц',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 26,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 16.0,
-                      ),
                       //Месяц
                       (state.user.goals.length != 0)
                           ? ListView.builder(
@@ -272,16 +258,6 @@ class Goals extends StatelessWidget {
                             ),
                       const SizedBox(
                         height: 16.0,
-                      ),
-                      const Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Год',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 26,
-                              fontWeight: FontWeight.w400),
-                        ),
                       ),
                       (state.user.goals.length != 0)
                           ? ListView.builder(
@@ -352,65 +328,98 @@ class Note extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 16.0),
-      padding: const EdgeInsets.all(16.0),
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(
-          Radius.circular(12.0),
+    final date = goal.date;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          convertDate(date),
+          style: Theme.of(context).textTheme.titleMedium,
         ),
-      ),
-      child: Column(
-        children: [
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              goal.title ?? "Нет заголовка",
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium!
-                  .copyWith(fontSize: 18.0),
+        SizedBox(
+          height: 8.0,
+        ),
+        Container(
+          margin: const EdgeInsets.symmetric(vertical: 16.0),
+          padding: const EdgeInsets.all(16.0),
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(
+              Radius.circular(12.0),
             ),
           ),
-          const SizedBox(
-            height: 12.0,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Column(
             children: [
-              Text(
-                goal.description ?? "Нет описания",
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyMedium!
-                    .copyWith(fontSize: 18.0),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  goal.title ?? "Нет заголовка",
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium!
+                      .copyWith(fontSize: 18.0),
+                ),
               ),
-              Checkbox(
-                value: goal.isTicked ?? false,
-                onChanged: (val) async {
-                  SharedPreferences preferences =
-                      await SharedPreferences.getInstance();
-                  goal.isTicked = val ?? false;
-                  User user = context.read<UserBloc>().state.user;
-                  for (var i = 0; i < user.goals.length; i++) {
-                    if (user.goals[i].date == goal.date &&
-                        user.goals[i].title == goal.title) {
-                      user.goals[i] = goal;
-                    }
-                  }
-                  context.read<UserBloc>().add(
-                        UpdateGoal(
-                          phone: preferences.getString('phone')!,
-                          goal: goal,
-                        ),
-                      );
-                },
+              const SizedBox(
+                height: 12.0,
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    goal.description ?? "Нет описания",
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(fontSize: 18.0),
+                  ),
+                  Checkbox(
+                    value: goal.isTicked ?? false,
+                    onChanged: (val) async {
+                      SharedPreferences preferences =
+                          await SharedPreferences.getInstance();
+                      goal.isTicked = val ?? false;
+                      User user = context.read<UserBloc>().state.user;
+                      for (var i = 0; i < user.goals.length; i++) {
+                        if (user.goals[i].date == goal.date &&
+                            user.goals[i].title == goal.title) {
+                          user.goals[i] = goal;
+                        }
+                      }
+                      context.read<UserBloc>().add(
+                            UpdateGoal(
+                              phone: preferences.getString('phone')!,
+                              goal: goal,
+                            ),
+                          );
+                    },
+                  ),
+                ],
+              )
             ],
-          )
-        ],
-      ),
+          ),
+        ),
+      ],
     );
+  }
+}
+
+String convertDate(DateTime? date) {
+  if (date == null) {
+    return "Нет даты";
+  } else {
+    String day = date.day.toString(),
+        month = date.month.toString(),
+        year = date.year.toString(),
+        result;
+
+    if (date.day < 10) {
+      day = '0' + day;
+    }
+    if (date.month < 10) {
+      month = '0' + month;
+    }
+    result = day + '/' + month + '/' + year;
+    return result;
   }
 }
