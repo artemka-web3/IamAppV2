@@ -276,7 +276,8 @@ class _BirthMeaningState extends State<BirthMeaning> {
                         int.parse(month),
                         int.parse(day),
                       );
-                      if (phone == null) {
+                      if (phone != null) {
+                      } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Container(

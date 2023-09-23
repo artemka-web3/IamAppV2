@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'dart:convert';
-
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:i_am_app/classes/models/case.dart';
 import 'package:i_am_app/classes/models/goal.dart';
@@ -11,7 +11,7 @@ import 'package:i_am_app/classes/models/plan.dart';
 import 'package:i_am_app/classes/models/user.dart';
 
 class FirebaseDatabaseService {
-  final ref = FirebaseDatabase.instance.ref('');
+  final ref = FirebaseDatabase.instanceFor(app: Firebase.app(), databaseURL: "https://iamapp-80ab7-default-rtdb.europe-west1.firebasedatabase.app").ref('');
 
   Future<void> createUser(User user) async {
     try {
