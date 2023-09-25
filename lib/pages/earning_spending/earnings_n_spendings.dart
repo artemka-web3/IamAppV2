@@ -32,6 +32,20 @@ class Earnings_N_Spendings extends StatefulWidget {
 }
 
 class _Earnings_N_SpendingsState extends State<Earnings_N_Spendings> {
+  List<String> months = [
+    'Январь',
+    'Февраль',
+    'Март',
+    'Апрель',
+    'Май',
+    'Июнь',
+    'Июль',
+    'Август',
+    'Сентябрь',
+    'Октябрь',
+    'Ноябрь',
+    'Декабрь'
+  ];
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -100,6 +114,18 @@ class _Earnings_N_SpendingsState extends State<Earnings_N_Spendings> {
                       child: SizedBox(
                         child: Column(
                           children: [
+                            Align(
+                              child: Text(
+                                months[DateTime.now().month - 1],
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleLarge!
+                                    .copyWith(fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 8.0,
+                            ),
                             Container(
                               child: const Center(
                                 child: Text(
@@ -140,7 +166,7 @@ class _Earnings_N_SpendingsState extends State<Earnings_N_Spendings> {
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(12.0),
                                   color: Colors.white),
-                              padding: const EdgeInsets.all(8.0),
+                              padding: const EdgeInsets.all(16.0),
                               child: Center(
                                 child: Text(
                                   widget.expenses.text,

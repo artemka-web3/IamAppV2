@@ -17,27 +17,6 @@ class CustomCategory {
   });
 }
 
-List<TextEditingController> controllers = [
-  TextEditingController(),
-  TextEditingController(),
-  TextEditingController(),
-  TextEditingController(),
-  TextEditingController(),
-  TextEditingController()
-];
-
-List<CustomCategory> customControllersIncome = [
-  CustomCategory(controller: TextEditingController()),
-];
-List<CustomCategory> customControllersFixed = [
-  CustomCategory(controller: TextEditingController()),
-];
-List<CustomCategory> customControllersVar = [
-  CustomCategory(controller: TextEditingController()),
-];
-
-bool switchValue = false;
-
 List<String> cEarning = [
   'Зарплата',
   'Бизнес',
@@ -61,6 +40,27 @@ List<String> cSpendingConst = [
   'Автокредит',
   'Прочее',
 ];
+
+List<TextEditingController> controllers = [
+  TextEditingController(),
+  TextEditingController(),
+  TextEditingController(),
+  TextEditingController(),
+  TextEditingController(),
+  TextEditingController()
+];
+
+List<CustomCategory> customControllersIncome = [
+  CustomCategory(controller: TextEditingController()),
+];
+List<CustomCategory> customControllersFixed = [
+  CustomCategory(controller: TextEditingController()),
+];
+List<CustomCategory> customControllersVar = [
+  CustomCategory(controller: TextEditingController()),
+];
+
+bool switchValue = false;
 
 List<String> cSpendingTemp = [
   'Путешествие',
@@ -115,127 +115,7 @@ class _PlanState extends State<Plan> {
           ),
           child: BlocBuilder<UserBloc, UserState>(
             builder: (context, state) {
-              customControllersIncome.clear();
-              customControllersFixed.clear();
-              customControllersVar.clear();
-              for (var i in controllers) {
-                i.clear();
-              }
-              customControllersIncome = [
-                CustomCategory(controller: TextEditingController()),
-              ];
-              customControllersFixed = [
-                CustomCategory(controller: TextEditingController()),
-              ];
-              customControllersVar = [
-                CustomCategory(controller: TextEditingController()),
-              ];
-              if (switchValue) {
-                for (var element in state.user.month) {
-                  if (element.date.month == DateTime.now().month &&
-                      element.date.year == DateTime.now().year) {
-                    controllers[3].text = element.drr ?? '0';
-                    controllers[4].text = element.passiveIncome ?? '0';
-                    controllers[5].text = element.passiveIncome ?? '0';
-                    customControllersIncome.clear();
-                    customControllersFixed.clear();
-                    customControllersVar.clear();
-                    for (var i in element.incomeList) {
-                      customControllersIncome.add(
-                          CustomCategory(controller: TextEditingController()));
-                      customControllersIncome[
-                              customControllersIncome.length - 1]
-                          .controller
-                          .text = i.value;
-                      customControllersIncome[
-                              customControllersIncome.length - 1]
-                          .catigory = i.category;
-                    }
-                    for (var i in element.fixedCostsList) {
-                      customControllersFixed.add(
-                          CustomCategory(controller: TextEditingController()));
-                      customControllersFixed[customControllersFixed.length - 1]
-                          .controller
-                          .text = i.value;
-                      customControllersFixed[customControllersFixed.length - 1]
-                          .catigory = i.category;
-                    }
-                    for (var i in element.varCostsList) {
-                      customControllersVar.add(
-                          CustomCategory(controller: TextEditingController()));
-                      customControllersVar[customControllersVar.length - 1]
-                          .controller
-                          .text = i.value;
-                      customControllersVar[customControllersVar.length - 1]
-                          .catigory = i.category;
-                    }
-                    if (customControllersIncome.isEmpty) {
-                      customControllersIncome.add(
-                          CustomCategory(controller: TextEditingController()));
-                    }
-                    if (customControllersFixed.isEmpty) {
-                      customControllersFixed.add(
-                          CustomCategory(controller: TextEditingController()));
-                    }
-                    if (customControllersVar.isEmpty) {
-                      customControllersVar.add(
-                          CustomCategory(controller: TextEditingController()));
-                    }
-                  }
-                }
-              } else {
-                for (var element in state.user.years) {
-                  controllers[3].text = element.drr ?? '0';
-                  controllers[4].text = element.passiveIncome ?? '0';
-                  controllers[5].text = element.passiveIncome ?? '0';
-                  if (element.date.year == DateTime.now().year) {
-                    customControllersIncome.clear();
-                    customControllersFixed.clear();
-                    customControllersVar.clear();
-                    for (var i in element.incomeList) {
-                      customControllersIncome.add(
-                          CustomCategory(controller: TextEditingController()));
-                      customControllersIncome[
-                              customControllersIncome.length - 1]
-                          .controller
-                          .text = i.value;
-                      customControllersIncome[
-                              customControllersIncome.length - 1]
-                          .catigory = i.category;
-                    }
-                    for (var i in element.fixedCostsList) {
-                      customControllersFixed.add(
-                          CustomCategory(controller: TextEditingController()));
-                      customControllersFixed[customControllersFixed.length - 1]
-                          .controller
-                          .text = i.value;
-                      customControllersFixed[customControllersFixed.length - 1]
-                          .catigory = i.category;
-                    }
-                    for (var i in element.varCostsList) {
-                      customControllersVar.add(
-                          CustomCategory(controller: TextEditingController()));
-                      customControllersVar[customControllersVar.length - 1]
-                          .controller
-                          .text = i.value;
-                      customControllersVar[customControllersVar.length - 1]
-                          .catigory = i.category;
-                    }
-                    if (customControllersIncome.isEmpty) {
-                      customControllersIncome.add(
-                          CustomCategory(controller: TextEditingController()));
-                    }
-                    if (customControllersFixed.isEmpty) {
-                      customControllersFixed.add(
-                          CustomCategory(controller: TextEditingController()));
-                    }
-                    if (customControllersVar.isEmpty) {
-                      customControllersVar.add(
-                          CustomCategory(controller: TextEditingController()));
-                    }
-                  }
-                }
-              }
+              initControllers(switchValue, state, controllers);
               return Column(
                 children: [
                   AppBar(
@@ -701,73 +581,14 @@ class TextForm extends StatelessWidget {
         keyboardType: TextInputType.number,
         style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 14.0),
         onChanged: (value) {
-          controllers[4].text = '0';
-          if (controller.text.length == 0) {
-            return;
-          }
-          controllers[3].text = '0';
-
-          for (var i in customControllersIncome) {
-            if (i.controller.text != '') {
-              controllers[3].text =
-                  (int.parse(i.controller.text.replaceAll(' ', '')) +
-                          int.parse(controllers[3].text.replaceAll(' ', '')))
-                      .toString();
-            }
-          }
-          for (var i in customControllersFixed) {
-            if (i.controller.text != '') {
-              controllers[3].text =
-                  (int.parse(controllers[3].text.replaceAll(' ', '')) -
-                          (int.parse(i.controller.text.replaceAll(' ', ''))))
-                      .toString();
-            }
-          }
-          for (var i in customControllersVar) {
-            if (i.controller.text != '') {
-              controllers[3].text =
-                  (int.parse(controllers[3].text.replaceAll(' ', '')) -
-                          (int.parse(i.controller.text.replaceAll(' ', ''))))
-                      .toString();
-            }
-          }
-          final data = context.read<UserBloc>().state.user;
-          if (switchValue) {
-            for (var i in data.month) {
-              if (i.date.month < date.month) {
-                controllers[4].text =
-                    (int.parse(controllers[4].text.replaceAll(' ', '')) +
-                            int.parse(i.drr!.replaceAll(' ', '')))
-                        .toString();
-              }
-            }
-          } else {
-            for (var i in data.years) {
-              if (i.date.year < date.year) {
-                controllers[4].text =
-                    (int.parse(controllers[4].text.replaceAll(' ', '')) +
-                            int.parse(i.drr!.replaceAll(' ', '')))
-                        .toString();
-              }
-            }
-          }
-          controllers[4].text =
-              (int.parse(controllers[4].text.replaceAll(' ', '')) +
-                      int.parse(controllers[3].text.replaceAll(' ', '')))
-                  .toString();
-          print(controllers[4].text);
-          var formatter = NumberFormat('#,###');
-          controllers[4].text =
-              '${formatter.format(int.tryParse(controllers[4].text.replaceAll(' ', '')))}'
-                  .replaceAll(',', ' ');
-          controllers[3].text =
-              '${formatter.format(int.tryParse(controllers[3].text.replaceAll(' ', '')))}'
-                  .replaceAll(',', ' ');
-          controller.text =
-              '${formatter.format(int.tryParse(controller.text.replaceAll(' ', '')))}'
-                  .replaceAll(',', ' ');
-          controller.selection = TextSelection.fromPosition(
-              TextPosition(offset: controller.text.length));
+          inputHandler(
+              switchValue,
+              controllers,
+              controller,
+              customControllersIncome,
+              customControllersFixed,
+              customControllersVar,
+              context);
           setState(() {});
         },
         decoration: InputDecoration(
@@ -807,5 +628,205 @@ class CustomContainer extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+void inputHandler(
+  bool switchValue,
+  List<TextEditingController> controllers,
+  TextEditingController controller,
+  List<CustomCategory> customControllersIncome,
+  List<CustomCategory> customControllersFixed,
+  List<CustomCategory> customControllersVar,
+  BuildContext context,
+) {
+  controllers[4].text = '0';
+  if (controller.text.length == 0) {
+    return;
+  }
+  controllers[3].text = '0';
+
+  for (var i in customControllersIncome) {
+    if (i.controller.text != '') {
+      controllers[3].text = (int.parse(i.controller.text.replaceAll(' ', '')) +
+              int.parse(controllers[3].text.replaceAll(' ', '')))
+          .toString();
+    }
+  }
+  for (var i in customControllersFixed) {
+    if (i.controller.text != '') {
+      controllers[3].text =
+          (int.parse(controllers[3].text.replaceAll(' ', '')) -
+                  (int.parse(i.controller.text.replaceAll(' ', ''))))
+              .toString();
+    }
+  }
+  for (var i in customControllersVar) {
+    if (i.controller.text != '') {
+      controllers[3].text =
+          (int.parse(controllers[3].text.replaceAll(' ', '')) -
+                  (int.parse(i.controller.text.replaceAll(' ', ''))))
+              .toString();
+    }
+  }
+  final data = context.read<UserBloc>().state.user;
+  if (switchValue) {
+    for (var i in data.month) {
+      if (i.date.month < date.month) {
+        controllers[4].text =
+            (int.parse(controllers[4].text.replaceAll(' ', '')) +
+                    int.parse(i.drr!.replaceAll(' ', '')))
+                .toString();
+      }
+    }
+  } else {
+    for (var i in data.years) {
+      if (i.date.year < date.year) {
+        controllers[4].text =
+            (int.parse(controllers[4].text.replaceAll(' ', '')) +
+                    int.parse(i.drr!.replaceAll(' ', '')))
+                .toString();
+      }
+    }
+  }
+  controllers[4].text = (int.parse(controllers[4].text.replaceAll(' ', '')) +
+          int.parse(controllers[3].text.replaceAll(' ', '')))
+      .toString();
+  print(controllers[4].text);
+  var formatter = NumberFormat('#,###');
+  controllers[4].text =
+      '${formatter.format(int.tryParse(controllers[4].text.replaceAll(' ', '')))}'
+          .replaceAll(',', ' ');
+  controllers[3].text =
+      '${formatter.format(int.tryParse(controllers[3].text.replaceAll(' ', '')))}'
+          .replaceAll(',', ' ');
+  controller.text =
+      '${formatter.format(int.tryParse(controller.text.replaceAll(' ', '')))}'
+          .replaceAll(',', ' ');
+  controller.selection =
+      TextSelection.fromPosition(TextPosition(offset: controller.text.length));
+}
+
+void initControllers(
+  bool switchValue,
+  UserState state,
+  List<TextEditingController> controllers,
+) {
+  customControllersIncome.clear();
+  customControllersFixed.clear();
+  customControllersVar.clear();
+  for (var i in controllers) {
+    i.clear();
+  }
+  customControllersIncome = [
+    CustomCategory(controller: TextEditingController()),
+  ];
+  customControllersFixed = [
+    CustomCategory(controller: TextEditingController()),
+  ];
+  customControllersVar = [
+    CustomCategory(controller: TextEditingController()),
+  ];
+  if (switchValue) {
+    for (var element in state.user.month) {
+      if (element.date.month == DateTime.now().month &&
+          element.date.year == DateTime.now().year) {
+        controllers[3].text = element.drr ?? '0';
+        controllers[4].text = element.passiveIncome ?? '0';
+        controllers[5].text = element.passiveIncome ?? '0';
+        customControllersIncome.clear();
+        customControllersFixed.clear();
+        customControllersVar.clear();
+        for (var i in element.incomeList) {
+          customControllersIncome
+              .add(CustomCategory(controller: TextEditingController()));
+          customControllersIncome[customControllersIncome.length - 1]
+              .controller
+              .text = i.value;
+          customControllersIncome[customControllersIncome.length - 1].catigory =
+              i.category;
+        }
+        for (var i in element.fixedCostsList) {
+          customControllersFixed
+              .add(CustomCategory(controller: TextEditingController()));
+          customControllersFixed[customControllersFixed.length - 1]
+              .controller
+              .text = i.value;
+          customControllersFixed[customControllersFixed.length - 1].catigory =
+              i.category;
+        }
+        for (var i in element.varCostsList) {
+          customControllersVar
+              .add(CustomCategory(controller: TextEditingController()));
+          customControllersVar[customControllersVar.length - 1]
+              .controller
+              .text = i.value;
+          customControllersVar[customControllersVar.length - 1].catigory =
+              i.category;
+        }
+        if (customControllersIncome.isEmpty) {
+          customControllersIncome
+              .add(CustomCategory(controller: TextEditingController()));
+        }
+        if (customControllersFixed.isEmpty) {
+          customControllersFixed
+              .add(CustomCategory(controller: TextEditingController()));
+        }
+        if (customControllersVar.isEmpty) {
+          customControllersVar
+              .add(CustomCategory(controller: TextEditingController()));
+        }
+      }
+    }
+  } else {
+    for (var element in state.user.years) {
+      controllers[3].text = element.drr ?? '0';
+      controllers[4].text = element.passiveIncome ?? '0';
+      controllers[5].text = element.passiveIncome ?? '0';
+      if (element.date.year == DateTime.now().year) {
+        customControllersIncome.clear();
+        customControllersFixed.clear();
+        customControllersVar.clear();
+        for (var i in element.incomeList) {
+          customControllersIncome
+              .add(CustomCategory(controller: TextEditingController()));
+          customControllersIncome[customControllersIncome.length - 1]
+              .controller
+              .text = i.value;
+          customControllersIncome[customControllersIncome.length - 1].catigory =
+              i.category;
+        }
+        for (var i in element.fixedCostsList) {
+          customControllersFixed
+              .add(CustomCategory(controller: TextEditingController()));
+          customControllersFixed[customControllersFixed.length - 1]
+              .controller
+              .text = i.value;
+          customControllersFixed[customControllersFixed.length - 1].catigory =
+              i.category;
+        }
+        for (var i in element.varCostsList) {
+          customControllersVar
+              .add(CustomCategory(controller: TextEditingController()));
+          customControllersVar[customControllersVar.length - 1]
+              .controller
+              .text = i.value;
+          customControllersVar[customControllersVar.length - 1].catigory =
+              i.category;
+        }
+        if (customControllersIncome.isEmpty) {
+          customControllersIncome
+              .add(CustomCategory(controller: TextEditingController()));
+        }
+        if (customControllersFixed.isEmpty) {
+          customControllersFixed
+              .add(CustomCategory(controller: TextEditingController()));
+        }
+        if (customControllersVar.isEmpty) {
+          customControllersVar
+              .add(CustomCategory(controller: TextEditingController()));
+        }
+      }
+    }
   }
 }
