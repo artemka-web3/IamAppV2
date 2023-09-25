@@ -285,8 +285,10 @@ li.LifeIndex updateControllers(List<TextEditingController> controllers,
 
 void animateControllerJump(ScrollController controller) {
   WidgetsBinding.instance.addPostFrameCallback((_) {
-    controller.animateTo((DateTime.now().month - 1) * (110 + 8.0),
-        duration: const Duration(milliseconds: 760), curve: Curves.bounceOut);
+    if (controller.hasClients) {
+      controller.animateTo((DateTime.now().month - 1) * (110 + 8.0),
+          duration: const Duration(milliseconds: 760), curve: Curves.bounceOut);
+    }
   });
 }
 

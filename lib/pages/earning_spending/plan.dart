@@ -8,6 +8,13 @@ import 'package:intl/intl.dart';
 import 'package:i_am_app/classes/models/plan.dart' as pl;
 import 'package:i_am_app/pages/bloc/bloc/user_bloc.dart';
 
+enum Category {
+  Earning,
+  SpendingConst,
+  SpendingTemp,
+  None,
+}
+
 class CustomCategory {
   TextEditingController controller;
   String? catigory;
@@ -41,6 +48,19 @@ List<String> cSpendingConst = [
   'Прочее',
 ];
 
+List<String> cSpendingTemp = [
+  'Путешествие',
+  'Хобби',
+  'Одежда',
+  'Недвижимость',
+  'Транспорт',
+  'Лечение',
+  'Инвестиции',
+  'Сбережения',
+  'Благотворительность',
+  'Прочее',
+];
+
 List<TextEditingController> controllers = [
   TextEditingController(),
   TextEditingController(),
@@ -62,18 +82,6 @@ List<CustomCategory> customControllersVar = [
 
 bool switchValue = false;
 
-List<String> cSpendingTemp = [
-  'Путешествие',
-  'Хобби',
-  'Одежда',
-  'Недвижимость',
-  'Транспорт',
-  'Лечение',
-  'Инвестиции',
-  'Сбережения',
-  'Благотворительность',
-  'Прочее',
-];
 DateTime date = DateTime.now();
 
 class Plan extends StatefulWidget {
@@ -294,16 +302,19 @@ class _PlanState extends State<Plan> {
                     controllers: customControllersIncome,
                     title: "Доход",
                     showCatigory: true,
+                    categories: cEarning,
                   ),
                   NodeContainer(
                     controllers: customControllersFixed,
                     title: "Постоянные расходы",
                     showCatigory: true,
+                    categories: cSpendingConst,
                   ),
                   NodeContainer(
                     controllers: customControllersVar,
                     title: "Переменные расходы",
                     showCatigory: true,
+                    categories: cSpendingTemp,
                   ),
                   ContainerTextForm(
                     controller: controllers[3],
@@ -341,6 +352,13 @@ class _PlanState extends State<Plan> {
                         variable +=
                             int.parse(i.controller.text.replaceAll(' ', ''));
                       }
+                      final incomeList = List<pl.Node>.generate(
+                          customControllersIncome.length,
+                          (index) => pl.Node(
+                              category: customControllersIncome[index].catigory,
+                              value: customControllersIncome[index]
+                                  .controller
+                                  .text));
                       pl.Plan plan = pl.Plan(
                         date: date,
                         income: income.toString(),
@@ -349,14 +367,7 @@ class _PlanState extends State<Plan> {
                         drr: controllers[3].text,
                         progressiveTotal: controllers[4].text,
                         passiveIncome: controllers[5].text,
-                        incomeList: List<pl.Node>.generate(
-                            customControllersIncome.length,
-                            (index) => pl.Node(
-                                category:
-                                    customControllersIncome[index].catigory,
-                                value: customControllersIncome[index]
-                                    .controller
-                                    .text)),
+                        incomeList: incomeList,
                         fixedCostsList: List<pl.Node>.generate(
                             customControllersFixed.length,
                             (index) => pl.Node(
@@ -423,15 +434,17 @@ class NodeContainer extends StatelessWidget {
   final String title;
   final bool showCatigory;
   final bool? showInfo;
-
+  final List<String> categories;
   final List<CustomCategory> controllers;
 
-  const NodeContainer(
-      {super.key,
-      required this.title,
-      required this.showCatigory,
-      this.showInfo,
-      required this.controllers});
+  const NodeContainer({
+    super.key,
+    required this.title,
+    required this.showCatigory,
+    required this.controllers,
+    required this.categories,
+    this.showInfo,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -459,25 +472,54 @@ class NodeContainer extends StatelessWidget {
             removeTop: true,
             child: ListView.builder(
               shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
               itemCount: controllers.length,
               itemBuilder: ((context, index) {
-                return Column(
-                  children: [
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: TextButton(
-                        onPressed: () {},
-                        child: Text(
-                          "Категория",
-                          style: TextStyle(color: Colors.white),
+                return Container(
+                  margin: EdgeInsets.symmetric(vertical: 8.0),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  child: Column(
+                    children: [
+                      TextForm(
+                        setState: setState,
+                        controller: controllers[index].controller,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Divider(
+                          color: Colors.black45,
+                          thickness: 2.0,
                         ),
                       ),
-                    ),
-                    TextForm(
-                      setState: setState,
-                      controller: controllers[index].controller,
-                    ),
-                  ],
+                      Padding(
+                        padding: const EdgeInsets.only(right: 8.0, bottom: 8.0),
+                        child: Align(
+                          alignment: Alignment.bottomRight,
+                          child: GestureDetector(
+                            onTap: () async {
+                              var buf =
+                                  await categoryDialog(categories, context);
+                              controllers[index].catigory = buf;
+                              setState(() {});
+                            },
+                            child: Text(
+                              controllers[index].catigory ?? "Категория",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(
+                                    fontSize: 15.0,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 );
               }),
             ),
@@ -576,32 +618,39 @@ class TextForm extends StatelessWidget {
         borderRadius: BorderRadius.circular(10.0),
         color: Colors.white,
       ),
-      child: TextFormField(
-        controller: controller,
-        keyboardType: TextInputType.number,
-        style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 14.0),
-        onChanged: (value) {
-          inputHandler(
-              switchValue,
-              controllers,
-              controller,
-              customControllersIncome,
-              customControllersFixed,
-              customControllersVar,
-              context);
-          setState(() {});
-        },
-        decoration: InputDecoration(
-          hintText: "Введите сумму...",
-          hintStyle: const TextStyle(
-            color: Color.fromARGB(129, 37, 46, 41),
+      child: Column(
+        children: [
+          TextFormField(
+            controller: controller,
+            keyboardType: TextInputType.number,
+            style: Theme.of(context)
+                .textTheme
+                .bodyMedium!
+                .copyWith(fontSize: 18.0),
+            onChanged: (value) {
+              inputHandler(
+                  switchValue,
+                  controllers,
+                  controller,
+                  customControllersIncome,
+                  customControllersFixed,
+                  customControllersVar,
+                  context);
+              setState(() {});
+            },
+            decoration: InputDecoration(
+              isDense: true,
+              hintText: "Введите сумму...",
+              hintStyle: const TextStyle(
+                color: Color.fromARGB(129, 37, 46, 41),
+              ),
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+              border: InputBorder.none,
+              fillColor: Colors.white,
+            ),
           ),
-          contentPadding: const EdgeInsets.all(16.0),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          fillColor: Colors.white,
-        ),
+        ],
       ),
     );
   }
@@ -829,4 +878,76 @@ void initControllers(
       }
     }
   }
+}
+
+Future<String?> categoryDialog(
+    List<String> params, BuildContext context) async {
+  return await showDialog<String?>(
+    context: context,
+    builder: (context) => AlertDialog(
+      actionsPadding: EdgeInsets.only(
+        right: 20.0,
+        bottom: 20.0,
+      ),
+      insetPadding: EdgeInsets.zero,
+      title: Text(
+        "Выберите фильтр",
+        style: Theme.of(context)
+            .textTheme
+            .bodyMedium!
+            .copyWith(fontWeight: FontWeight.w600),
+      ),
+      content: Container(
+        width: 200,
+        height: 200,
+        child: Center(
+          child: ListView.builder(
+            shrinkWrap: true,
+            physics: BouncingScrollPhysics(),
+            itemCount: params.length,
+            itemBuilder: (context, index) => Center(
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pop(params[index]);
+                },
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    GestureDetector(
+                      child: Text(
+                        params[index],
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                    ),
+                    Divider(
+                      color: Colors.black,
+                      thickness: 2.0,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+      actions: [
+        GestureDetector(
+          onTap: () {
+            Navigator.of(context).pop();
+            return null;
+          },
+          child: Text(
+            "Назад",
+            style: Theme.of(context)
+                .textTheme
+                .bodyMedium!
+                .copyWith(fontWeight: FontWeight.w600),
+          ),
+        ),
+      ],
+    ),
+  ).then((value) {
+    print(value);
+    return value;
+  });
 }
