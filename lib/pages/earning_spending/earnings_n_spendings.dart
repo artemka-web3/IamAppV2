@@ -21,9 +21,9 @@ String parseNumber(String number) {
 }
 
 class Earnings_N_Spendings extends StatefulWidget {
-  TextEditingController income = TextEditingController();
-  TextEditingController expenses = TextEditingController();
-  TextEditingController independence = TextEditingController();
+  String income = "";
+  String expenses = "";
+  String independence = "";
 
   Earnings_N_Spendings({super.key});
 
@@ -48,235 +48,200 @@ class _Earnings_N_SpendingsState extends State<Earnings_N_Spendings> {
   ];
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: SharedPreferences.getInstance(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData || snapshot.data == null) {
-            return const Center(
-              child: CircularProgressIndicator(
-                color: Colors.white,
-              ),
-            );
-          }
-          if (snapshot.data!.getString('income') != null) {
-            widget.income.text = snapshot.data!.getString('income')!;
-          }
-          if (snapshot.data!.getString('expenses') != null) {
-            widget.expenses.text = snapshot.data!.getString('expenses')!;
-          }
-          if (snapshot.data!.getString('independence') != null) {
-            widget.independence.text =
-                snapshot.data!.getString('independence')!;
-          }
-          return BlocBuilder<UserBloc, UserState>(
-            builder: (context, state) {
-              widget.income.text =
-                  'Заполните значения для этого месяца в\n Планировании';
-              widget.expenses.text =
-                  'Заполните значения для этого месяца в\n Планировании';
-              widget.independence.text =
-                  'Заполните значения для этого месяца в\n Планировании';
-              for (var element in state.user.month) {
-                if (element.date.month == DateTime.now().month &&
-                    element.date.year == DateTime.now().year) {
-                  widget.income.text = element.income.toString();
-                  widget.expenses.text =
-                      ((int.tryParse(element.varCosts.toString()) ?? 0) +
-                              (int.tryParse(element.fixedCosts.toString()) ??
-                                  0))
-                          .toString();
+    return BlocBuilder<UserBloc, UserState>(
+      builder: (context, state) {
+        widget.income = 'Заполните значения для этого месяца в\n Планировании';
+        widget.expenses =
+            'Заполните значения для этого месяца в\n Планировании';
+        widget.independence =
+            'Заполните значения для этого месяца в\n Планировании';
+        for (var element in state.user.month) {
+          if (element.date.month == DateTime.now().month &&
+              element.date.year == DateTime.now().year) {
+            widget.income = element.income.toString();
+            widget.expenses =
+                ((int.tryParse(element.varCosts.toString()) ?? 0) +
+                        (int.tryParse(element.fixedCosts.toString()) ?? 0))
+                    .toString();
 
-                  widget.independence.text =
-                      ((int.tryParse(element.fixedCosts ?? '0') ?? 0) +
-                              (int.tryParse(element.varCosts ?? '0') ?? 0) -
-                              (int.tryParse(element.passiveIncome ?? '0') ?? 0))
-                          .toString();
-                }
-              }
-              var formatter = NumberFormat('#,###');
-              if (widget.income.text !=
-                  'Заполните значения для этого месяца в\n Планировании') {
-                widget.income.text =
-                    '${formatter.format(int.tryParse(widget.income.text.replaceAll(' ', '')))}'
-                        .replaceAll(',', ' ');
-                widget.expenses.text =
-                    '${formatter.format(int.tryParse(widget.expenses.text.replaceAll(' ', '')))}'
-                        .replaceAll(',', ' ');
-                widget.independence.text =
-                    '${formatter.format(int.tryParse(widget.income.text.replaceAll(' ', '')))}'
-                        .replaceAll(',', ' ');
-              }
-              return Padding(
-                padding: const EdgeInsets.only(top: 10.0),
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: SizedBox(
-                        child: Column(
-                          children: [
-                            Align(
-                              child: Text(
-                                months[DateTime.now().month - 1],
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleLarge!
-                                    .copyWith(fontWeight: FontWeight.w600),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 8.0,
-                            ),
-                            Container(
-                              child: const Center(
-                                child: Text(
-                                  "Цель месяца по доходам",
-                                  style: TextStyle(
-                                      fontSize: 18, color: Colors.white),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.all(16.0),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12.0),
-                                  color: Colors.white),
-                              padding: const EdgeInsets.all(16.0),
-                              child: Center(
-                                child: Text(
-                                  widget.income.text,
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              child: const Center(
-                                child: Text(
-                                  "Расходы",
-                                  style: TextStyle(
-                                      fontSize: 18, color: Colors.white),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.all(16.0),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12.0),
-                                  color: Colors.white),
-                              padding: const EdgeInsets.all(16.0),
-                              child: Center(
-                                child: Text(
-                                  widget.expenses.text,
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const Center(
-                                child: Text(
-                              "До финансовой независимости осталось",
-                              style:
-                                  TextStyle(fontSize: 18, color: Colors.white),
-                            )),
-                            Container(
-                              margin: const EdgeInsets.all(16.0),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12.0),
-                                  color: Colors.white),
-                              padding: const EdgeInsets.all(16.0),
-                              child: Center(
-                                child: Text(
-                                  widget.independence.text,
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              child: const Center(
-                                  child: Text(
-                                "пассивного дохода",
-                                style: TextStyle(
-                                    fontSize: 18, color: Colors.white),
-                              )),
-                            ),
-                          ],
+            widget.independence = element.drr.toString();
+          }
+        }
+        var formatter = NumberFormat('#,###');
+        if (widget.income !=
+            'Заполните значения для этого месяца в\n Планировании') {
+          widget.income =
+              '${formatter.format(int.tryParse(widget.income.replaceAll(' ', '')))}'
+                  .replaceAll(',', ' ');
+          widget.expenses =
+              '${formatter.format(int.tryParse(widget.expenses.replaceAll(' ', '')))}'
+                  .replaceAll(',', ' ');
+          widget.independence =
+              '${formatter.format(int.tryParse(widget.independence.replaceAll(' ', '')))}'
+                  .replaceAll(',', ' ');
+        }
+        return Padding(
+          padding: const EdgeInsets.only(top: 10.0),
+          child: Column(
+            children: [
+              Expanded(
+                child: SizedBox(
+                  child: Column(
+                    children: [
+                      Align(
+                        child: Text(
+                          months[DateTime.now().month - 1],
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleLarge!
+                              .copyWith(fontWeight: FontWeight.w600),
                         ),
                       ),
-                    ),
-                    Align(
-                      alignment: FractionalOffset.bottomCenter,
-                      child: Column(
-                        children: [
-                          Container(
-                              decoration: const BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(15.0))),
-                              child: InkWell(
-                                child: ListTile(
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(15.0)),
-                                    title: const Text(
-                                      "Сводная Таблица",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          color: Colors.black, fontSize: 16.0),
-                                    ),
-                                    onTap: () {
-                                      Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  FreeTable()));
-                                    }),
-                              )),
-                          const SizedBox(height: 10),
-                          Container(
-                            decoration: const BoxDecoration(
-                                color: Colors.white,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(15.0))),
-                            child: InkWell(
-                              child: ListTile(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(15.0)),
-                                  title: const Text(
-                                    "Планирование",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: Colors.black, fontSize: 16.0),
-                                  ),
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => const Plan(),
-                                      ),
-                                    );
-                                  }),
+                      SizedBox(
+                        height: 8.0,
+                      ),
+                      Container(
+                        child: const Center(
+                          child: Text(
+                            "Цель месяца по доходам",
+                            style: TextStyle(fontSize: 18, color: Colors.white),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.all(16.0),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12.0),
+                            color: Colors.white),
+                        padding: const EdgeInsets.all(16.0),
+                        child: Center(
+                          child: Text(
+                            widget.income,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        child: const Center(
+                          child: Text(
+                            "Расходы",
+                            style: TextStyle(fontSize: 18, color: Colors.white),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.all(16.0),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12.0),
+                            color: Colors.white),
+                        padding: const EdgeInsets.all(16.0),
+                        child: Center(
+                          child: Text(
+                            widget.expenses,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
-                          const SizedBox(height: 30),
-                        ],
+                        ),
+                      ),
+                      const Center(
+                          child: Text(
+                        "До финансовой независимости осталось",
+                        style: TextStyle(fontSize: 18, color: Colors.white),
+                      )),
+                      Container(
+                        margin: const EdgeInsets.all(16.0),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12.0),
+                            color: Colors.white),
+                        padding: const EdgeInsets.all(16.0),
+                        child: Center(
+                          child: Text(
+                            widget.independence,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        child: const Center(
+                            child: Text(
+                          "пассивного дохода",
+                          style: TextStyle(fontSize: 18, color: Colors.white),
+                        )),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Align(
+                alignment: FractionalOffset.bottomCenter,
+                child: Column(
+                  children: [
+                    Container(
+                        decoration: const BoxDecoration(
+                            color: Colors.white,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(15.0))),
+                        child: InkWell(
+                          child: ListTile(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15.0)),
+                              title: const Text(
+                                "Сводная Таблица",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 16.0),
+                              ),
+                              onTap: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => FreeTable()));
+                              }),
+                        )),
+                    const SizedBox(height: 10),
+                    Container(
+                      decoration: const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(15.0))),
+                      child: InkWell(
+                        child: ListTile(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15.0)),
+                            title: const Text(
+                              "Планирование",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: Colors.black, fontSize: 16.0),
+                            ),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const Plan(),
+                                ),
+                              );
+                            }),
                       ),
                     ),
+                    const SizedBox(height: 30),
                   ],
                 ),
-              );
-            },
-          );
-        });
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }
