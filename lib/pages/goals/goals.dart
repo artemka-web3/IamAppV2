@@ -86,80 +86,77 @@ class Goals extends StatelessWidget {
                         height: 16.0,
                       ),
                       StatefulBuilder(builder: (context, setState) {
-                        return SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.filter_list_outlined,
-                                color: Colors.white,
-                              ),
-                              SizedBox(
-                                width: 8.0,
-                              ),
-                              CategoryPicker(
-                                callback: (String? str) {
-                                  selectedPeriod = str;
-                                  if (selectedPeriod == period[0]) {
-                                    isGrown = true;
-                                  }
-                                  if (selectedPeriod == period[1]) {
-                                    isGrown = false;
-                                  }
-                                  context.read<UserBloc>().add(GetUserByPhone(
-                                      phone: state.user.phone,
-                                      goalSphere: selectedSphere,
-                                      goalIsDone: isTicked,
-                                      growGoal: isGrown ?? true));
-                                },
-                                params: period,
-                                selected: selectedPeriod,
-                              ),
-                              SizedBox(
-                                width: 8.0,
-                              ),
-                              CategoryPicker(
-                                callback: (String? str) {
-                                  selectedSphere = str;
-                                  if (selectedSphere ==
-                                      spheres[spheres.length - 1]) {
-                                    selectedSphere = null;
-                                  }
-                                  context.read<UserBloc>().add(GetUserByPhone(
-                                      phone: state.user.phone,
-                                      goalSphere: selectedSphere,
-                                      goalIsDone: isTicked,
-                                      growGoal: isGrown ?? true));
-                                },
-                                params: spheres,
-                                selected: selectedSphere,
-                              ),
-                              SizedBox(
-                                width: 8.0,
-                              ),
-                              CategoryPicker(
-                                callback: (String? str) {
-                                  selectedTicked = str;
-                                  if (selectedTicked == ticked[0]) {
-                                    isTicked = null;
-                                  }
-                                  if (selectedTicked == ticked[1]) {
-                                    isTicked = true;
-                                  }
-                                  if (selectedTicked == ticked[2]) {
-                                    isTicked = false;
-                                  }
-                                  context.read<UserBloc>().add(GetUserByPhone(
-                                      phone: state.user.phone,
-                                      goalSphere: selectedSphere,
-                                      goalIsDone: isTicked,
-                                      growGoal: isGrown ?? true));
-                                },
-                                params: ticked,
-                                selected: selectedTicked,
-                              ),
-                            ],
-                          ),
+                        return Row(
+                          children: [
+                            Icon(
+                              Icons.filter_list_outlined,
+                              color: Colors.white,
+                            ),
+                            SizedBox(
+                              width: 8.0,
+                            ),
+                            CategoryPicker(
+                              callback: (String? str) {
+                                selectedPeriod = str;
+                                if (selectedPeriod == period[0]) {
+                                  isGrown = true;
+                                }
+                                if (selectedPeriod == period[1]) {
+                                  isGrown = false;
+                                }
+                                context.read<UserBloc>().add(GetUserByPhone(
+                                    phone: state.user.phone,
+                                    goalSphere: selectedSphere,
+                                    goalIsDone: isTicked,
+                                    growGoal: isGrown ?? true));
+                              },
+                              params: period,
+                              selected: selectedPeriod,
+                            ),
+                            SizedBox(
+                              width: 8.0,
+                            ),
+                            CategoryPicker(
+                              callback: (String? str) {
+                                selectedSphere = str;
+                                if (selectedSphere ==
+                                    spheres[spheres.length - 1]) {
+                                  selectedSphere = null;
+                                }
+                                context.read<UserBloc>().add(GetUserByPhone(
+                                    phone: state.user.phone,
+                                    goalSphere: selectedSphere,
+                                    goalIsDone: isTicked,
+                                    growGoal: isGrown ?? true));
+                              },
+                              params: spheres,
+                              selected: selectedSphere,
+                            ),
+                            SizedBox(
+                              width: 8.0,
+                            ),
+                            CategoryPicker(
+                              callback: (String? str) {
+                                selectedTicked = str;
+                                if (selectedTicked == ticked[0]) {
+                                  isTicked = null;
+                                }
+                                if (selectedTicked == ticked[1]) {
+                                  isTicked = true;
+                                }
+                                if (selectedTicked == ticked[2]) {
+                                  isTicked = false;
+                                }
+                                context.read<UserBloc>().add(GetUserByPhone(
+                                    phone: state.user.phone,
+                                    goalSphere: selectedSphere,
+                                    goalIsDone: isTicked,
+                                    growGoal: isGrown ?? true));
+                              },
+                              params: ticked,
+                              selected: selectedTicked,
+                            ),
+                          ],
                         );
                       }),
                       const SizedBox(
@@ -448,12 +445,12 @@ class CategoryPicker extends StatelessWidget {
           },
           child: Container(
             padding: const EdgeInsets.symmetric(
-              vertical: 4.0,
+              vertical: 6.0,
               horizontal: 10.0,
             ),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(24.0),
+              borderRadius: BorderRadius.circular(10.0),
             ),
             child: Text(
               selected ?? "Выбор",
