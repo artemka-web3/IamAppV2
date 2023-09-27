@@ -31,6 +31,8 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       }
     });
 
+    on<FreeUpdate>((event, emit) => emit(UserState(user: state.user)));
+
     on<UpdateUser>(
       (event, emit) async {
         try {

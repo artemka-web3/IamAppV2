@@ -82,6 +82,8 @@ List<CustomCategory> customControllersVar = [
 
 bool switchValue = false;
 
+int monthIndex = DateTime.now().month;
+
 DateTime date = DateTime.now();
 
 class Plan extends StatefulWidget {
@@ -123,7 +125,7 @@ class _PlanState extends State<Plan> {
           ),
           child: BlocBuilder<UserBloc, UserState>(
             builder: (context, state) {
-              initControllers(switchValue, state, controllers);
+              initControllers(switchValue, monthIndex, state, controllers);
               return Column(
                 children: [
                   AppBar(
@@ -200,9 +202,13 @@ class _PlanState extends State<Plan> {
                                       return ListTile(
                                         tileColor: Colors.white,
                                         onTap: () {
+                                          monthIndex = index + 1;
                                           date = DateTime(
                                               DateTime.now().year, index + 1);
                                           Navigator.of(context).pop();
+                                          BlocProvider.of<UserBloc>(context)
+                                              .add(FreeUpdate(
+                                                  phone: state.user.phone));
                                         },
                                         title: Center(
                                           child: Text(
@@ -758,6 +764,7 @@ void inputHandler(
 
 void initControllers(
   bool switchValue,
+  int monthIndex,
   UserState state,
   List<TextEditingController> controllers,
 ) {
@@ -778,7 +785,7 @@ void initControllers(
   ];
   if (switchValue) {
     for (var element in state.user.month) {
-      if (element.date.month == DateTime.now().month &&
+      if (element.date.month == monthIndex &&
           element.date.year == DateTime.now().year) {
         controllers[3].text = element.drr ?? '0';
         controllers[4].text = element.passiveIncome ?? '0';

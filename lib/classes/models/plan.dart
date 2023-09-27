@@ -81,7 +81,7 @@ class Plan {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'date': date.millisecondsSinceEpoch,
+      'date': '${date.month}/${date.year}',
       'income': income,
       'fixedCosts': fixedCosts,
       'varCosts': varCosts,
@@ -95,8 +95,24 @@ class Plan {
   }
 
   factory Plan.fromMap(Map<String, dynamic> map) {
+    DateTime date = DateTime.now();
+    if (map['date'] != null) {
+      String buf = map['date'].toString();
+      if (map['date'] is int) {
+        final dateBuf = DateTime.fromMillisecondsSinceEpoch(map['date'] as int);
+        buf = '${dateBuf.month}/${dateBuf.year}';
+      }
+      for (var i = 0; i < buf.length; i++) {
+        if (buf[i] == '/') {
+          int year = int.parse(buf.substring(i + 1, buf.length));
+          int month = int.parse(buf.substring(0, i));
+          date = DateTime(year, month);
+          break;
+        }
+      }
+    }
     return Plan(
-      date: DateTime.fromMillisecondsSinceEpoch(map['date'] as int),
+      date: date,
       income: map['income'] != null ? map['income'] as String : null,
       fixedCosts:
           map['fixedCosts'] != null ? map['fixedCosts'] as String : null,

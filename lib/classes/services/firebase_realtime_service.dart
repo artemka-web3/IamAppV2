@@ -11,7 +11,11 @@ import 'package:i_am_app/classes/models/plan.dart';
 import 'package:i_am_app/classes/models/user.dart';
 
 class FirebaseDatabaseService {
-  final ref = FirebaseDatabase.instanceFor(app: Firebase.app(), databaseURL: "https://iamapp-80ab7-default-rtdb.europe-west1.firebasedatabase.app").ref('');
+  final ref = FirebaseDatabase.instanceFor(
+          app: Firebase.app(),
+          databaseURL:
+              "https://iamapp-80ab7-default-rtdb.europe-west1.firebasedatabase.app")
+      .ref('');
 
   Future<void> createUser(User user) async {
     try {
@@ -140,7 +144,7 @@ class FirebaseDatabaseService {
       } else {
         await ref
             .child(
-                'users/$phone/plan_month/${plan.date.microsecondsSinceEpoch}')
+                'users/$phone/plan_month/${plan.date.year}_${plan.date.month}')
             .update(plan.toMap());
       }
     } catch (e) {

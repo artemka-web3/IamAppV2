@@ -7,6 +7,10 @@ abstract class UserEvent {
   UserEvent({required this.phone});
 }
 
+class FreeUpdate extends UserEvent {
+  FreeUpdate({required super.phone});
+}
+
 class UpdateBirthday extends UserEvent {
   final Map<String, Object?> value;
 
