@@ -16,7 +16,7 @@ import 'classes/services/notification_service.dart';
 import 'pages/home.dart';
 import 'pages/goals/goals.dart';
 import 'pages/diary/diary.dart';
-import 'pages/index_of_life.dart';
+import 'pages/index_of_life/index_of_life_page.dart';
 import 'pages/helpful_info.dart';
 import 'pages/earning_spending/earnings_n_spendings.dart';
 import 'package:firebase_core/firebase_core.dart';

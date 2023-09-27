@@ -788,7 +788,7 @@ void initControllers(
       if (element.date.month == monthIndex &&
           element.date.year == DateTime.now().year) {
         controllers[3].text = element.drr ?? '0';
-        controllers[4].text = element.passiveIncome ?? '0';
+        controllers[4].text = element.progressiveTotal ?? '0';
         controllers[5].text = element.passiveIncome ?? '0';
         customControllersIncome.clear();
         customControllersFixed.clear();

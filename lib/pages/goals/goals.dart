@@ -8,9 +8,9 @@ import 'package:i_am_app/pages/diary/new_node.dart';
 import 'package:i_am_app/pages/goals/new_goal.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-String? selectedPeriod = "Период";
-String? selectedSphere = "Сфера";
-String? selectedTicked = "Статус";
+String? selectedPeriod;
+String? selectedSphere;
+String? selectedTicked;
 
 class Goals extends StatelessWidget {
   Goals({super.key});
@@ -81,87 +81,95 @@ class Goals extends StatelessWidget {
                         fit: BoxFit.cover),
                   ),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(
                         height: 16.0,
                       ),
                       StatefulBuilder(builder: (context, setState) {
-                        return Row(
-                          children: [
-                            Icon(
-                              Icons.filter_list_outlined,
-                              color: Colors.white,
-                            ),
-                            SizedBox(
-                              width: 8.0,
-                            ),
-                            CategoryPicker(
-                              callback: (String? str) {
-                                selectedPeriod = str;
-                                if (selectedPeriod == period[0]) {
-                                  isGrown = true;
-                                }
-                                if (selectedPeriod == period[1]) {
-                                  isGrown = false;
-                                }
-                                context.read<UserBloc>().add(GetUserByPhone(
-                                    phone: state.user.phone,
-                                    goalSphere: selectedSphere,
-                                    goalIsDone: isTicked,
-                                    growGoal: isGrown ?? true));
-                              },
-                              params: period,
-                              selected: selectedPeriod,
-                            ),
-                            SizedBox(
-                              width: 8.0,
-                            ),
-                            CategoryPicker(
-                              callback: (String? str) {
-                                selectedSphere = str;
-                                if (selectedSphere ==
-                                    spheres[spheres.length - 1]) {
-                                  selectedSphere = null;
-                                }
-                                context.read<UserBloc>().add(GetUserByPhone(
-                                    phone: state.user.phone,
-                                    goalSphere: selectedSphere,
-                                    goalIsDone: isTicked,
-                                    growGoal: isGrown ?? true));
-                              },
-                              params: spheres,
-                              selected: selectedSphere,
-                            ),
-                            SizedBox(
-                              width: 8.0,
-                            ),
-                            CategoryPicker(
-                              callback: (String? str) {
-                                selectedTicked = str;
-                                if (selectedTicked == ticked[0]) {
-                                  isTicked = null;
-                                }
-                                if (selectedTicked == ticked[1]) {
-                                  isTicked = true;
-                                }
-                                if (selectedTicked == ticked[2]) {
-                                  isTicked = false;
-                                }
-                                context.read<UserBloc>().add(GetUserByPhone(
-                                    phone: state.user.phone,
-                                    goalSphere: selectedSphere,
-                                    goalIsDone: isTicked,
-                                    growGoal: isGrown ?? true));
-                              },
-                              params: ticked,
-                              selected: selectedTicked,
-                            ),
-                          ],
+                        return SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.filter_list_outlined,
+                                color: Colors.white,
+                              ),
+                              SizedBox(
+                                width: 8.0,
+                              ),
+                              CategoryPicker(
+                                callback: (String? str) {
+                                  selectedPeriod = str;
+                                  if (selectedPeriod == period[0]) {
+                                    isGrown = true;
+                                  }
+                                  if (selectedPeriod == period[1]) {
+                                    isGrown = false;
+                                  }
+                                  context.read<UserBloc>().add(GetUserByPhone(
+                                      phone: state.user.phone,
+                                      goalSphere: selectedSphere,
+                                      goalIsDone: isTicked,
+                                      growGoal: isGrown ?? true));
+                                },
+                                params: period,
+                                selected: selectedPeriod,
+                                nullStatus: "Период",
+                              ),
+                              SizedBox(
+                                width: 8.0,
+                              ),
+                              CategoryPicker(
+                                callback: (String? str) {
+                                  selectedSphere = str;
+                                  if (selectedSphere ==
+                                      spheres[spheres.length - 1]) {
+                                    selectedSphere = null;
+                                  }
+                                  context.read<UserBloc>().add(GetUserByPhone(
+                                      phone: state.user.phone,
+                                      goalSphere: selectedSphere,
+                                      goalIsDone: isTicked,
+                                      growGoal: isGrown ?? true));
+                                },
+                                params: spheres,
+                                selected: selectedSphere,
+                                nullStatus: "Сфера",
+                              ),
+                              SizedBox(
+                                width: 8.0,
+                              ),
+                              CategoryPicker(
+                                callback: (String? str) {
+                                  selectedTicked = str;
+                                  if (selectedTicked == ticked[0]) {
+                                    isTicked = null;
+                                  }
+                                  if (selectedTicked == ticked[1]) {
+                                    isTicked = true;
+                                  }
+                                  if (selectedTicked == ticked[2]) {
+                                    isTicked = false;
+                                  }
+                                  context.read<UserBloc>().add(GetUserByPhone(
+                                      phone: state.user.phone,
+                                      goalSphere: selectedSphere,
+                                      goalIsDone: isTicked,
+                                      growGoal: isGrown ?? true));
+                                },
+                                params: ticked,
+                                selected: selectedTicked,
+                                nullStatus: "Статус",
+                              ),
+                            ],
+                          ),
                         );
                       }),
                       const SizedBox(
                         height: 26.0,
                       ),
+
                       //Месяц
                       (state.user.goals.length != 0)
                           ? Padding(
@@ -171,14 +179,9 @@ class Goals extends StatelessWidget {
                                 physics: const BouncingScrollPhysics(),
                                 itemCount: state.user.goals.length,
                                 itemBuilder: (context, index) {
-                                  if (state.user.goals[index].date!.month ==
-                                      DateTime.now().month) {
-                                    return Note(
-                                      goal: state.user.goals[index],
-                                    );
-                                  } else {
-                                    return const SizedBox();
-                                  }
+                                  return Note(
+                                    goal: state.user.goals[index],
+                                  );
                                 },
                               ),
                             )
@@ -189,37 +192,7 @@ class Goals extends StatelessWidget {
                                 style: Theme.of(context).textTheme.titleMedium,
                               ),
                             ),
-                      const SizedBox(
-                        height: 16.0,
-                      ),
-                      (state.user.goals.length != 0)
-                          ? Padding(
-                              padding: const EdgeInsets.only(right: 24.0),
-                              child: ListView.builder(
-                                shrinkWrap: true,
-                                physics: const BouncingScrollPhysics(),
-                                itemCount: state.user.goals.length,
-                                itemBuilder: (context, index) {
-                                  if (state.user.goals[index].date!.year ==
-                                          DateTime.now().year &&
-                                      state.user.goals[index].date!.month !=
-                                          DateTime.now().month) {
-                                    return Note(
-                                      goal: state.user.goals[index],
-                                    );
-                                  } else {
-                                    return const SizedBox();
-                                  }
-                                },
-                              ),
-                            )
-                          : Align(
-                              alignment: Alignment.center,
-                              child: Text(
-                                "Пусто",
-                                style: Theme.of(context).textTheme.titleMedium,
-                              ),
-                            ),
+
                       Padding(
                         padding: const EdgeInsets.only(right: 24.0),
                         child: Card(
@@ -363,14 +336,15 @@ String convertDate(DateTime? date) {
 class CategoryPicker extends StatelessWidget {
   final Function(String? str) callback;
   final List<String> params;
-
+  final String nullStatus;
   String? selected;
 
   CategoryPicker(
       {super.key,
       required this.callback,
       required this.params,
-      this.selected = "Выбор"});
+      required this.nullStatus,
+      this.selected});
 
   @override
   Widget build(BuildContext context) {
@@ -453,7 +427,7 @@ class CategoryPicker extends StatelessWidget {
               borderRadius: BorderRadius.circular(10.0),
             ),
             child: Text(
-              selected ?? "Выбор",
+              selected ?? nullStatus,
               style: Theme.of(context).textTheme.bodyMedium,
             ),
           ),

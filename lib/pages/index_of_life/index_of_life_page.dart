@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:i_am_app/pages/bloc/bloc/user_bloc.dart';
 import 'package:i_am_app/classes/models/life_index.dart' as li;
+import 'package:i_am_app/pages/index_of_life/input_snackbar.dart';
 
 class LifeIndex extends StatefulWidget {
   const LifeIndex({super.key});
@@ -295,24 +296,36 @@ void animateControllerJump(ScrollController controller) {
 ///Динамическая проверка на условие x <= 5
 void changeField(
     List<TextEditingController> controllers, int index, BuildContext context) {
+  if (controllers[index].text.length == 1) {
+    double? number = double.tryParse(controllers[index].text);
+    if (number == null) {
+      showInputSnackBar("Неправильный символ", context);
+      controllers[index].clear();
+      return;
+    } else {
+      if (number > 5) {
+        showInputSnackBar("Индекс должен быть не больше 5.0", context);
+        controllers[index].clear();
+        return;
+      }
+    }
+  }
+  if (controllers[index].text.length == 2) {
+    double? number = double.tryParse(controllers[index].text);
+    if (number != null && number > 5.0) {
+      showInputSnackBar("Индекс должен быть не больше 5.0", context);
+      controllers[index].clear();
+    }
+  }
   if (controllers[index].text.length == 3) {
-    if (double.parse(controllers[index].text) > 5.0) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Container(
-            color: Colors.white,
-            child: const Center(
-              child: Text(
-                'Индекс должен быть не больше 5.0',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 20,
-                ),
-              ),
-            ),
-          ),
-        ),
-      );
+    double? number = double.tryParse(controllers[index].text);
+    if (number == null) {
+      showInputSnackBar("Неправильный символ", context);
+      controllers[index].clear();
+      return;
+    }
+    if (number > 5.0) {
+      showInputSnackBar("Индекс должен быть не больше 5.0", context);
       controllers[index].clear();
     }
   }
