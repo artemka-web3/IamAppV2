@@ -78,10 +78,12 @@ class _BirthMeaningState extends State<BirthMeaning> {
         }
         while (g > 9) {
           for (var i in g.toString().characters){
+            print(i);
             newG += int.parse(i);
           }
+          g = newG;
         }
-        gua = newG.toString();
+        gua = g.toString();
       } else {
         if (int.parse(controller.text.split('/')[2]) > 2000) {
           gua = (9 - int.parse(gua)).toString();
