@@ -71,9 +71,24 @@ class _BirthMeaningState extends State<BirthMeaning> {
         gua = (int.parse(gua[0]) + int.parse(gua[1])).toString();
       }
       if (isWomen) {
-        gua = (int.parse(gua) + 5).toString();
+        var g = int.parse(gua) + 5;
+        var newG = 0;
+        if (int.parse(controller.text.split('/')[2]) > 2000) {
+          g += 1;
+        }
+        while (g > 9) {
+          for (var i in g.toString().characters){
+            newG += int.parse(i);
+          }
+        }
+        gua = newG.toString();
       } else {
-        gua = (10 - int.parse(gua)).toString();
+        if (int.parse(controller.text.split('/')[2]) > 2000) {
+          gua = (9 - int.parse(gua)).toString();
+        } else {
+          gua = (10 - int.parse(gua)).toString();
+        }
+        
       }
     }
 
