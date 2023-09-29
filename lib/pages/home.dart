@@ -249,8 +249,11 @@ class Home extends StatelessWidget {
                             ],
                           )
                         : Container(
-                            child: DayTasks(
-                              newCase: newCase,
+                            child: AnimatedSwitcher(
+                              duration: Duration(milliseconds: 500),
+                              child: DayTasks(
+                                newCase: newCase,
+                              ),
                             ),
                           ),
                   ],
@@ -276,62 +279,81 @@ class DayTasks extends StatelessWidget {
         ListView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          itemCount: (newCase.frogs != null) ? newCase.frogs!.length : 0,
+          itemCount: newCase.frogs.length,
           itemBuilder: (context, index) {
-            return Node(
-              icon: SvgPicture.asset(
-                "assets/images/frog.svg",
-              ),
-              task: newCase.frogs[index],
-              newCase: newCase,
-            );
+            if (newCase.frogs[index].isTicked == null ||
+                newCase.frogs[index].isTicked == false) {
+              return Node(
+                icon: SvgPicture.asset(
+                  "assets/images/frog.svg",
+                ),
+                task: newCase.frogs[index],
+                newCase: newCase,
+              );
+            } else {
+              return SizedBox();
+            }
           },
         ),
         ListView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          itemCount:
-              (newCase.birthdays != null) ? newCase.birthdays!.length : 0,
+          itemCount: newCase.birthdays.length,
           itemBuilder: (context, index) {
-            return Node(
-              icon: SvgPicture.asset(
-                "assets/images/cake.svg",
-                colorFilter: ColorFilter.mode(Colors.black, BlendMode.srcIn),
-              ),
-              task: newCase.birthdays[index],
-              newCase: newCase,
-            );
+            if (newCase.birthdays[index].isTicked == null ||
+                newCase.birthdays[index].isTicked == false) {
+              return Node(
+                icon: SvgPicture.asset(
+                  "assets/images/cake.svg",
+                  colorFilter: ColorFilter.mode(Colors.black, BlendMode.srcIn),
+                ),
+                task: newCase.birthdays[index],
+                newCase: newCase,
+              );
+            } else {
+              return SizedBox();
+            }
           },
         ),
         ListView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          itemCount: (newCase.calls != null) ? newCase.calls!.length : 0,
+          itemCount: newCase.calls.length,
           itemBuilder: (context, index) {
-            return Node(
-              icon: const Icon(
-                Icons.phone,
-                color: Colors.black,
-              ),
-              task: newCase.calls[index],
-              newCase: newCase,
-            );
+            if (newCase.calls[index].isTicked == null ||
+                newCase.calls[index].isTicked == false) {
+              return Node(
+                icon: const Icon(
+                  Icons.phone,
+                  color: Colors.black,
+                ),
+                task: newCase.calls[index],
+                newCase: newCase,
+              );
+            } else {
+              return SizedBox();
+            }
           },
         ),
         ListView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          itemCount: (newCase.tasks != null) ? newCase.tasks!.length : 0,
+          itemCount: newCase.tasks.length,
           itemBuilder: (context, index) {
-            return Node(
-              icon: SvgPicture.asset(
-                "assets/images/task.svg",
-                colorFilter:
-                    const ColorFilter.mode(Colors.black, BlendMode.srcIn),
-              ),
-              task: newCase.tasks[index],
-              newCase: newCase,
-            );
+            if (newCase.tasks[index].isTicked == null ||
+                newCase.tasks[index].isTicked == false) {
+              return Node(
+                icon: SvgPicture.asset(
+                  "assets/images/task.svg",
+                  colorFilter:
+                      const ColorFilter.mode(Colors.black, BlendMode.srcIn),
+                ),
+                task: newCase.tasks[index],
+                newCase: newCase,
+              );
+            } else {
+              return SizedBox();
+            }
           },
         ),
       ],

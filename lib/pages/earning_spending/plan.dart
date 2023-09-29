@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:i_am_app/pages/diary/diary.dart';
+import 'package:i_am_app/pages/index_of_life/input_snackbar.dart';
 import 'package:intl/intl.dart';
 
 import 'package:i_am_app/classes/models/plan.dart' as pl;
@@ -347,14 +348,26 @@ class _PlanState extends State<Plan> {
                       int fixed = 0;
                       int variable = 0;
                       for (var i in customControllersIncome) {
+                        if (i.controller.text == "") {
+                          showInputSnackBar("Заполните пустые ячейки", context);
+                          return;
+                        }
                         income +=
                             int.parse(i.controller.text.replaceAll(' ', ''));
                       }
                       for (var i in customControllersFixed) {
+                        if (i.controller.text == "") {
+                          showInputSnackBar("Заполните пустые ячейки", context);
+                          return;
+                        }
                         fixed +=
                             int.parse(i.controller.text.replaceAll(' ', ''));
                       }
                       for (var i in customControllersVar) {
+                        if (i.controller.text == "") {
+                          showInputSnackBar("Заполните пустые ячейки", context);
+                          return;
+                        }
                         variable +=
                             int.parse(i.controller.text.replaceAll(' ', ''));
                       }

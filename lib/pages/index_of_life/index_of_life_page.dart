@@ -14,6 +14,7 @@ class LifeIndex extends StatefulWidget {
 
 class _LifeIndexState extends State<LifeIndex> {
   int indexMonth = DateTime.now().month;
+  bool isKeyBoardOpen = false;
   final ScrollController controller = ScrollController();
 
   List<String> months = [
@@ -140,86 +141,132 @@ class _LifeIndexState extends State<LifeIndex> {
                       );
                     },
                   )),
-              SizedBox(
-                height: 60,
-                child: Center(
-                    child: Text(months[indexMonth - 1],
-                        style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 24,
-                            fontWeight: FontWeight.w400))),
-              ),
-              SizedBox(
-                height: 100,
-                child: Center(
-                  child: Text(
-                    data.lifeIndex.toStringAsFixed(1),
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 72,
-                      fontWeight: FontWeight.w800,
+              if (isKeyBoardOpen == false)
+                SizedBox(
+                  height: 60,
+                  child: Center(
+                    child: Text(
+                      months[indexMonth - 1],
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 24,
+                        fontWeight: FontWeight.w400,
+                      ),
                     ),
                   ),
                 ),
-              ),
+              (isKeyBoardOpen)
+                  ? Container(
+                      margin: EdgeInsets.symmetric(vertical: 8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Показать индекс жизни",
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
+                          SizedBox(
+                            width: 8.0,
+                          ),
+                          Icon(
+                            Icons.arrow_downward,
+                            color: Colors.white,
+                          ),
+                        ],
+                      ),
+                    )
+                  : SizedBox(
+                      height: 100,
+                      child: Center(
+                        child: Text(
+                          data.lifeIndex.toStringAsFixed(1),
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 72,
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
+                      ),
+                    ),
               Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 24.0, vertical: 6.0),
-                  child: ListView.builder(
-                    scrollDirection: Axis.vertical,
-                    itemCount: spheres.length,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        margin: const EdgeInsets.symmetric(vertical: 4.0),
-                        padding: const EdgeInsets.all(12.0),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15.0),
-                            color: Colors.white),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              spheres[index],
-                              style: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 16.0,
-                              ),
-                            ),
-                            Container(
-                              width: 42,
-                              height: 34,
-                              decoration: BoxDecoration(
-                                color: const Color(0xFF252E29),
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: Center(
-                                child: TextFormField(
-                                  controller: controllers[index],
-                                  onTap: () => controllers[index].clear(),
-                                  onTapOutside: (p0) =>
-                                      tapOutside(controllers, index),
-                                  onChanged: (value) =>
-                                      changeField(controllers, index, context),
-                                  inputFormatters: [
-                                    LengthLimitingTextInputFormatter(3),
-                                  ],
-                                  textAlign: TextAlign.center,
-                                  keyboardType: TextInputType.number,
-                                  style: const TextStyle(
-                                      color: Colors.white, fontSize: 24),
-                                  decoration: const InputDecoration(
-                                      contentPadding: EdgeInsets.symmetric(
-                                          vertical: 6.0, horizontal: 3.0),
-                                      border: InputBorder.none,
-                                      hintText: '0'),
+                child: TapRegion(
+                  onTapOutside: (p0) {
+                    isKeyBoardOpen = false;
+                    setState(() {});
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 24.0,
+                      vertical: 6.0,
+                    ),
+                    child: ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      physics: BouncingScrollPhysics(),
+                      itemCount: spheres.length,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          margin: const EdgeInsets.symmetric(vertical: 4.0),
+                          padding: const EdgeInsets.all(12.0),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15.0),
+                              color: Colors.white),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                spheres[index],
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16.0,
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
+                              Container(
+                                width: 42,
+                                height: 34,
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFF252E29),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Center(
+                                  child: TextFormField(
+                                    controller: controllers[index],
+                                    onTap: () {
+                                      isKeyBoardOpen = true;
+                                      controllers[index].clear();
+                                      setState(() {});
+                                    },
+                                    onFieldSubmitted: (value) {
+                                      isKeyBoardOpen = false;
+                                      setState(() {});
+                                    },
+                                    onTapOutside: (p0) {
+                                      tapOutside(controllers, index);
+                                    },
+                                    onChanged: (value) {
+                                      isKeyBoardOpen = true;
+                                      changeField(controllers, index, context);
+                                      setState(() {});
+                                    },
+                                    inputFormatters: [
+                                      LengthLimitingTextInputFormatter(3),
+                                    ],
+                                    textAlign: TextAlign.center,
+                                    keyboardType: TextInputType.number,
+                                    style: const TextStyle(
+                                        color: Colors.white, fontSize: 24),
+                                    decoration: const InputDecoration(
+                                        contentPadding: EdgeInsets.symmetric(
+                                            vertical: 6.0, horizontal: 3.0),
+                                        border: InputBorder.none,
+                                        hintText: '0'),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 ),
               ),

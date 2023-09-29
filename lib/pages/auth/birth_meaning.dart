@@ -95,8 +95,23 @@ class _BirthMeaningState extends State<BirthMeaning> {
                 Center(
                   child: Text(
                     "Значение твоего дня рождения",
-                    style: Theme.of(context).textTheme.titleMedium,
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleLarge!
+                        .copyWith(fontWeight: FontWeight.w600),
                   ),
+                ),
+                const SizedBox(
+                  height: 8.0,
+                ),
+                Text(
+                  "Полезные твои числа и методики самопознания и своего призвания. Изучи нижеперечисленную информацию в интернете \n- число ГУА\n- число жизненного пути\n- число дня рождения\n- дизайн человека\n- эволюция человека",
+                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                        fontWeight: FontWeight.w400,
+                      ),
+                ),
+                const SizedBox(
+                  height: 8.0,
                 ),
                 const SizedBox(
                   height: 8.0,
