@@ -77,7 +77,7 @@ class _BirthMeaningState extends State<BirthMeaning> {
           g += 1;
         }
         while (g > 9) {
-          for (var i in g.toString().characters){
+          for (var i in g.toString().characters) {
             print(i);
             newG += int.parse(i);
           }
@@ -90,7 +90,6 @@ class _BirthMeaningState extends State<BirthMeaning> {
         } else {
           gua = (10 - int.parse(gua)).toString();
         }
-        
       }
     }
 

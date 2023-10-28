@@ -54,26 +54,25 @@ class _LifeIndexState extends State<LifeIndex> {
     'Уверенность в себе',
   ];
   final List<TextEditingController> controllers = [];
-
+  late li.LifeIndex data;
   @override
   void initState() {
     super.initState();
     for (var i = 0; i < spheres.length; i++) {
       controllers.add(TextEditingController());
     }
+    data = updateControllers(
+      controllers,
+      indexMonth,
+      context,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
-        animateControllerJump(controller);
         if (state is UserInitial) {
-          li.LifeIndex data = updateControllers(
-            controllers,
-            indexMonth,
-            context,
-          );
           return Column(
             children: [
               SizedBox(
@@ -136,6 +135,11 @@ class _LifeIndexState extends State<LifeIndex> {
                               }
                               setState(() {
                                 indexMonth = index;
+                                data = updateControllers(
+                                  controllers,
+                                  indexMonth,
+                                  context,
+                                );
                               });
                             }),
                       );
@@ -233,7 +237,6 @@ class _LifeIndexState extends State<LifeIndex> {
                                     onTap: () {
                                       isKeyBoardOpen = true;
                                       controllers[index].clear();
-                                      setState(() {});
                                     },
                                     onFieldSubmitted: (value) {
                                       isKeyBoardOpen = false;
@@ -245,7 +248,6 @@ class _LifeIndexState extends State<LifeIndex> {
                                     onChanged: (value) {
                                       isKeyBoardOpen = true;
                                       changeField(controllers, index, context);
-                                      setState(() {});
                                     },
                                     inputFormatters: [
                                       LengthLimitingTextInputFormatter(3),
